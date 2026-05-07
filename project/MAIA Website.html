@@ -1,0 +1,1778 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MAIA — O marketplace do talento brasileiro</title>
+<meta name="description" content="A MAIA conecta atores, modelos e talentos com diretores de casting de todo o Brasil — em um só lugar. Plataforma do setor audiovisual brasileiro." />
+<meta property="og:title" content="MAIA — O marketplace do talento brasileiro" />
+<meta property="og:description" content="A MAIA conecta atores, modelos e talentos com diretores de casting de todo o Brasil — em um só lugar." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://plataformamaia.com" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#fffaf0" />
+
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  /* ============================================================
+     MAIA Institutional Site
+     ============================================================ */
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; overflow-x: hidden; }
+
+  ::selection { background: var(--brand-pink); color: var(--on-primary); }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  button { font-family: inherit; }
+
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 720px) {
+    .wrap { padding: 0 20px; }
+  }
+
+  /* ---------- Navbar ---------- */
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 68px;
+    z-index: 50;
+    background: color-mix(in oklab, var(--canvas) 88%, transparent);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 200ms ease, background 200ms ease;
+  }
+  .nav.scrolled {
+    border-bottom-color: var(--hairline);
+  }
+  .nav__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -1.2px;
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: baseline;
+  }
+  .logo__dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--brand-pink);
+    border-radius: 50%;
+    margin-left: 4px;
+    transform: translateY(-2px);
+  }
+  .nav__menu {
+    display: flex;
+    gap: 28px;
+  }
+  .nav__menu a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    position: relative;
+    padding: 6px 0;
+    transition: color 150ms ease;
+  }
+  .nav__menu a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 2px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms ease;
+  }
+  .nav__menu a:hover::after,
+  .nav__menu a.active::after {
+    transform: scaleX(1);
+  }
+  .nav__menu a.active { color: var(--ink); }
+
+  .nav__cta { display: flex; align-items: center; gap: 12px; }
+
+  .nav__burger {
+    display: none;
+    width: 44px; height: 44px;
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav__burger span { display: block; width: 18px; height: 2px; background: var(--ink); position: relative; }
+  .nav__burger span::before, .nav__burger span::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 2px; background: var(--ink);
+  }
+  .nav__burger span::before { top: -6px; }
+  .nav__burger span::after { top: 6px; }
+
+  @media (max-width: 900px) {
+    .nav__menu { display: none; }
+    .nav__cta .btn-secondary-nav { display: none; }
+    .nav__burger { display: inline-flex; }
+  }
+
+  .mobile-panel {
+    position: fixed;
+    inset: 68px 0 auto 0;
+    background: var(--canvas);
+    border-bottom: 1px solid var(--hairline);
+    padding: 24px;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 49;
+  }
+  .mobile-panel.open { display: flex; }
+  .mobile-panel a {
+    padding: 14px 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .mobile-panel a:last-of-type { border-bottom: none; }
+  .mobile-panel .btn { margin-top: 16px; height: 48px; }
+
+  /* ---------- Buttons (extending design system) ---------- */
+  .btn { white-space: nowrap; }
+  .btn-primary { background: var(--primary); color: var(--on-primary); }
+  .btn-primary:hover { background: var(--primary-active); }
+
+  .btn-pink {
+    background: var(--brand-pink);
+    color: var(--on-primary);
+  }
+  .btn-pink:hover { filter: brightness(0.95); }
+
+  .btn-arrow::after {
+    content: "→";
+    margin-left: 6px;
+    transition: transform 200ms ease;
+    display: inline-block;
+  }
+  .btn-arrow:hover::after { transform: translateX(3px); }
+
+  /* ---------- Hero ---------- */
+  main { padding-top: 68px; }
+
+  .hero {
+    padding: 80px 0 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero__copy { display: flex; flex-direction: column; gap: 24px; max-width: 620px; }
+  .hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 6px 14px;
+    background: var(--surface-card);
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.1px;
+  }
+  .hero__eyebrow .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--brand-pink);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-pink) 20%, transparent);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-pink) 24%, transparent); }
+    50%      { box-shadow: 0 0 0 8px color-mix(in oklab, var(--brand-pink) 8%, transparent); }
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -2.5px;
+    color: var(--ink);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--brand-pink);
+  }
+  .hero__sub {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--body);
+    max-width: 540px;
+    text-wrap: pretty;
+  }
+  .hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+  .hero__ctas .btn { height: 52px; padding: 0 24px; font-size: 15px; }
+
+  .hero__stores {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .hero__stores .badges { display: flex; gap: 8px; }
+  .store-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--surface-card);
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .store-badge svg { width: 14px; height: 14px; }
+
+  /* Hero art — phone + claymation scene */
+  .hero__art {
+    position: relative;
+    aspect-ratio: 5/6;
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--brand-peach);
+  }
+  .hero__art .scene { position: absolute; inset: 0; }
+  .hero__art .phone {
+    position: absolute;
+    right: 6%;
+    top: 8%;
+    width: 62%;
+    aspect-ratio: 9/19;
+    background: #0a0a0a;
+    border-radius: 38px;
+    padding: 10px;
+    box-shadow: 0 30px 60px -20px rgba(10, 10, 10, 0.4),
+                0 8px 16px -4px rgba(10, 10, 10, 0.2);
+    transform: rotate(4deg);
+  }
+  .phone__screen {
+    width: 100%; height: 100%;
+    background: var(--canvas);
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+  }
+  .phone__notch {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 22px;
+    background: #0a0a0a;
+    border-radius: 12px;
+    z-index: 5;
+  }
+  .phone__app {
+    padding: 36px 14px 14px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 11px;
+  }
+  .phone__app__hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 4px 8px;
+  }
+  .phone__app__hdr .lg {
+    font-family: var(--font-display);
+    font-size: 16px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+  }
+  .phone__app__hdr .lg span { color: var(--brand-pink); }
+  .phone__avatar {
+    width: 24px; height: 24px;
+    background: var(--brand-lavender);
+    border-radius: 50%;
+  }
+  .phone__chip {
+    align-self: flex-start;
+    padding: 3px 8px;
+    background: var(--brand-ochre);
+    color: var(--ink);
+    border-radius: 9999px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .phone__cast-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.4px;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0;
+  }
+  .phone__cast-meta {
+    font-size: 9px;
+    color: var(--muted);
+    display: flex;
+    gap: 8px;
+  }
+  .phone__cast-meta span { display: inline-flex; align-items: center; gap: 3px; }
+  .phone__cast-card {
+    background: var(--surface-card);
+    border-radius: 14px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .phone__cast-card.featured {
+    background: var(--brand-teal);
+    color: var(--on-dark);
+  }
+  .phone__cast-card.featured .phone__cast-title { color: var(--on-dark); }
+  .phone__cast-card.featured .phone__cast-meta { color: var(--on-dark-soft); }
+  .phone__cast-card.featured .phone__chip { background: var(--brand-pink); color: var(--on-primary); }
+  .phone__cta {
+    margin-top: auto;
+    background: var(--ink);
+    color: var(--on-primary);
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .hero__art .floater {
+    position: absolute;
+    background: var(--canvas);
+    border-radius: 18px;
+    padding: 12px 14px;
+    box-shadow: 0 12px 30px -8px rgba(10, 10, 10, 0.18);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: floaty 4s ease-in-out infinite;
+  }
+  .hero__art .floater--a {
+    top: 10%; left: 5%;
+    transform: rotate(-3deg);
+  }
+  .hero__art .floater--b {
+    bottom: 12%; left: 8%;
+    transform: rotate(2deg);
+    animation-delay: -2s;
+  }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-6px) rotate(var(--r, 0deg)); }
+  }
+  .hero__art .floater--a { --r: -3deg; }
+  .hero__art .floater--b { --r: 2deg; }
+  .floater__badge {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--brand-mint);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .floater__b__badge { background: var(--brand-lavender); }
+  .floater small {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    margin-bottom: 1px;
+  }
+
+  @media (max-width: 900px) {
+    .hero { padding: 48px 0 64px; }
+    .hero__inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero__art { aspect-ratio: 4/4; max-width: 480px; margin: 0 auto; width: 100%; }
+  }
+
+  /* ---------- Social proof bar ---------- */
+  .proof {
+    background: var(--ink);
+    color: var(--on-primary);
+    padding: 28px 0;
+  }
+  .proof__inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: center;
+  }
+  .proof__item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .proof__num {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 32px;
+    letter-spacing: -1px;
+    line-height: 1;
+    color: var(--brand-peach);
+  }
+  .proof__num.pink { color: var(--brand-pink); }
+  .proof__num.lav { color: var(--brand-lavender); }
+  .proof__lbl {
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--on-dark-soft);
+  }
+  .proof__lbl b { color: var(--on-primary); font-weight: 600; }
+  @media (max-width: 720px) {
+    .proof__inner { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* ---------- Sections ---------- */
+  section.band { padding: 96px 0; position: relative; }
+  @media (max-width: 720px) { section.band { padding: 64px 0; } }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: inline-block;
+  }
+  .section__head {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 56px;
+    max-width: 760px;
+  }
+  .section__head h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -1.5px;
+    margin: 0;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .section__head h2 em { font-style: normal; color: var(--brand-pink); }
+  .section__head p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--body);
+    max-width: 640px;
+    margin: 8px 0 0;
+  }
+
+  /* ---------- Como funciona ---------- */
+  .how__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .how__col {
+    border-radius: 24px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .how__col.talents { background: var(--brand-pink); color: var(--on-primary); }
+  .how__col.directors { background: var(--brand-teal); color: var(--on-dark); }
+
+  .how__col h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 32px;
+    letter-spacing: -1px;
+    line-height: 1.05;
+    margin: 0;
+  }
+  .how__col .pill-tag {
+    align-self: flex-start;
+    padding: 4px 12px;
+    background: rgba(255,255,255,0.16);
+    color: inherit;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+  }
+  .how__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .how__step {
+    background: rgba(255, 250, 240, 0.95);
+    color: var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .how__col.talents .how__step { background: rgba(255, 250, 240, 0.97); }
+  .how__col.directors .how__step { background: rgba(255, 250, 240, 0.97); }
+  .how__step__n {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+  .how__col.talents .how__step__n { background: var(--brand-pink); color: var(--on-primary); }
+  .how__col.directors .how__step__n { background: var(--brand-teal); color: var(--on-dark); }
+  .how__step h4 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.2px;
+  }
+  .how__step p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--body);
+  }
+  @media (max-width: 900px) {
+    .how__cols { grid-template-columns: 1fr; }
+    .how__col { padding: 32px 24px; }
+  }
+
+  /* ---------- Para Talentos / Para Diretores ---------- */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .split.reverse > .split__art { order: 2; }
+  .split.reverse > .split__copy { order: 1; }
+  .split__copy { display: flex; flex-direction: column; gap: 20px; }
+  .split__copy h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(34px, 4.2vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -1.5px;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .split__features {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .split__features li {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--body-strong);
+    padding: 4px 0;
+  }
+  .split__features li b { color: var(--ink); font-weight: 600; }
+  .check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--brand-pink);
+    color: var(--on-primary);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .split.directors-split .check { background: var(--brand-teal); color: var(--on-dark); }
+  .split.directors-split em.h-accent { color: var(--brand-teal); font-style: normal; }
+  .split__copy h2 em { font-style: normal; color: var(--brand-pink); }
+
+  .split__art {
+    aspect-ratio: 4/5;
+    border-radius: 28px;
+    background: var(--brand-lavender);
+    position: relative;
+    overflow: hidden;
+  }
+  .split.directors-split .split__art { background: var(--brand-ochre); }
+
+  @media (max-width: 900px) {
+    .split { grid-template-columns: 1fr; gap: 32px; }
+    .split.reverse > .split__art { order: 1; }
+    .split.reverse > .split__copy { order: 2; }
+    .split__art { max-width: 480px; margin: 0 auto; width: 100%; aspect-ratio: 4/4; }
+  }
+
+  /* Talents art — profile cards */
+  .talent-art { padding: 32px; height: 100%; position: relative; }
+  .talent-card {
+    position: absolute;
+    background: var(--canvas);
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow: 0 18px 40px -12px rgba(10,10,10,0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .talent-card__photo {
+    aspect-ratio: 4/5;
+    border-radius: 12px;
+    background: var(--brand-peach);
+    position: relative;
+    overflow: hidden;
+  }
+  .talent-card__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .talent-card__role {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .talent-card__pill {
+    align-self: flex-start;
+    padding: 2px 8px;
+    background: var(--brand-mint);
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .talent-card--a {
+    top: 8%; left: 6%;
+    width: 45%;
+    transform: rotate(-4deg);
+  }
+  .talent-card--b {
+    top: 18%; right: 6%;
+    width: 42%;
+    transform: rotate(3deg);
+  }
+  .talent-card--c {
+    bottom: 8%; left: 22%;
+    width: 50%;
+    transform: rotate(-1deg);
+  }
+  .talent-card--a .talent-card__photo { background: var(--brand-pink); }
+  .talent-card--b .talent-card__photo { background: var(--brand-teal); }
+  .talent-card--c .talent-card__photo { background: var(--brand-coral); }
+
+  /* Faux face avatar */
+  .face {
+    position: absolute; inset: 0;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .face::before {
+    content: "";
+    width: 60%; height: 55%;
+    background: rgba(255, 250, 240, 0.85);
+    border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
+    margin-bottom: -10%;
+  }
+  .face::after {
+    content: "";
+    position: absolute;
+    top: 18%;
+    width: 38%;
+    aspect-ratio: 1;
+    background: rgba(255, 250, 240, 0.85);
+    border-radius: 50%;
+  }
+
+  /* Directors art — casting pipeline */
+  .director-art { padding: 32px; position: relative; height: 100%; }
+  .director-feed {
+    background: var(--canvas);
+    border-radius: 16px;
+    padding: 18px;
+    position: absolute;
+    inset: 32px 32px auto 32px;
+    box-shadow: 0 18px 40px -12px rgba(10,10,10,0.18);
+  }
+  .director-feed h5 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .director-feed h5 .badge {
+    font-size: 10px;
+    background: var(--brand-pink);
+    color: var(--on-primary);
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-weight: 700;
+  }
+  .director-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 60px;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .director-row:first-of-type { border-top: none; }
+  .director-row__av {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+  }
+  .director-row__name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .director-row__role { font-size: 11px; color: var(--muted); }
+  .director-row__score {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    color: var(--brand-teal);
+    text-align: right;
+  }
+  .director-search {
+    position: absolute;
+    bottom: 32px; left: 32px; right: 32px;
+    background: var(--ink);
+    color: var(--on-primary);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 18px 40px -12px rgba(10,10,10,0.3);
+    font-size: 13px;
+  }
+  .director-search .ic {
+    width: 18px; height: 18px;
+    color: var(--brand-pink);
+  }
+  .director-search .typed {
+    border-right: 2px solid var(--brand-pink);
+    animation: caret 1s steps(2) infinite;
+    padding-right: 2px;
+  }
+  @keyframes caret { 50% { border-color: transparent; } }
+
+  /* ---------- Planos ---------- */
+  .planos__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .plan {
+    border-radius: 24px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 480px;
+    position: relative;
+  }
+  .plan.free {
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+  }
+  .plan.pro-mensal {
+    background: var(--surface-card);
+  }
+  .plan.pro-anual {
+    background: var(--ink);
+    color: var(--on-primary);
+    transform: scale(1.02);
+  }
+  .plan__tag {
+    position: absolute;
+    top: -12px; left: 32px;
+    padding: 6px 14px;
+    background: var(--brand-pink);
+    color: var(--on-primary);
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .plan__name {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .plan.pro-anual .plan__name { color: var(--on-primary); }
+  .plan__price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .plan__price .num {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 56px;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .plan__price .cents {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+  .plan__price .per {
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .plan.pro-anual .plan__price .per { color: var(--on-dark-soft); }
+  .plan__price .currency {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+  .plan__sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: -8px;
+  }
+  .plan.pro-anual .plan__sub { color: var(--on-dark-soft); }
+  .plan__feats {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .plan__feats li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--body);
+  }
+  .plan.pro-anual .plan__feats li { color: rgba(255,255,255,0.85); }
+  .plan__feats .tick {
+    color: var(--brand-pink);
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .plan.pro-anual .plan__feats .tick { color: var(--brand-peach); }
+  .plan__cta {
+    margin-top: auto;
+    height: 48px;
+  }
+  .plan.pro-anual .plan__cta {
+    background: var(--brand-pink);
+    color: var(--on-primary);
+    border: none;
+  }
+  .plan.pro-anual .plan__cta:hover { filter: brightness(0.95); }
+
+  @media (max-width: 900px) {
+    .planos__grid { grid-template-columns: 1fr; }
+    .plan.pro-anual { transform: none; }
+  }
+
+  /* ---------- Parceiros ---------- */
+  .partners__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 20px;
+  }
+  .partner {
+    border-radius: 20px;
+    padding: 28px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .partner.featured {
+    background: var(--brand-peach);
+    grid-column: span 1;
+  }
+  .partner.featured h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: -0.8px;
+    line-height: 1;
+    margin: 0;
+  }
+  .partner.featured p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0;
+  }
+  .partner__type {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.6;
+  }
+  .partner.placeholder {
+    background: var(--surface-card);
+    border: 1px dashed var(--muted-soft);
+    align-items: flex-start;
+    color: var(--muted);
+  }
+  .partner.placeholder .placeholder-mark {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    color: var(--muted);
+  }
+  .partner.placeholder small {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  @media (max-width: 720px) {
+    .partners__grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .faq__item {
+    border-top: 1px solid var(--hairline);
+  }
+  .faq__item:last-of-type { border-bottom: 1px solid var(--hairline); }
+  .faq__q {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 24px 0;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.2px;
+  }
+  .faq__icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--surface-card);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 200ms ease, transform 250ms ease;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .faq__item.open .faq__icon {
+    background: var(--brand-pink);
+    color: var(--on-primary);
+    transform: rotate(45deg);
+  }
+  .faq__a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 300ms ease;
+  }
+  .faq__a__inner {
+    padding: 0 0 24px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--body);
+    max-width: 720px;
+  }
+  .faq__item.open .faq__a {
+    max-height: 360px;
+  }
+
+  /* ---------- CTA Band ---------- */
+  .cta-band {
+    padding: 0 32px 96px;
+  }
+  .cta-band__inner {
+    background: var(--brand-pink);
+    color: var(--on-primary);
+    border-radius: 32px;
+    padding: 72px 56px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-band h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -1.6px;
+    margin: 0;
+    color: var(--on-primary);
+    text-wrap: balance;
+  }
+  .cta-band p {
+    font-size: 17px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.88);
+    margin: 16px 0 0;
+    max-width: 460px;
+  }
+  .cta-band__ctas { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+  .cta-band .btn-on-color { background: var(--canvas); color: var(--ink); height: 52px; padding: 0 24px; font-size: 15px; }
+  .cta-band .btn-on-color:hover { background: var(--surface-soft); }
+  .cta-band .btn-ghost {
+    background: transparent;
+    color: var(--on-primary);
+    border: 1px solid rgba(255,255,255,0.4);
+    height: 52px;
+    padding: 0 24px;
+    font-size: 15px;
+  }
+  .cta-band .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+  .cta-band__art {
+    aspect-ratio: 1;
+    border-radius: 24px;
+    background: var(--brand-teal);
+    overflow: hidden;
+    position: relative;
+  }
+  @media (max-width: 900px) {
+    .cta-band { padding: 0 20px 64px; }
+    .cta-band__inner { grid-template-columns: 1fr; padding: 48px 32px; }
+    .cta-band__art { display: none; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer.f {
+    background: var(--surface-soft);
+    padding: 80px 0 32px;
+  }
+  .f__top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+  .f__brand p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--body);
+    max-width: 320px;
+    margin: 16px 0 24px;
+  }
+  .f__col h5 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 14px;
+    letter-spacing: -0.1px;
+  }
+  .f__col ul {
+    list-style: none;
+    padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .f__col a {
+    color: var(--body);
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .f__col a:hover { color: var(--ink); }
+  .f__bottom {
+    border-top: 1px solid var(--hairline);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .f__social {
+    display: flex; gap: 10px;
+  }
+  .f__social a {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .f__social a:hover { background: var(--ink); color: var(--canvas); }
+  .f__social svg { width: 16px; height: 16px; }
+
+  @media (max-width: 900px) {
+    .f__top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .f__brand { grid-column: 1 / -1; }
+  }
+
+  /* ---------- Reveal animation ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms ease, transform 600ms ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .hero__eyebrow .dot { animation: none; }
+    .hero__art .floater { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="logo" href="#top">maia<span class="logo__dot"></span></a>
+    <nav class="nav__menu" aria-label="Principal">
+      <a href="#como-funciona" data-link>Como Funciona</a>
+      <a href="#talentos" data-link>Para Talentos</a>
+      <a href="#diretores" data-link>Para Diretores</a>
+      <a href="#planos" data-link>Planos</a>
+      <a href="#contato" data-link>Contato</a>
+    </nav>
+    <div class="nav__cta">
+      <a class="btn btn-secondary btn-secondary-nav" href="#planos">Entrar</a>
+      <a class="btn btn-primary" href="#download">Baixar o App</a>
+      <button class="nav__burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#como-funciona">Como Funciona</a>
+    <a href="#talentos">Para Talentos</a>
+    <a href="#diretores">Para Diretores</a>
+    <a href="#planos">Planos</a>
+    <a href="#contato">Contato</a>
+    <a class="btn btn-primary" href="#download">Baixar o App</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <div class="hero__copy reveal">
+        <h1>O lugar onde o <em>talento</em> encontra a <em>oportunidade</em></h1>
+        <p class="hero__sub">A MAIA conecta atores, modelos e talentos com diretores de casting de todo o Brasil — em um só lugar.</p>
+        <div class="hero__ctas">
+          <a class="btn btn-primary btn-arrow" href="#talentos">Sou Talento</a>
+          <a class="btn btn-pink btn-arrow" href="#diretores">Sou Diretor</a>
+        </div>
+        <div class="hero__stores">
+          <span>Em breve</span>
+          <div class="badges">
+            <span class="store-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.1-2.01-3.77-2.04-1.6-.16-3.13.94-3.94.94-.83 0-2.07-.92-3.41-.9-1.75.03-3.37 1.02-4.27 2.59-1.83 3.17-.47 7.86 1.31 10.43.87 1.26 1.9 2.67 3.24 2.62 1.31-.05 1.81-.85 3.39-.85 1.58 0 2.03.85 3.41.82 1.41-.03 2.3-1.28 3.16-2.55 1-1.46 1.41-2.88 1.43-2.95-.03-.01-2.74-1.05-2.77-4.2zM14.6 4.55c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.27.69-3 1.55-.65.76-1.23 1.99-1.07 3.16 1.14.09 2.3-.58 3.01-1.46z"/></svg>
+              App Store
+            </span>
+            <span class="store-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 1.7c-.4.4-.6.9-.6 1.6v17.4c0 .7.2 1.2.6 1.6l.1.1L13.4 12 3.7 1.6l-.1.1zM17 15.6L14.4 13l-9.8 9.8c.3.1.7.1 1.1-.1L17 15.6zm3.7-5.2L17.4 8.6 14.7 11l2.7 2.7 3.3-1.9c1-.6 1-1.6 0-2.2zM4.6 1.4c-.4-.2-.8-.2-1.1-.1L13.4 11 16 8.4 4.6 1.4z"/></svg>
+              Google Play
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__art reveal">
+        <!-- Claymation-style background scene -->
+        <svg class="scene" viewBox="0 0 480 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <radialGradient id="heroSky" cx="30%" cy="20%" r="90%">
+              <stop offset="0%" stop-color="#ffd9a8" />
+              <stop offset="100%" stop-color="#ffb084" />
+            </radialGradient>
+          </defs>
+          <rect width="480" height="600" fill="url(#heroSky)" />
+          <circle cx="80" cy="100" r="50" fill="#e8b94a" opacity="0.85" />
+          <path d="M0 480 L100 380 L200 460 L320 360 L420 440 L480 400 L480 600 L0 600 Z" fill="#b8a4ed" />
+          <path d="M0 540 L120 460 L240 540 L360 480 L480 540 L480 600 L0 600 Z" fill="#ff4d8b" opacity="0.75" />
+          <path d="M0 580 L160 520 L320 580 L480 540 L480 600 L0 600 Z" fill="#1a3a3a" />
+        </svg>
+
+        <!-- Phone mockup -->
+        <div class="phone">
+          <div class="phone__screen">
+            <div class="phone__notch"></div>
+            <div class="phone__app">
+              <div class="phone__app__hdr">
+                <span class="lg">maia<span>·</span></span>
+                <div class="phone__avatar"></div>
+              </div>
+              <div class="phone__cast-card featured">
+                <span class="phone__chip">Novo</span>
+                <h6 class="phone__cast-title">Longa metragem — protagonista feminina</h6>
+                <div class="phone__cast-meta">
+                  <span>SP</span><span>·</span><span>20–30 anos</span>
+                </div>
+              </div>
+              <div class="phone__cast-card">
+                <span class="phone__chip" style="background: var(--brand-mint); color: var(--ink);">Casting</span>
+                <h6 class="phone__cast-title">Comercial de banco — voz</h6>
+                <div class="phone__cast-meta">
+                  <span>Remoto</span><span>·</span><span>Voice over</span>
+                </div>
+              </div>
+              <div class="phone__cta">Ver oportunidades</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="floater floater--a">
+          <div class="floater__badge">★</div>
+          <div>
+            <small>Perfil visto</small>
+            <div>+128 hoje</div>
+          </div>
+        </div>
+        <div class="floater floater--b">
+          <div class="floater__badge floater__b__badge">●</div>
+          <div>
+            <small>Candidatura</small>
+            <div>Aprovada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMO FUNCIONA
+       ============================================================ -->
+  <section class="band" id="como-funciona">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Como funciona</span>
+        <h2>Dois lados, <em>uma plataforma</em></h2>
+        <p>A MAIA conecta os dois lados do mercado audiovisual brasileiro: quem cria oportunidades e quem está pronto para protagonizá-las.</p>
+      </div>
+
+      <div class="how__cols">
+        <article class="how__col talents reveal">
+          <span class="pill-tag">Para talentos</span>
+          <h3>Da audição ao papel — sem intermediários</h3>
+          <div class="how__steps">
+            <div class="how__step">
+              <div class="how__step__n">1</div>
+              <div>
+                <h4>Crie seu perfil</h4>
+                <p>Monte uma vitrine artística completa com fotos, vídeos, portfólio e características técnicas.</p>
+              </div>
+            </div>
+            <div class="how__step">
+              <div class="how__step__n">2</div>
+              <div>
+                <h4>Candidate-se a oportunidades</h4>
+                <p>Receba castings que combinam com seu perfil e candidate-se com um toque.</p>
+              </div>
+            </div>
+            <div class="how__step">
+              <div class="how__step__n">3</div>
+              <div>
+                <h4>Seja descoberto</h4>
+                <p>Diretores buscam talentos por características — você fica visível para quem importa.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="how__col directors reveal">
+          <span class="pill-tag">Para diretores</span>
+          <h3>O elenco que você precisa, na hora que precisa</h3>
+          <div class="how__steps">
+            <div class="how__step">
+              <div class="how__step__n">1</div>
+              <div>
+                <h4>Publique sua oportunidade</h4>
+                <p>Descreva o personagem, defina critérios e abra o casting em minutos.</p>
+              </div>
+            </div>
+            <div class="how__step">
+              <div class="how__step__n">2</div>
+              <div>
+                <h4>Receba candidaturas</h4>
+                <p>Acesse perfis organizados, com vídeos e materiais já filtrados pelos seus critérios.</p>
+              </div>
+            </div>
+            <div class="how__step">
+              <div class="how__step__n">3</div>
+              <div>
+                <h4>Encontre o talento ideal</h4>
+                <p>Compare candidatos lado a lado e tome a decisão certa para sua produção.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PARA TALENTOS
+       ============================================================ -->
+  <section class="band" id="talentos" style="padding-top: 32px;">
+    <div class="wrap">
+      <div class="split talents-split">
+        <div class="split__copy reveal">
+          <span class="eyebrow">Para talentos</span>
+          <h2>Sua carreira merece uma <em>vitrine profissional</em></h2>
+          <p style="font-size: 17px; line-height: 1.55; color: var(--body); margin: 0;">Pare de mandar materiais por WhatsApp. Tenha um perfil completo, atualizado, e candidate-se em segundos.</p>
+          <ul class="split__features">
+            <li><span class="check">✓</span><span><b>Perfil artístico completo</b> com fotos, vídeos e dados técnicos.</span></li>
+            <li><span class="check">✓</span><span><b>Portfolio</b> de trabalhos anteriores organizado.</span></li>
+            <li><span class="check">✓</span><span><b>Candidatura a castings</b> com um toque, direto pelo app.</span></li>
+            <li><span class="check">✓</span><span><b>Estatísticas de visualizações</b> — saiba quem está olhando.</span></li>
+            <li><span class="check">✓</span><span><b>Plano Free</b> com 5 candidaturas/mês — comece sem pagar nada.</span></li>
+            <li><span class="check">✓</span><span><b>Plano Pro por R$ 49,90/mês</b> — candidaturas ilimitadas e visibilidade premium.</span></li>
+          </ul>
+          <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
+            <a class="btn btn-primary btn-arrow" href="#planos">Quero ser talento</a>
+            <a class="btn btn-secondary" href="#planos">Ver planos</a>
+          </div>
+        </div>
+
+        <div class="split__art reveal">
+          <div class="talent-art">
+            <div class="talent-card talent-card--a">
+              <div class="talent-card__photo"><div class="face"></div></div>
+              <span class="talent-card__pill">Atriz</span>
+              <div class="talent-card__name">Helena S.</div>
+              <div class="talent-card__role">São Paulo · 28 anos</div>
+            </div>
+            <div class="talent-card talent-card--b">
+              <div class="talent-card__photo"><div class="face"></div></div>
+              <span class="talent-card__pill" style="background: var(--brand-peach);">Modelo</span>
+              <div class="talent-card__name">Caio R.</div>
+              <div class="talent-card__role">Rio de Janeiro · 24 anos</div>
+            </div>
+            <div class="talent-card talent-card--c">
+              <div class="talent-card__photo"><div class="face"></div></div>
+              <span class="talent-card__pill" style="background: var(--brand-lavender);">Voz</span>
+              <div class="talent-card__name">Marina L.</div>
+              <div class="talent-card__role">Belo Horizonte · 35 anos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PARA DIRETORES
+       ============================================================ -->
+  <section class="band" id="diretores" style="padding-top: 32px;">
+    <div class="wrap">
+      <div class="split directors-split reverse">
+        <div class="split__copy reveal">
+          <span class="eyebrow">Para diretores</span>
+          <h2>Encontre o <em class="h-accent">talento certo</em>, na hora certa</h2>
+          <p style="font-size: 17px; line-height: 1.55; color: var(--body); margin: 0;">Pare de gerenciar planilhas, e-mails e pastas no Drive. Centralize todo o processo de casting em uma plataforma feita para você.</p>
+          <ul class="split__features">
+            <li><span class="check">✓</span><span><b>Publique oportunidades de casting</b> em minutos, com critérios claros.</span></li>
+            <li><span class="check">✓</span><span><b>Receba candidaturas organizadas</b> — vídeos, fotos e dados em um lugar.</span></li>
+            <li><span class="check">✓</span><span><b>Busca semântica</b> por perfil, idade, biotipo, sotaque e habilidades.</span></li>
+            <li><span class="check">✓</span><span><b>Gestão de elenco</b> completa — do shortlist à confirmação.</span></li>
+            <li><span class="check">✓</span><span><b>Parceria com as maiores agências</b> de casting do Brasil.</span></li>
+          </ul>
+          <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
+            <a class="btn btn-primary btn-arrow" href="#contato">Falar com a MAIA</a>
+            <a class="btn btn-secondary" href="#como-funciona">Como funciona</a>
+          </div>
+        </div>
+
+        <div class="split__art reveal">
+          <div class="director-art">
+            <div class="director-feed">
+              <h5>Candidatos · Comercial banco <span class="badge">42 novas</span></h5>
+              <div class="director-row">
+                <div class="director-row__av" style="background: var(--brand-pink);"></div>
+                <div>
+                  <div class="director-row__name">Helena S.</div>
+                  <div class="director-row__role">Atriz · SP</div>
+                </div>
+                <div class="director-row__score">94</div>
+              </div>
+              <div class="director-row">
+                <div class="director-row__av" style="background: var(--brand-lavender);"></div>
+                <div>
+                  <div class="director-row__name">Marina L.</div>
+                  <div class="director-row__role">Voz · BH</div>
+                </div>
+                <div class="director-row__score">89</div>
+              </div>
+              <div class="director-row">
+                <div class="director-row__av" style="background: var(--brand-coral);"></div>
+                <div>
+                  <div class="director-row__name">Caio R.</div>
+                  <div class="director-row__role">Modelo · RJ</div>
+                </div>
+                <div class="director-row__score">82</div>
+              </div>
+            </div>
+            <div class="director-search">
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+              <span class="typed">atriz, 25-35, sotaque carioca</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PLANOS
+       ============================================================ -->
+  <section class="band" id="planos" style="background: var(--surface-soft);">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Planos</span>
+        <h2>Comece grátis. <em>Cresça quando quiser.</em></h2>
+        <p>Sem taxas escondidas, sem pegadinhas. Você só paga quando o plano fizer sentido para a sua carreira.</p>
+      </div>
+
+      <div class="planos__grid">
+        <article class="plan free reveal">
+          <div class="plan__name">Free</div>
+          <div class="plan__price">
+            <span class="currency">R$</span><span class="num">0</span>
+            <span class="per">/sempre</span>
+          </div>
+          <div class="plan__sub">Para quem está começando.</div>
+          <ul class="plan__feats">
+            <li><span class="tick">✓</span><span>5 candidaturas por mês</span></li>
+            <li><span class="tick">✓</span><span>Perfil básico com fotos</span></li>
+            <li><span class="tick">✓</span><span>Acesso a oportunidades públicas</span></li>
+            <li><span class="tick">✓</span><span>Notificações de novos castings</span></li>
+          </ul>
+          <a class="btn btn-secondary plan__cta" href="#download">Começar grátis</a>
+        </article>
+
+        <article class="plan pro-mensal reveal">
+          <div class="plan__name">Pro Mensal</div>
+          <div class="plan__price">
+            <span class="currency">R$</span><span class="num">49</span><span class="cents">,90</span>
+            <span class="per">/mês</span>
+          </div>
+          <div class="plan__sub">Cancele quando quiser.</div>
+          <ul class="plan__feats">
+            <li><span class="tick">✓</span><span>Candidaturas ilimitadas</span></li>
+            <li><span class="tick">✓</span><span>Perfil destacado nas buscas</span></li>
+            <li><span class="tick">✓</span><span>Estatísticas completas de visualizações</span></li>
+            <li><span class="tick">✓</span><span>Vídeos e portfólio expandidos</span></li>
+            <li><span class="tick">✓</span><span>Suporte prioritário</span></li>
+          </ul>
+          <a class="btn btn-primary plan__cta" href="#download">Começar agora</a>
+        </article>
+
+        <article class="plan pro-anual reveal">
+          <span class="plan__tag">Mais popular</span>
+          <div class="plan__name">Pro Anual</div>
+          <div class="plan__price">
+            <span class="currency">R$</span><span class="num">39</span><span class="cents">,90</span>
+            <span class="per">/mês</span>
+          </div>
+          <div class="plan__sub">R$ 478,80 cobrados anualmente · economize 20%</div>
+          <ul class="plan__feats">
+            <li><span class="tick">✓</span><span>Tudo do Pro Mensal</span></li>
+            <li><span class="tick">✓</span><span>Selo "Pro" no perfil</span></li>
+            <li><span class="tick">✓</span><span>Visibilidade premium em toda a busca</span></li>
+            <li><span class="tick">✓</span><span>Acesso antecipado a castings exclusivos</span></li>
+            <li><span class="tick">✓</span><span>Workshops e conteúdo Wolf Maya</span></li>
+          </ul>
+          <a class="btn plan__cta" href="#download">Começar agora</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+  <!-- ============================================================
+       FAQ
+       ============================================================ -->
+  <section class="band" id="contato" style="background: var(--surface-soft);">
+    <div class="wrap">
+      <div class="section__head reveal" style="text-align: center; margin-left: auto; margin-right: auto; align-items: center;">
+        <span class="eyebrow">Perguntas frequentes</span>
+        <h2 style="text-align: center;">Tudo o que você queria saber</h2>
+      </div>
+
+      <div class="faq" id="faq">
+        <div class="faq__item reveal">
+          <button class="faq__q" aria-expanded="false">
+            <span>Como funciona a MAIA na prática?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__a"><div class="faq__a__inner">A MAIA é um app que conecta talentos artísticos a diretores de casting. Talentos criam um perfil profissional com fotos, vídeos e materiais; diretores publicam oportunidades; o app faz o match com base em critérios técnicos e de busca semântica.</div></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__q" aria-expanded="false">
+            <span>Quanto custa para usar?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__a"><div class="faq__a__inner">Para talentos, o plano Free é gratuito para sempre, com 5 candidaturas por mês. O plano Pro custa R$ 49,90/mês ou R$ 39,90/mês no plano anual. Para diretores e produtoras, oferecemos planos personalizados — fale com a gente.</div></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__q" aria-expanded="false">
+            <span>Quando o app estará disponível?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__a"><div class="faq__a__inner">A MAIA está em fase final de desenvolvimento e será lançada em breve nas lojas App Store e Google Play. Cadastre seu interesse no app para receber acesso antecipado e ser avisado no lançamento.</div></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__q" aria-expanded="false">
+            <span>Meus dados estão seguros?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__a"><div class="faq__a__inner">Sim. A MAIA segue rigorosamente a LGPD (Lei Geral de Proteção de Dados). Você controla quais informações são públicas no seu perfil, quem pode te contatar e pode solicitar a exclusão dos seus dados a qualquer momento. Veja a Política de Privacidade para detalhes.</div></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__q" aria-expanded="false">
+            <span>A MAIA cobra comissão sobre os trabalhos fechados?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__a"><div class="faq__a__inner">Não. A MAIA é uma plataforma de conexão — não somos uma agência. Cobramos apenas a assinatura mensal/anual dos planos Pro. As negociações entre talento e produção acontecem fora da plataforma, conforme as práticas do setor.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BAND (download)
+       ============================================================ -->
+  <section class="cta-band" id="download">
+    <div class="cta-band__inner reveal">
+      <div>
+        <h2>Pronto para encontrar sua próxima oportunidade?</h2>
+        <p>Cadastre seu interesse e seja um dos primeiros a usar a MAIA quando o app for lançado nas lojas.</p>
+        <div class="cta-band__ctas">
+          <a class="btn btn-on-color btn-arrow" href="#talentos">Sou Talento</a>
+          <a class="btn btn-ghost btn-arrow" href="#diretores">Sou Diretor</a>
+        </div>
+      </div>
+      <div class="cta-band__art" aria-hidden="true">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+          <rect width="400" height="400" fill="#1a3a3a"/>
+          <circle cx="320" cy="80" r="40" fill="#e8b94a"/>
+          <path d="M0 280 L80 220 L160 280 L240 200 L320 270 L400 230 L400 400 L0 400 Z" fill="#b8a4ed"/>
+          <path d="M0 330 L100 280 L200 330 L300 280 L400 320 L400 400 L0 400 Z" fill="#ff4d8b"/>
+          <g transform="translate(150 220)">
+            <path d="M40 0 C 12 0 0 25 0 50 C 0 75 18 90 40 90 C 62 90 80 75 80 50 C 80 25 68 0 40 0 Z" fill="#fffaf0"/>
+            <circle cx="28" cy="44" r="4" fill="#0a0a0a"/>
+            <circle cx="52" cy="44" r="4" fill="#0a0a0a"/>
+            <path d="M28 64 Q 40 72 52 64" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="f">
+  <div class="wrap">
+    <div class="f__top">
+      <div class="f__brand">
+        <a class="logo" href="#top" style="font-size: 28px;">maia<span class="logo__dot"></span></a>
+        <p>O marketplace do talento brasileiro. Conectando atores, modelos e talentos com diretores de casting de todo o Brasil.</p>
+      </div>
+      <div class="f__col">
+        <h5>Plataforma</h5>
+        <ul>
+          <li><a href="#como-funciona">Como Funciona</a></li>
+          <li><a href="#talentos">Para Talentos</a></li>
+          <li><a href="#diretores">Para Diretores</a></li>
+          <li><a href="#planos">Planos</a></li>
+        </ul>
+      </div>
+      <div class="f__col">
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Parceiros</a></li>
+          <li><a href="mailto:contato@plataformamaia.com">Contato</a></li>
+          <li><a href="mailto:imprensa@plataformamaia.com">Imprensa</a></li>
+        </ul>
+      </div>
+      <div class="f__col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="politica-de-privacidade.html">Política de Privacidade</a></li>
+          <li><a href="termos-de-uso.html">Termos de Uso</a></li>
+          <li><a href="lgpd.html">LGPD</a></li>
+          <li><a href="mailto:contato@plataformamaia.com">contato@plataformamaia.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f__bottom">
+      <span>© 2026 MAIA Plataforma e Tecnologia LTDA · CNPJ 66.318.397/0001-72 · Todos os direitos reservados.</span>
+      <span>Feito com cuidado no Brasil.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ============================================================
+  // Navbar — scroll state + active link
+  // ============================================================
+  const nav = document.getElementById('nav');
+  const links = [...document.querySelectorAll('.nav__menu a[data-link]')];
+  const sections = links.map(a => document.querySelector(a.getAttribute('href')));
+
+  function onScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 8);
+    // active link
+    const y = window.scrollY + 120;
+    let activeIdx = -1;
+    sections.forEach((s, i) => {
+      if (s && s.offsetTop <= y) activeIdx = i;
+    });
+    links.forEach((l, i) => l.classList.toggle('active', i === activeIdx));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ============================================================
+  // Mobile burger
+  // ============================================================
+  const burger = document.getElementById('burger');
+  const panel = document.getElementById('mobilePanel');
+  burger.addEventListener('click', () => {
+    const open = panel.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    panel.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+
+  // ============================================================
+  // FAQ accordion
+  // ============================================================
+  document.querySelectorAll('.faq__item').forEach(item => {
+    const btn = item.querySelector('.faq__q');
+    btn.addEventListener('click', () => {
+      const open = item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // close others
+      if (open) {
+        document.querySelectorAll('.faq__item.open').forEach(other => {
+          if (other !== item) {
+            other.classList.remove('open');
+            other.querySelector('.faq__q').setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    });
+  });
+
+  // ============================================================
+  // Reveal on scroll
+  // ============================================================
+  const reveals = document.querySelectorAll('.reveal');
+
+  // Reveal anything already in view immediately (no fade-in flash on load)
+  function revealVisible() {
+    const vh = window.innerHeight;
+    reveals.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < vh * 0.95 && r.bottom > 0) {
+        el.classList.add('in');
+      }
+    });
+  }
+  revealVisible();
+
+  // Then observe for the rest as the user scrolls
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => { if (!el.classList.contains('in')) io.observe(el); });
+  } else {
+    reveals.forEach(el => el.classList.add('in'));
+  }
+
+  // Safety net: if anything is still hidden after 1.5s, force-reveal
+  setTimeout(() => reveals.forEach(el => el.classList.add('in')), 1500);
+</script>
+
+</body>
+</html>
