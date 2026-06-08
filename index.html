@@ -1067,6 +1067,110 @@
     .hero__art .floater { animation: none; }
     html { scroll-behavior: auto; }
   }
+
+  /* ---------- btn-blue ---------- */
+  .btn-blue {
+    background: #2563eb;
+    color: #fff;
+  }
+  .btn-blue:hover { filter: brightness(0.93); }
+
+  /* ---------- Ecossistema MAIA ---------- */
+  .eco__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  @media (max-width: 860px) {
+    .eco__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 540px) {
+    .eco__grid { grid-template-columns: 1fr; }
+  }
+  .eco__card {
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .eco__card--featured {
+    border-color: var(--brand-pink);
+    box-shadow: 0 0 0 1px var(--brand-pink);
+  }
+  .eco__card__icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--surface-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-pink);
+  }
+  .eco__card--featured .eco__card__icon {
+    background: #f0eaff;
+  }
+  .eco__card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .eco__card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .eco__card__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--brand-pink);
+    background: #f0eaff;
+    border-radius: 999px;
+    padding: 3px 10px;
+    align-self: flex-start;
+  }
+  .eco__tagline {
+    margin-top: 24px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .eco__tagline p {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.5;
+    margin: 0;
+    max-width: 560px;
+  }
+  .eco__tagline p em {
+    font-style: normal;
+    color: #fff;
+    font-weight: 800;
+  }
+  .eco__tagline a {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  @media (max-width: 640px) {
+    .eco__tagline { flex-direction: column; align-items: flex-start; }
+    .eco__tagline a { width: 100%; justify-content: center; }
+  }
 </style>
 </head>
 <body>
@@ -1111,9 +1215,9 @@
         <h1>O lugar onde a <em>arte</em> vira <em>negócio</em></h1>
         <p class="hero__sub">Aqui seu talento encontra a oportunidade. A MAIA conecta artistas e talentos à negócios de todo o Brasil.</p>
         <div class="hero__ctas">
-          <a class="btn btn-primary btn-arrow" href="#talentos">Sou Talento</a>
-          <a class="btn btn-pink btn-arrow" href="#diretores">Sou Diretor/Produtor</a>
-          <a class="btn btn-secondary btn-arrow" href="./waitlist.html?tipo=agencia">Sou Agência</a>
+          <a class="btn btn-pink btn-arrow" href="#talentos">Sou Talento</a>
+          <a class="btn btn-primary btn-arrow" href="#diretores">Sou Diretor/Produtor</a>
+          <a class="btn btn-blue btn-arrow" href="./waitlist.html?tipo=agencia">Sou Agência</a>
         </div>
         <div class="hero__stores">
           <span>Em breve</span>
@@ -1207,7 +1311,7 @@
       <div class="how__cols">
         <article class="how__col talents reveal">
           <span class="pill-tag">Para talentos</span>
-          <h3>Da oportunidade à realidade</h3>
+          <h3>Da oportunidade à realidade — aqui é o espaço onde artistas constroem futuro</h3>
           <div class="how__steps">
             <div class="how__step">
               <div class="how__step__n">1</div>
@@ -1227,7 +1331,7 @@
               <div class="how__step__n">3</div>
               <div>
                 <h4>Seja descoberto</h4>
-                <p>Diretores buscam talentos por características — você fica visível para quem importa.</p>
+                <p>Produtores buscam talentos por características — você fica visível para quem importa.</p>
               </div>
             </div>
           </div>
@@ -1273,7 +1377,7 @@
         <div class="split__copy reveal">
           <span class="eyebrow">Para talentos</span>
           <h2>Sua carreira merece uma <em>conexão profissional</em></h2>
-          <p style="font-size: 17px; line-height: 1.55; color: var(--body); margin: 0;">Chega de mandar materiais por WhatsApp, caçar grupos nas redes sociais para encontrar oportunidades. Tenha um perfil completo, atualizado, e candidate-se em tudo que está acontecendo no mercado em segundos.</p>
+          <p style="font-size: 17px; line-height: 1.55; color: var(--body); margin: 0;">Chega de mandar materiais por WhatsApp e caçar grupos nas redes sociais para encontrar oportunidades. Tenha um perfil completo, atualizado, e candidate-se em tudo que está acontecendo no mercado em segundos.</p>
           <ul class="split__features">
             <li><span class="check">✓</span><span><b>Perfil artístico completo</b> com fotos, vídeos e dados técnicos.</span></li>
             <li><span class="check">✓</span><span><b>Portfolio</b> de trabalhos anteriores organizado.</span></li>
@@ -1328,7 +1432,7 @@
             <li><span class="check">✓</span><span><b>Publique oportunidades de casting</b> em minutos, com critérios claros.</span></li>
             <li><span class="check">✓</span><span><b>Receba candidaturas organizadas</b> — vídeos, fotos e dados em um lugar.</span></li>
             <li><span class="check">✓</span><span><b>Monte seus filtros</b> conforme as suas necessidades.</span></li>
-            <li><span class="check">✓</span><span><b>Mantenha o follow up organizado</b> e ao alcance do seu time.</span></li>
+            <li><span class="check">✓</span><span><b>Mantenha um follow up organizado</b> e ao alcance do seu time.</span></li>
             <li><span class="check">✓</span><span><b>Contato e contratação direta</b> sem intermediadores.</span></li>
           </ul>
           <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
@@ -1372,6 +1476,77 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ECOSSISTEMA MAIA
+       ============================================================ -->
+  <section class="band" id="ecossistema">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Ecossistema MAIA</span>
+        <h2>Muito além das <em>oportunidades</em></h2>
+        <p>A MAIA não é apenas uma plataforma de casting. Aqui você encontra tudo o que precisa para crescer, se conectar e construir uma carreira duradoura no mercado artístico brasileiro.</p>
+      </div>
+
+      <div class="eco__grid">
+
+        <div class="eco__card eco__card--featured reveal">
+          <div class="eco__card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <span class="eco__card__tag">Parceiro em destaque</span>
+          <h4>Comunidades</h4>
+          <p>Faça parte de grupos por área, região e interesse — incluindo a <strong>Escola Wolf Maya</strong>, referência no ensino artístico brasileiro.</p>
+        </div>
+
+        <div class="eco__card reveal">
+          <div class="eco__card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 7.76a6 6 0 0 0 0 8.49"/><path d="M20.49 3.51a12 12 0 0 1 0 16.98"/><path d="M3.51 3.51a12 12 0 0 0 0 16.98"/></svg>
+          </div>
+          <h4>Eventos ao vivo</h4>
+          <p>Assista a transmissões, painéis com profissionais do mercado e sessões de perguntas e respostas em tempo real.</p>
+        </div>
+
+        <div class="eco__card reveal">
+          <div class="eco__card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <h4>Biblioteca de conteúdo</h4>
+          <p>Acesse artigos, guias e materiais sobre técnicas, carreira e mercado — disponíveis a qualquer hora.</p>
+        </div>
+
+        <div class="eco__card reveal">
+          <div class="eco__card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          </div>
+          <h4>Cursos e Workshops</h4>
+          <p>Aprenda com profissionais da indústria. Do preparo para audições à construção de portfólio, com certificado de conclusão.</p>
+        </div>
+
+        <div class="eco__card reveal">
+          <div class="eco__card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <h4>Vitrine de agências</h4>
+          <p>Conheça as principais agências do Brasil, descubra quais representam o seu perfil e entre em contato direto.</p>
+        </div>
+
+        <div class="eco__card reveal">
+          <div class="eco__card__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </div>
+          <h4>Networking real</h4>
+          <p>Conecte-se com atores, modelos, diretores e produtores. Construa sua rede dentro de um ambiente feito para o mercado artístico.</p>
+        </div>
+
+      </div>
+
+      <div class="eco__tagline reveal">
+        <p>Oferecemos muito mais do que um portfólio online. Na MAIA você encontra <em>conexões reais</em>, espaço para networking e aprimoramento profissional.</p>
+        <a class="btn btn-on-color btn-arrow" href="./waitlist.html?tipo=talento">Quero fazer parte</a>
       </div>
     </div>
   </section>
