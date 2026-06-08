@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Espera — MAIA</title>
+  <meta name="description" content="Garanta seu acesso antecipado à MAIA — o marketplace do talento brasileiro." />
+  <link rel="stylesheet" href="./colors_and_type.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: var(--canvas);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--hairline);
+      background: var(--canvas);
+    }
+    .nav a { text-decoration: none; }
+
+    /* ── Layout ── */
+    .page {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 65px);
+    }
+
+    /* ── Left panel ── */
+    .panel-left {
+      padding: 64px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--surface-dark);
+      color: var(--on-dark);
+    }
+    .panel-left::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-color, #7c3aed);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .panel-left__blob {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: var(--accent-color, #7c3aed);
+      opacity: 0.25;
+      bottom: -120px;
+      right: -120px;
+      pointer-events: none;
+    }
+
+    .panel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 28px;
+      align-self: flex-start;
+    }
+    .panel-badge .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent-color, #7c3aed);
+    }
+
+    .panel-left h1 {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: #fff;
+      margin-bottom: 18px;
+    }
+    .panel-left h1 em {
+      font-style: normal;
+      color: var(--accent-color, #7c3aed);
+    }
+
+    .panel-left .sub {
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 40px;
+      max-width: 400px;
+    }
+
+    .panel-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .panel-bullet {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+    }
+    .panel-bullet__icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 15px;
+    }
+
+    /* ── Right panel (form) ── */
+    .panel-right {
+      padding: 64px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--canvas);
+    }
+
+    .form-head {
+      margin-bottom: 36px;
+    }
+    .form-head .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--accent-color, #7c3aed);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .form-head h2 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .form-head p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 420px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--body-strong);
+    }
+    .field input {
+      height: 48px;
+      padding: 0 16px;
+      background: var(--canvas);
+      border: 1.5px solid var(--hairline);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 150ms;
+    }
+    .field input::placeholder { color: var(--muted-soft); }
+    .field input:focus { border-color: var(--accent-color, #7c3aed); }
+    .field .hint {
+      font-size: 12px;
+      color: var(--muted-soft);
+    }
+
+    .btn-submit {
+      height: 52px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--accent-color, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 150ms, transform 100ms;
+      margin-top: 4px;
+    }
+    .btn-submit:hover { opacity: 0.88; }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-note {
+      font-size: 12px;
+      color: var(--muted-soft);
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+    .back-link:hover { color: var(--ink); }
+
+    /* ── Success state ── */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      max-width: 420px;
+    }
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #f0fdf4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+    .success-state h2 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: var(--ink);
+    }
+    .success-state p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .success-state .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 20px;
+      border-radius: 10px;
+      border: 1.5px solid var(--hairline);
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 120ms;
+    }
+    .success-state .btn-back:hover { background: var(--surface-soft); }
+
+    /* ── Responsive ── */
+    @media (max-width: 820px) {
+      .page { grid-template-columns: 1fr; }
+      .panel-left {
+        padding: 48px 28px 52px;
+        min-height: 320px;
+      }
+      .panel-left h1 { font-size: 32px; }
+      .panel-right { padding: 40px 28px 60px; }
+      .panel-right .form { max-width: 100%; }
+      .success-state { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <a href="./index.html">
+      <img src="./maia_logo.png" width="100" alt="MAIA" style="display:block;" />
+    </a>
+  </header>
+
+  <main class="page">
+    <!-- Left panel — personalized per tipo -->
+    <div class="panel-left" id="panelLeft">
+      <div class="panel-left__blob"></div>
+      <span class="panel-badge">
+        <span class="dot"></span>
+        <span id="badgeText">Lista de espera</span>
+      </span>
+      <h1 id="panelHeadline">Sua carreira começa <em>aqui</em></h1>
+      <p class="sub" id="panelSub">Seja um dos primeiros a usar a MAIA.</p>
+      <ul class="panel-bullets" id="panelBullets"></ul>
+    </div>
+
+    <!-- Right panel — form -->
+    <div class="panel-right">
+      <div class="form-head">
+        <span class="eyebrow" id="formEyebrow">Garanta seu acesso</span>
+        <h2>Entre na lista de espera</h2>
+        <p>Preencha abaixo e avisamos assim que o app estiver disponível.</p>
+      </div>
+
+      <form class="form" id="waitlistForm" novalidate>
+        <div class="field">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="telefone">WhatsApp <span style="font-weight:400; color: var(--muted-soft)">(opcional)</span></label>
+          <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" autocomplete="tel" />
+          <span class="hint">Para receber o aviso de lançamento direto no WhatsApp.</span>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span id="submitLabel">Garantir meu lugar</span>
+          <svg id="submitArrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <p class="form-note">Sem spam. Você será avisado apenas no lançamento. Pode sair quando quiser.</p>
+      </form>
+
+      <!-- Success state -->
+      <div class="success-state" id="successState">
+        <div class="success-icon">🎉</div>
+        <h2>Você está na lista!</h2>
+        <p id="successMsg">Avisamos assim que a MAIA estiver disponível. Fique de olho no seu e-mail e WhatsApp.</p>
+        <a href="./index.html" class="btn-back">
+          ← Voltar ao site
+        </a>
+      </div>
+
+      <a href="./index.html" class="back-link" id="backLink">
+        ← Voltar ao site
+      </a>
+    </div>
+  </main>
+
+  <script>
+    const SUPABASE_URL  = 'https://tlmwpktixkzmgvhvrcci.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsbXdwa3RpeGt6bWd2aHZyY2NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NDE0NDUsImV4cCI6MjA4OTUxNzQ0NX0.b5_ZQLO3zDeWqmFiZ2waF-IPaGIXd6bOTMXrdGdSBtA';
+
+    const CONFIGS = {
+      talento: {
+        accentColor:  '#7c3aed',
+        badge:        'Para Talentos',
+        headline:     'Sua carreira começa <em>aqui</em>',
+        sub:          'Seja um dos primeiros a usar a MAIA. Garanta acesso antecipado e comece a receber oportunidades antes de todo mundo.',
+        eyebrow:      'Acesso antecipado — Talentos',
+        bullets: [
+          { icon: '✦', text: 'Currículo artístico completo e gratuito' },
+          { icon: '⚡', text: 'Candidate-se a castings com um toque' },
+          { icon: '👁', text: 'Seja encontrado por diretores e produtores' },
+          { icon: '📚', text: 'Materiais de estudo e networking real' },
+        ],
+        successMsg: 'Avisamos assim que a MAIA estiver disponível para talentos. Fique de olho no seu e-mail e WhatsApp.',
+      },
+      diretor: {
+        accentColor:  '#ff6b5a',
+        badge:        'Para Diretores e Produtores',
+        headline:     'O casting certo, na hora <em>certa</em>',
+        sub:          'Centralize todo o processo de casting em uma plataforma feita para você. Cadastre-se e receba acesso prioritário.',
+        eyebrow:      'Acesso antecipado — Diretores',
+        bullets: [
+          { icon: '📣', text: 'Publique oportunidades em minutos' },
+          { icon: '📂', text: 'Candidaturas organizadas em um lugar' },
+          { icon: '🔍', text: 'Filtros por perfil, idade, biotipo e habilidades' },
+          { icon: '✅', text: 'Follow up e gestão de elenco simplificados' },
+        ],
+        successMsg: 'Avisamos assim que a MAIA estiver disponível para diretores e produtores. Fique de olho no seu e-mail.',
+      },
+      agencia: {
+        accentColor:  '#1a3a3a',
+        badge:        'Para Agências',
+        headline:     'Leve sua agência para a <em>MAIA</em>',
+        sub:          'Potencialize o alcance dos seus talentos e gerencie toda a sua carteira em uma plataforma especializada.',
+        eyebrow:      'Acesso antecipado — Agências',
+        bullets: [
+          { icon: '🗂', text: 'Gerencie toda a sua carteira de talentos' },
+          { icon: '📡', text: 'Amplie a visibilidade dos seus artistas' },
+          { icon: '🔔', text: 'Receba e acompanhe oportunidades em tempo real' },
+          { icon: '🤝', text: 'Planos personalizados para agências' },
+        ],
+        successMsg: 'Entraremos em contato em breve com informações exclusivas para agências. Fique de olho no seu e-mail.',
+      },
+    };
+
+    // ── Detecta tipo via query string ──
+    const params = new URLSearchParams(window.location.search);
+    const tipo   = params.get('tipo') || 'talento';
+    const cfg    = CONFIGS[tipo] || CONFIGS.talento;
+
+    // ── Aplica cor de acento ──
+    document.documentElement.style.setProperty('--accent-color', cfg.accentColor);
+
+    // ── Popula left panel ──
+    document.getElementById('badgeText').textContent    = cfg.badge;
+    document.getElementById('panelHeadline').innerHTML  = cfg.headline;
+    document.getElementById('panelSub').textContent     = cfg.sub;
+    document.getElementById('formEyebrow').textContent  = cfg.eyebrow;
+    document.getElementById('successMsg').textContent   = cfg.successMsg;
+
+    const ul = document.getElementById('panelBullets');
+    cfg.bullets.forEach(b => {
+      const li = document.createElement('li');
+      li.className = 'panel-bullet';
+      li.innerHTML = `<span class="panel-bullet__icon">${b.icon}</span><span>${b.text}</span>`;
+      ul.appendChild(li);
+    });
+
+    // ── Form submit ──
+    const form      = document.getElementById('waitlistForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitLbl = document.getElementById('submitLabel');
+    const submitArr = document.getElementById('submitArrow');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nome     = document.getElementById('nome').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+
+      if (!nome || !email) {
+        document.getElementById('nome').focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitLbl.textContent = 'Enviando…';
+      submitArr.style.display = 'none';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+          method: 'POST',
+          headers: {
+            'apikey':        SUPABASE_ANON,
+            'Authorization': `Bearer ${SUPABASE_ANON}`,
+            'Content-Type':  'application/json',
+            'Prefer':        'return=minimal',
+          },
+          body: JSON.stringify({ tipo, nome, email, telefone: telefone || null }),
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        form.style.display             = 'none';
+        document.getElementById('backLink').style.display = 'none';
+        document.getElementById('successState').style.display = 'flex';
+
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitLbl.textContent = 'Garantir meu lugar';
+        submitArr.style.display = '';
+        alert('Algo deu errado. Verifique sua conexão e tente novamente.');
+        console.error(err);
+      }
+    });
+  </script>
+
+</body>
+</html>
