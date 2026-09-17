@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Memo MAIA — O LinkedIn para artistas</title>
+<meta name="description" content="Um olhar por dentro da MAIA: por que estamos construindo o LinkedIn para artistas, começando pelos atores." />
+<meta property="og:title" content="Memo MAIA — O LinkedIn para artistas" />
+<meta property="og:description" content="Um olhar por dentro da MAIA: por que estamos construindo o LinkedIn para artistas, começando pelos atores." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plataformamaia.com/memo" />
+<meta property="og:image" content="https://plataformamaia.com/maia_logo.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#F8F8F6" />
+
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; overflow-x: hidden; background: #fff; }
+  ::selection { background: var(--brand-pink); color: var(--on-primary); }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+
+  :root {
+    --memo-warm: #F4F1FB;       /* lavanda bem clara (tom MAIA do bege da Owner) */
+    --memo-warm-2: #ECE6F8;
+    --purple-1: #c4b5fd;
+    --purple-2: #8b5cf6;
+    --purple-3: #7c3aed;
+    --purple-4: #4c1d95;
+  }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  .col { max-width: 720px; margin: 0 auto; }
+  @media (max-width: 720px) { .wrap { padding: 0 20px; } }
+
+  /* ---------- Navbar (igual ao site) ---------- */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; height: 68px; z-index: 50;
+    background: color-mix(in oklab, var(--canvas) 88%, transparent);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 200ms ease;
+  }
+  .nav.scrolled { border-bottom-color: var(--hairline); }
+  .nav__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .nav__menu { display: flex; gap: 28px; }
+  .nav__menu a {
+    font-size: 14px; font-weight: 500; color: var(--ink); text-decoration: none;
+    position: relative; padding: 6px 0;
+  }
+  .nav__menu a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+    background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 200ms ease;
+  }
+  .nav__menu a:hover::after { transform: scaleX(1); }
+  .nav__cta { display: flex; align-items: center; gap: 12px; }
+  .btn { white-space: nowrap; }
+  .btn-pink { background: var(--brand-pink); color: var(--on-primary); }
+  .btn-pink:hover { filter: brightness(0.95); }
+  .btn-blue { background: #2563eb; color: #fff; }
+  .btn-blue:hover { filter: brightness(0.93); }
+  .btn-arrow::after { content: "→"; margin-left: 2px; display: inline-block; transition: transform 150ms ease; }
+  .btn-arrow:hover::after { transform: translateX(3px); }
+  @media (max-width: 900px) {
+    .nav__menu { display: none; }
+    .nav__cta .btn-secondary { display: none; }
+  }
+  main { padding-top: 68px; }
+
+  /* ---------- Tipografia do memo ---------- */
+  .label { font-size: 13px; font-weight: 500; color: var(--body); margin: 0 0 16px; display: block; }
+  .h-sec {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(34px, 4.2vw, 48px); line-height: 1.05; letter-spacing: -1.6px;
+    color: var(--ink); margin: 0 0 24px; text-wrap: balance;
+  }
+  .h-sub {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(24px, 2.6vw, 30px); line-height: 1.15; letter-spacing: -0.8px;
+    color: var(--ink); margin: 56px 0 16px;
+  }
+  .prose p { font-size: 17px; line-height: 1.6; color: var(--body-strong); margin: 0 0 18px; }
+  .prose p.lead { font-weight: 600; color: var(--ink); }
+  .prose ul { padding-left: 22px; margin: 0 0 18px; }
+  .prose li { font-size: 17px; line-height: 1.6; color: var(--body-strong); margin-bottom: 6px; }
+  .prose b { color: var(--ink); }
+
+  /* ---------- Seções ---------- */
+  .sec { padding: 112px 0; position: relative; }
+  .sec--white { background: #fff; }
+  .sec--warm { background: var(--memo-warm); }
+  .sec--warm2 { background: var(--memo-warm-2); }
+  .sec--round { border-radius: 48px 48px 0 0; margin-top: -48px; }
+  @media (max-width: 720px) { .sec { padding: 72px 0; } .sec--round { border-radius: 28px 28px 0 0; } }
+
+  /* ---------- Hero ---------- */
+  .hero { background: var(--memo-warm); padding: 96px 0 144px; position: relative; overflow: hidden; }
+  .hero__lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .55; }
+  .hero__inner { position: relative; z-index: 1; }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(42px, 6vw, 76px); line-height: 1.02; letter-spacing: -2.6px;
+    margin: 0 0 32px; max-width: 900px; color: var(--ink);
+  }
+  .hero h1 .soft { color: #8f8f96; display: block; }
+  .hero__lede { font-size: 18px; line-height: 1.5; font-weight: 500; color: var(--ink); max-width: 560px; margin: 0 0 48px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1040px; }
+  .stat { background: #fff; border-radius: 20px; padding: 22px 18px; }
+  .stat b {
+    display: block; font-family: var(--font-display); font-weight: 600; font-size: 28px;
+    letter-spacing: -0.8px; color: var(--purple-4); line-height: 1.1; margin-bottom: 8px;
+  }
+  .stat span { font-size: 13px; line-height: 1.4; color: var(--body); display: block; }
+  @media (max-width: 900px) { .stats { grid-template-columns: 1fr 1fr; } }
+
+  /* ---------- Resumo executivo ---------- */
+  .summary__list { list-style: none; padding: 0; margin: 48px 0 0; }
+  .summary__item { border-top: 1px solid var(--hairline); padding: 36px 0; display: grid; grid-template-columns: 64px 1fr; gap: 16px; }
+  .summary__item:last-child { border-bottom: 1px solid var(--hairline); }
+  .summary__n { font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--purple-3); padding-top: 6px; }
+  .summary__item h3 {
+    font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 2.4vw, 28px);
+    line-height: 1.2; letter-spacing: -0.7px; margin: 0 0 14px; color: var(--ink); text-wrap: balance;
+  }
+  .summary__item p { font-size: 16px; line-height: 1.6; color: var(--body); margin: 0; }
+  @media (max-width: 600px) { .summary__item { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* ---------- Visão (barras crescentes) ---------- */
+  .bars { display: grid; grid-template-columns: 1fr 1.5fr 3fr; gap: 14px; align-items: end; height: 560px; margin: 56px 0 80px; }
+  .bar { border-radius: 24px; color: #fff; padding: 22px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .bar b { font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 2.4vw, 32px); letter-spacing: -0.8px; line-height: 1.05; display: block; margin-bottom: 8px; }
+  .bar span { font-size: 13px; line-height: 1.35; opacity: .88; }
+  .bar small { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; opacity: .7; margin-bottom: 6px; }
+  .bar--1 { height: 26%; background: var(--purple-2); }
+  .bar--2 { height: 46%; background: var(--purple-3); }
+  .bar--3 { height: 100%; background: var(--purple-4); }
+  .bar--3 b { font-size: clamp(28px, 4vw, 52px); }
+  @media (max-width: 720px) {
+    .bars { height: 380px; gap: 8px; }
+    .bar { padding: 12px; border-radius: 16px; }
+    .bar span { display: none; }
+  }
+  .vm { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 64px; }
+  .vm__card { background: #fff; border-radius: 24px; padding: 32px; }
+  .vm__card .label { margin-bottom: 10px; color: var(--purple-3); font-weight: 600; }
+  .vm__card p { font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.2; letter-spacing: -0.6px; margin: 0; color: var(--ink); }
+  @media (max-width: 720px) { .vm { grid-template-columns: 1fr; } }
+
+  /* ---------- Por que agora ---------- */
+  .changes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+  .change { background: var(--memo-warm); border-radius: 24px; padding: 32px; }
+  .change h4 { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.5px; margin: 0 0 14px; }
+  .change p { font-size: 16px; line-height: 1.6; color: var(--body-strong); margin: 0 0 12px; }
+  .change p:last-child { margin: 0; }
+  @media (max-width: 720px) { .changes { grid-template-columns: 1fr; } }
+
+  /* ---------- O problema: história ---------- */
+  .story { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin: 56px 0 64px; }
+  .story__card { background: #fff; border-radius: 28px; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; min-height: 420px; }
+  .story__card .who { font-family: var(--font-display); font-weight: 600; font-size: 22px; margin: 0 0 18px; color: var(--purple-3); }
+  .story__card h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(26px, 3vw, 36px); line-height: 1.12; letter-spacing: -1px; margin: 0; }
+  .story__foot { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+  .story__foot p { font-size: 13px; line-height: 1.45; color: var(--body); margin: 0; }
+  .story__art { border-radius: 28px; background: var(--purple-3); position: relative; overflow: hidden; min-height: 480px; }
+  .phone-chat { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-4deg); width: 240px; background: #0a0a0a; border-radius: 36px; padding: 10px; }
+  .phone-chat__screen { background: #efeae2; border-radius: 28px; padding: 44px 12px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .msg { background: #fff; border-radius: 10px; padding: 8px 10px; font-size: 11px; line-height: 1.35; color: #222; max-width: 90%; }
+  .msg small { display: block; font-weight: 700; font-size: 10px; margin-bottom: 2px; }
+  .msg.me { background: #d9fdd3; align-self: flex-end; }
+  .msg .g1 { color: #c2410c; } .msg .g2 { color: #0369a1; } .msg .g3 { color: #7e22ce; }
+  .story__tag { position: absolute; top: 18px; right: 20px; z-index: 2; color: #fff; font-size: 12px; opacity: .8; }
+  @media (max-width: 900px) { .story { grid-template-columns: 1fr; } }
+
+  .factors { list-style: none; padding: 0; margin: 24px 0 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .factors li { background: #fff; border-radius: 14px; padding: 14px 16px; font-size: 15px; line-height: 1.4; color: var(--ink); font-weight: 500; }
+  .factors li::before { content: "✕"; color: var(--brand-coral); font-weight: 700; margin-right: 8px; }
+  @media (max-width: 600px) { .factors { grid-template-columns: 1fr; } }
+
+  /* ---------- Solução ---------- */
+  .system { list-style: none; padding: 0; margin: 24px 0 32px; display: flex; flex-direction: column; gap: 10px; }
+  .system li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; background: var(--memo-warm); border-radius: 16px; padding: 16px 18px; font-size: 16px; line-height: 1.5; color: var(--body-strong); }
+  .system .check { width: 22px; height: 22px; border-radius: 50%; background: var(--brand-pink); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; margin-top: 2px; }
+  .system.dark .check { background: var(--ink); }
+
+  .table-card { background: var(--memo-warm); border-radius: 28px; padding: 32px; margin: 48px auto; max-width: 1040px; }
+  .table-card h4 { font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -0.5px; margin: 0 0 20px; }
+  .tbl-scroll { overflow-x: auto; }
+  table.cmp { width: 100%; border-collapse: collapse; min-width: 620px; }
+  table.cmp th, table.cmp td { text-align: left; padding: 14px 16px; font-size: 15px; line-height: 1.4; border-top: 1px solid rgba(10,10,10,.08); vertical-align: top; }
+  table.cmp th { font-size: 13px; font-weight: 600; color: var(--muted); border-top: none; }
+  table.cmp td:first-child { font-weight: 600; color: var(--ink); }
+  table.cmp td.maia { color: var(--purple-4); font-weight: 600; background: rgba(124, 58, 237, .07); }
+  table.cmp th.maia { color: var(--purple-3); background: rgba(124, 58, 237, .07); border-radius: 12px 12px 0 0; }
+
+  .callout { background: var(--ink); color: #fff; border-radius: 24px; padding: 32px; margin: 40px 0; }
+  .callout h4 { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.4px; margin: 0 0 12px; color: #fff; }
+  .callout p { font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.82); margin: 0 0 10px; }
+  .callout p:last-child { margin: 0; }
+
+  /* ---------- Futuro: fases ---------- */
+  .phases { display: flex; flex-direction: column; gap: 16px; margin-top: 48px; }
+  .phase { background: #fff; border-radius: 24px; padding: 32px; display: grid; grid-template-columns: 180px 1fr; gap: 24px; }
+  .phase__tag small { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--purple-3); display: block; margin-bottom: 6px; }
+  .phase__tag b { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.5px; line-height: 1.15; }
+  .phase p { font-size: 16px; line-height: 1.6; color: var(--body-strong); margin: 0 0 10px; }
+  .phase p:last-child { margin: 0; }
+  @media (max-width: 720px) { .phase { grid-template-columns: 1fr; gap: 10px; } }
+
+  /* ---------- Modelo de negócio ---------- */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 32px 0; }
+  .plan { background: var(--memo-warm); border-radius: 20px; padding: 24px; }
+  .plan.dark { background: var(--ink); color: #fff; }
+  .plan small { font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px; }
+  .plan b { font-family: var(--font-display); font-weight: 600; font-size: 30px; letter-spacing: -1px; display: block; }
+  .plan span { font-size: 13px; color: var(--muted); display: block; margin-top: 6px; line-height: 1.4; }
+  .plan.dark span { color: var(--on-dark-soft); }
+  @media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
+
+  /* ---------- Comparativo (gráfico) ---------- */
+  .chart { background: #fff; border-radius: 28px; padding: 36px; margin: 48px auto 0; max-width: 1040px; }
+  .chart h4 { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -0.7px; margin: 0 0 6px; }
+  .chart > p { font-size: 13px; color: var(--body); margin: 0 0 28px; }
+  .chart__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-items: end; height: 320px; }
+  .chart__col { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+  .chart__bar { border-radius: 14px 14px 6px 6px; display: flex; justify-content: center; padding-top: 18px; font-family: var(--font-display); font-weight: 600; font-size: 18px; }
+  .chart__bar.grey { background: #e5e5e5; color: var(--ink); }
+  .chart__bar.mid { background: var(--purple-1); color: var(--purple-4); }
+  .chart__bar.maia { background: var(--purple-3); color: #fff; }
+  .chart__name { font-size: 13px; text-align: center; color: var(--body); margin-top: 12px; line-height: 1.35; min-height: 36px; }
+  .chart__legend { margin-top: 24px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ---------- Por que construímos ---------- */
+  .why { background: var(--ink); color: #fff; }
+  .why .label { color: var(--on-dark-soft); }
+  .why p { font-size: clamp(20px, 2.2vw, 26px); line-height: 1.4; letter-spacing: -0.3px; font-weight: 500; margin: 0 0 28px; color: rgba(255,255,255,.62); }
+  .why p b { color: #fff; font-weight: 600; }
+
+  /* ---------- PS ---------- */
+  .ps { background: #fff; border-radius: 28px; padding: 40px; display: grid; grid-template-columns: 220px 1fr; gap: 40px; max-width: 880px; margin: 48px auto 0; box-shadow: 0 1px 0 rgba(10,10,10,.04); }
+  .ps__photo { background: var(--memo-warm); border-radius: 20px; aspect-ratio: 4/5; display: flex; align-items: center; justify-content: center; padding: 28px; }
+  .ps__sig { font-size: 13px; color: var(--body); margin-top: 14px; line-height: 1.4; }
+  .ps h4 { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.25; letter-spacing: -0.4px; margin: 0 0 18px; }
+  .ps p { font-size: 15px; line-height: 1.6; color: var(--body-strong); margin: 0 0 14px; }
+  .ps p:last-child { margin: 0; }
+  @media (max-width: 720px) { .ps { grid-template-columns: 1fr; padding: 28px; gap: 24px; } .ps__photo { aspect-ratio: 16/9; } }
+  .disclaimer { max-width: 880px; margin: 40px auto 0; font-size: 13px; line-height: 1.55; color: var(--muted); }
+
+  /* ---------- CTA final ---------- */
+  .cta { padding: 96px 0; text-align: center; background: #fff; }
+  .cta h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 4vw, 52px); letter-spacing: -1.6px; line-height: 1.05; margin: 0 0 32px; text-wrap: balance; }
+  .cta h2 em { font-style: normal; color: var(--brand-pink); }
+  .cta__btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ---------- Footer (igual ao site) ---------- */
+  footer.f { background: var(--surface-soft); padding: 80px 0 32px; }
+  .f__top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+  .f__brand p { font-size: 14px; line-height: 1.55; color: var(--body); max-width: 320px; margin: 16px 0 24px; }
+  .f__col h5 { font-size: 13px; font-weight: 600; color: var(--ink); margin: 0 0 14px; }
+  .f__col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .f__col a { color: var(--body); font-size: 14px; text-decoration: none; }
+  .f__col a:hover { color: var(--ink); }
+  .f__bottom { border-top: 1px solid var(--hairline); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  @media (max-width: 900px) { .f__top { grid-template-columns: 1fr 1fr; gap: 40px; } .f__brand { grid-column: 1 / -1; } }
+
+  /* ---------- Reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 600ms ease, transform 600ms ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a href="./"><img src="./maia_logo.png" width="110" alt="MAIA" style="display:block;"></a>
+    <nav class="nav__menu" aria-label="Principal">
+      <a href="./#como-funciona">Como Funciona</a>
+      <a href="./#talentos">Para Talentos</a>
+      <a href="./#diretores">Para Diretores</a>
+      <a href="./#planos">Planos</a>
+      <a href="./#contato">Contato</a>
+    </nav>
+    <div class="nav__cta">
+      <a class="btn btn-secondary" href="./#planos">Entrar</a>
+      <a class="btn btn-primary" href="./waitlist.html">Baixar o App</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="hero">
+    <svg class="hero__lines" id="heroLines" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+    <div class="wrap hero__inner">
+      <h1><span class="soft">Um olhar por dentro</span>da visão da MAIA.</h1>
+      <p class="hero__lede">Este é um memo aberto sobre o que estamos construindo, por que agora e para onde vamos. A MAIA conecta artistas e talentos a negócios de todo o Brasil — e quer transformar a carreira artística em uma carreira profissional, com rede, vitrine e oportunidades em um só lugar.</p>
+      <div class="stats">
+        <div class="stat"><b>R$ 0</b><span>para criar um perfil artístico completo</span></div>
+        <div class="stat"><b>0%</b><span>de comissão sobre os trabalhos fechados</span></div>
+        <div class="stat"><b>3 lados</b><span>talentos, diretores e agências na mesma plataforma</span></div>
+        <div class="stat"><b>6 pilares</b><span>de ecossistema: comunidades, eventos, conteúdo, cursos, agências e networking</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ RESUMO EXECUTIVO ============================ -->
+  <section class="sec sec--white sec--round">
+    <div class="wrap col">
+      <span class="label reveal">Resumo executivo</span>
+      <h2 class="h-sec reveal">O que você precisa saber sobre a MAIA.</h2>
+
+      <ol class="summary__list">
+        <li class="summary__item reveal">
+          <span class="summary__n">01</span>
+          <div>
+            <h3>A MAIA está construindo o LinkedIn para artistas, começando com os atores.</h3>
+            <p>Todo profissional tem onde mostrar quem é, o que já fez e com quem trabalha. Artistas não. Hoje a carreira de um ator vive espalhada entre grupos de WhatsApp, perfis em redes sociais, e-mails e pastas no drive. A MAIA reúne tudo isso em uma identidade profissional única: currículo artístico, book de fotos e vídeos, portfólio e rede de contatos — conectada diretamente a quem contrata.</p>
+          </div>
+        </li>
+        <li class="summary__item reveal">
+          <span class="summary__n">02</span>
+          <div>
+            <h3>O produto resolve a dor dos dois lados: quem busca oportunidade e quem busca talento.</h3>
+            <p>Para talentos, a MAIA é o perfil completo, as oportunidades que combinam com seu perfil e a candidatura com um toque. Para diretores e produtores, é publicar um casting em minutos, receber candidaturas organizadas com vídeos, fotos e dados, filtrar por características e manter o follow up do time em um só lugar — com contato e contratação direta, sem intermediários.</p>
+          </div>
+        </li>
+        <li class="summary__item reveal">
+          <span class="summary__n">03</span>
+          <div>
+            <h3>Não é só um mural de castings: é uma rede profissional.</h3>
+            <p>Oportunidades trazem o artista para a plataforma; a rede faz ele ficar. O ecossistema MAIA inclui comunidades por área, região e interesse, eventos ao vivo com profissionais do mercado, biblioteca de conteúdo, cursos e workshops, vitrine de agências e networking real entre atores, modelos, diretores e produtores.</p>
+          </div>
+        </li>
+        <li class="summary__item reveal">
+          <span class="summary__n">04</span>
+          <div>
+            <h3>Um modelo de negócio alinhado ao artista: freemium e sem comissão.</h3>
+            <p>Qualquer talento começa grátis, para sempre. Quem quer acelerar a carreira assina o Pro (R$ 29,90/mês ou R$ 249,90/ano) e ganha candidaturas ilimitadas, destaque nas buscas, estatísticas de visualização e acesso antecipado às vagas. Diretores e produtoras têm planos personalizados. A MAIA não cobra comissão sobre os trabalhos fechados — ganhamos quando o artista percebe valor, não quando ele é contratado.</p>
+          </div>
+        </li>
+        <li class="summary__item reveal">
+          <span class="summary__n">05</span>
+          <div>
+            <h3>Começamos pelos atores. A visão é todo artista brasileiro.</h3>
+            <p>Atores são o ponto de partida porque vivem a dor com mais intensidade e são o centro do mercado audiovisual. A mesma infraestrutura — perfil, vitrine, candidatura, rede — serve modelos, dubladores e locutores, e depois toda a economia criativa. Cada novo tipo de artista torna a rede mais valiosa para quem contrata, e cada novo contratante torna a rede mais valiosa para o artista.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================ SOBRE / VISÃO ============================ -->
+  <section class="sec sec--warm">
+    <div class="wrap">
+      <div class="col">
+        <span class="label reveal">Sobre a MAIA</span>
+        <h2 class="h-sec reveal">Uma visão maior<br>que os atores.</h2>
+      </div>
+
+      <div class="bars reveal" aria-label="Fases de expansão da MAIA">
+        <div class="bar bar--1"><small>Fase 1</small><b>Atores</b><span>o coração do mercado audiovisual</span></div>
+        <div class="bar bar--2"><small>Fase 2</small><b>+ Modelos, vozes e agências</b><span>todo o talento do audiovisual e da publicidade</span></div>
+        <div class="bar bar--3"><small>Fase 3</small><b>Todos os artistas</b><span>a rede profissional de toda a economia criativa brasileira</span></div>
+      </div>
+
+      <div class="col">
+        <div class="vm reveal">
+          <div class="vm__card"><span class="label">Visão</span><p>Ser a rede profissional onde toda carreira artística acontece.</p></div>
+          <div class="vm__card"><span class="label">Missão</span><p>Fazer do talento um negócio: o lugar onde a arte vira carreira.</p></div>
+        </div>
+
+        <div class="prose reveal">
+          <h3 class="h-sub" style="margin-top:0">Mercado</h3>
+          <p>O mercado inicial da MAIA são os atores brasileiros e quem os contrata: diretores de casting, produtoras, agências e marcas que produzem cinema, TV, streaming, publicidade e conteúdo digital. É um mercado que cresce junto com a demanda por conteúdo em vídeo — e que ainda opera, em grande parte, na informalidade.</p>
+          <p>Mas a visão sempre foi maior que os atores. Modelos, dubladores, locutores, dançarinos, músicos: todos precisam da mesma coisa — ser encontrados, provar o que já fizeram e se conectar com as pessoas certas. Por isso a MAIA está sendo construída como uma plataforma flexível, que se expande para novos tipos de artista sem precisar ser reinventada.</p>
+
+          <h3 class="h-sub">Insight</h3>
+          <p>O insight fundador da MAIA é que artistas não precisam de mais um mural de vagas. Precisam de uma <b>identidade profissional</b> que trabalhe por eles o tempo todo — e de uma rede que transforme cada trabalho, curso e conexão em reputação acumulada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ POR QUE AGORA ============================ -->
+  <section class="sec sec--white">
+    <div class="wrap col">
+      <span class="label reveal">Por que agora?</span>
+      <h2 class="h-sec reveal">Duas mudanças abriram espaço para a MAIA.</h2>
+      <div class="prose reveal"><p>Uma é de mercado. A outra é de comportamento. Juntas, elas criam a oportunidade de profissionalizar a forma como artistas e contratantes se encontram.</p></div>
+
+      <div class="changes">
+        <div class="change reveal">
+          <h4>1. Mudança de mercado</h4>
+          <p>Nunca se produziu tanto conteúdo audiovisual: streaming, publicidade digital, conteúdo de marca, redes sociais. A demanda por talentos se multiplicou e se espalhou por todo o país.</p>
+          <p>Mas a forma de contratar não acompanhou. Castings ainda circulam em grupos, listas e indicações. Diretores gastam tempo organizando materiais; artistas perdem oportunidades que nem chegam até eles.</p>
+        </div>
+        <div class="change reveal">
+          <h4>2. Mudança de comportamento</h4>
+          <p>O casting ficou digital. Self-tapes, testes remotos e materiais enviados pelo celular viraram o padrão. O artista já vive a carreira no smartphone.</p>
+          <p>O que falta é um lugar feito para isso — que trate o artista como profissional, com perfil, histórico e rede, e não como mais uma mensagem perdida numa conversa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ O PROBLEMA ============================ -->
+  <section class="sec sec--warm2">
+    <div class="wrap">
+      <div class="col">
+        <span class="label reveal">O problema</span>
+        <h2 class="h-sec reveal">O mercado artístico ainda roda no improviso.</h2>
+        <div class="prose reveal">
+          <p>Talento não falta no Brasil. O que falta é estrutura. Artistas dependem de grupos, indicações e sorte para encontrar trabalho, e quem contrata depende de planilhas, e-mails e dezenas de plataformas para encontrar o perfil certo.</p>
+          <p>Vamos conhecer uma atriz que representa milhares de artistas brasileiros. O nome dela é Helena.</p>
+        </div>
+      </div>
+
+      <div class="story reveal">
+        <div class="story__card">
+          <div>
+            <p class="who">Conheça a Helena.</p>
+            <h3>Atriz em São Paulo, 28 anos. Talento de sobra — e um celular cheio de grupos de casting.</h3>
+          </div>
+          <div class="story__foot">
+            <p>Seu material está espalhado entre WhatsApp, e-mail, drive e redes sociais.</p>
+            <p>Ela não sabe quem viu seu perfil, nem por que não foi chamada.</p>
+          </div>
+        </div>
+        <div class="story__art" aria-hidden="true">
+          <div class="phone-chat">
+            <div class="phone-chat__screen">
+              <div class="msg"><small class="g1">CASTING SP 🎬</small>URGENTE: atriz 25–35 p/ comercial. Mandar book no privado até 18h!!</div>
+              <div class="msg"><small class="g2">Oportunidades Atores RJ</small>Alguém tem o contato da produtora? 🙏</div>
+              <div class="msg me">Oi! Segue meu material: book_final_v3.pdf 📎</div>
+              <div class="msg"><small class="g3">Testes &amp; Seleções</small>Vaga encerrada, obrigado a todos.</div>
+              <div class="msg me">Link do vídeo expirou? Mando de novo 😅</div>
+            </div>
+          </div>
+          <span class="story__tag">Personagem ilustrativa.</span>
+        </div>
+      </div>
+
+      <div class="col prose reveal">
+        <p>Há alguns anos, bastava estar no lugar certo e conhecer as pessoas certas. Hoje, as oportunidades se multiplicaram — mas se espalharam por canais que ninguém organiza. Um casting aparece num grupo e some em minutos. O material precisa ser reenviado a cada teste. O retorno raramente chega.</p>
+        <p>Nesse cenário, talento sozinho não basta. Estes fatores hoje determinam a carreira da Helena:</p>
+        <ul class="factors">
+          <li>estar no grupo certo, na hora certa</li>
+          <li>ter o material atualizado à mão</li>
+          <li>saber de oportunidades fora da sua cidade</li>
+          <li>conhecer quem decide o casting</li>
+          <li>entender o que o mercado está buscando</li>
+          <li>ter acesso a formação e a agências</li>
+        </ul>
+        <p>E do outro lado da mesa, o diretor de casting vive o problema inverso: dezenas de materiais chegando por canais diferentes, sem padrão, sem filtros, sem histórico — e horas gastas organizando em vez de escolhendo.</p>
+        <p><b>A Helena não precisa de mais um grupo. Precisa de uma carreira com estrutura.</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ A SOLUÇÃO ============================ -->
+  <section class="sec sec--white">
+    <div class="wrap">
+      <div class="col">
+        <span class="label reveal">A solução MAIA</span>
+        <h2 class="h-sec reveal">Uma rede profissional feita para o mercado artístico.</h2>
+        <div class="prose reveal">
+          <p class="lead">A MAIA dá ao artista a mesma estrutura profissional que qualquer outra carreira já tem.</p>
+          <p>Em vez de caçar oportunidades, a Helena tem um perfil completo, atualizado, que trabalha por ela — e se candidata a tudo que está acontecendo no mercado em segundos.</p>
+
+          <h3 class="h-sub">Para talentos</h3>
+        </div>
+        <ul class="system reveal">
+          <li><span class="check">✓</span><span><b>Perfil artístico completo</b> com fotos, vídeos, características e dados técnicos — sem custo.</span></li>
+          <li><span class="check">✓</span><span><b>Portfólio</b> de trabalhos anteriores organizado e compartilhável.</span></li>
+          <li><span class="check">✓</span><span><b>Castings compatíveis</b> com o seu perfil e candidatura com um toque, direto pelo app.</span></li>
+          <li><span class="check">✓</span><span><b>Estatísticas de visualizações</b> — saiba quem está olhando.</span></li>
+          <li><span class="check">✓</span><span><b>CACO</b> — carteirinha profissional digital.</span></li>
+          <li><span class="check">✓</span><span><b>Materiais de estudo, cursos e masterclasses</b> ao alcance das suas mãos.</span></li>
+        </ul>
+
+        <div class="prose reveal"><h3 class="h-sub">Para diretores e produtores</h3></div>
+        <ul class="system dark reveal">
+          <li><span class="check">✓</span><span><b>Publique oportunidades</b> de casting em minutos, com critérios claros.</span></li>
+          <li><span class="check">✓</span><span><b>Receba candidaturas organizadas</b> — vídeos, fotos e dados em um lugar.</span></li>
+          <li><span class="check">✓</span><span><b>Filtros sob medida</b> por perfil, idade, biotipo e habilidades.</span></li>
+          <li><span class="check">✓</span><span><b>Follow up organizado</b> e ao alcance de todo o time.</span></li>
+          <li><span class="check">✓</span><span><b>Contato e contratação direta</b>, sem intermediadores.</span></li>
+        </ul>
+      </div>
+
+      <div class="table-card reveal">
+        <h4>Como o casting funciona hoje vs. com a MAIA</h4>
+        <div class="tbl-scroll">
+          <table class="cmp">
+            <thead><tr><th></th><th>Hoje</th><th class="maia">Com a MAIA</th></tr></thead>
+            <tbody>
+              <tr><td>Material do artista</td><td>Espalhado entre WhatsApp, e-mail, drive e redes</td><td class="maia">Um perfil completo e sempre atualizado</td></tr>
+              <tr><td>Encontrar oportunidades</td><td>Depende de estar no grupo certo</td><td class="maia">Castings compatíveis com o seu perfil</td></tr>
+              <tr><td>Candidatura</td><td>Reenviar tudo a cada teste</td><td class="maia">Um toque</td></tr>
+              <tr><td>Retorno</td><td>Silêncio</td><td class="maia">Estatísticas de quem viu seu perfil</td></tr>
+              <tr><td>Busca do diretor</td><td>Planilhas e materiais sem padrão</td><td class="maia">Filtros por características e candidaturas organizadas</td></tr>
+              <tr><td>Contratação</td><td>Intermediários e comissões</td><td class="maia">Contato direto, 0% de comissão</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="callout reveal">
+          <h4>Por que “LinkedIn para artistas” e não “mais um site de casting”?</h4>
+          <p>Sites de casting resolvem um momento: a vaga. O LinkedIn resolve a carreira inteira: identidade, histórico, rede, aprendizado e reputação. É isso que faz o profissional voltar todos os dias, mesmo quando não está procurando trabalho.</p>
+          <p>A MAIA segue a mesma lógica. A oportunidade é a porta de entrada; comunidades, eventos, cursos, vitrine de agências e networking são o que transformam um cadastro em uma carreira.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ O FUTURO ============================ -->
+  <section class="sec sec--warm">
+    <div class="wrap col">
+      <span class="label reveal">O futuro</span>
+      <h2 class="h-sec reveal">Todo tipo de artista. Uma só rede.</h2>
+      <div class="prose reveal"><p>A MAIA vai se tornar a rede profissional de toda a economia criativa. Esta seção descreve, em alto nível, o caminho até lá.</p></div>
+
+      <div class="phases">
+        <div class="phase reveal">
+          <div class="phase__tag"><small>Fase 1</small><b>Atores</b></div>
+          <div>
+            <p>Lançar o app nas lojas App Store e Google Play e construir a maior e mais completa base de perfis de atores do país, com oportunidades reais publicadas por diretores e produtoras.</p>
+            <p>Atores são o ponto de partida porque sentem a dor com mais intensidade e porque são o centro de qualquer produção audiovisual. Uma base forte de atores atrai quem contrata — e quem contrata atrai mais atores.</p>
+          </div>
+        </div>
+        <div class="phase reveal">
+          <div class="phase__tag"><small>Fase 2</small><b>Todo o talento do audiovisual</b></div>
+          <div>
+            <p>Expandir para modelos, dubladores, locutores e demais talentos de audiovisual e publicidade — e trazer as agências para dentro da rede com a vitrine de agências.</p>
+            <p>A infraestrutura já está pronta para isso: perfil, book, filtros por características e candidatura funcionam para qualquer tipo de talento.</p>
+          </div>
+        </div>
+        <div class="phase reveal">
+          <div class="phase__tag"><small>Fase 3</small><b>Toda a economia criativa</b></div>
+          <div>
+            <p>Dançarinos, músicos, artistas de circo, criadores de conteúdo: todos precisam de identidade profissional, vitrine e rede. A MAIA vai atender cada novo segmento de forma sequencial, guiada pela demanda que aparecer dentro da própria plataforma.</p>
+            <p>Com o tempo, a MAIA se torna para o artista o que ele sempre quis e nunca teve: agente de carreira, escola e rede de contatos — no bolso.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ MODELO / GTM ============================ -->
+  <section class="sec sec--white">
+    <div class="wrap col">
+      <span class="label reveal">Modelo de negócio</span>
+      <h2 class="h-sec reveal">Comece grátis. Cresça quando quiser.</h2>
+      <div class="prose reveal">
+        <p>O modelo da MAIA é freemium e alinhado ao sucesso do artista. Sem taxas escondidas, sem pegadinhas: o talento só paga quando o plano fizer sentido para a carreira dele.</p>
+      </div>
+
+      <div class="plans reveal">
+        <div class="plan"><small>Free</small><b>R$ 0</b><span>Para sempre. Perfil público compartilhável, oportunidades públicas, comunidades e materiais de estudo.</span></div>
+        <div class="plan"><small>Pro Mensal</small><b>R$ 29,90</b><span>por mês. Candidaturas ilimitadas, destaque nas buscas, estatísticas e acesso antecipado às vagas.</span></div>
+        <div class="plan dark"><small>Pro Anual</small><b>R$ 249,90</b><span>por ano (R$ 20,82/mês). Tudo do Pro + masterclasses, relatório de mercado trimestral e suporte prioritário.</span></div>
+      </div>
+
+      <div class="prose reveal">
+        <h3 class="h-sub">1. Três portas de entrada</h3>
+        <p>A MAIA nasce com uma lista de espera segmentada por perfil — <b>talento</b>, <b>diretor/produtor</b> e <b>agência</b> — para lançar com os dois lados do mercado ao mesmo tempo. Diretores e produtoras têm planos personalizados.</p>
+
+        <h3 class="h-sub">2. Sem comissão</h3>
+        <p>A MAIA é uma plataforma de conexão, não uma agência. Cobramos apenas as assinaturas dos planos Pro e produtos vendidos à parte dentro da plataforma. As negociações entre talento e produção acontecem diretamente, conforme as práticas do setor.</p>
+
+        <h3 class="h-sub">3. Confiança desde o primeiro dia</h3>
+        <p>A MAIA segue rigorosamente a LGPD. O artista controla quais informações são públicas, quem pode contatá-lo e pode solicitar a exclusão dos seus dados a qualquer momento.</p>
+      </div>
+
+      <div class="prose reveal">
+        <h3 class="h-sub">Quais efeitos de rede a MAIA tem?</h3>
+        <p><b>Para artistas:</b> quanto mais diretores e produtoras publicam na MAIA, mais oportunidades cada perfil recebe — e mais vale a pena manter o perfil completo e atualizado.</p>
+        <p><b>Para contratantes:</b> quanto mais artistas têm perfil na MAIA, mais rápido e preciso fica encontrar o talento certo. E cada nova comunidade, curso e evento aumenta o motivo para todos voltarem.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ COMPARATIVO ============================ -->
+  <section class="sec sec--warm">
+    <div class="wrap">
+      <div class="col">
+        <span class="label reveal">Concorrência</span>
+        <h2 class="h-sec reveal">Duas vantagens claras sobre o jeito de hoje.</h2>
+        <div class="prose reveal">
+          <p>A MAIA constrói valor antes de pedir qualquer pagamento, e seu produto foi desenhado para a carreira inteira — não só para a vaga.</p>
+          <h3 class="h-sub">Melhor entrada</h3>
+          <p>É fácil e sem risco começar na MAIA. O artista cria o perfil completo sem custo, acessa comunidades e conteúdo e só assina o Pro quando percebe o valor. Não há comissão sobre trabalho nem contrato de exclusividade.</p>
+          <h3 class="h-sub">Melhor produto</h3>
+          <p>As alternativas atuais resolvem pedaços do problema: grupos distribuem vagas, redes sociais mostram o artista, agências representam alguns poucos. Nenhuma junta identidade profissional, oportunidades, formação e rede em um só lugar, para os dois lados do mercado.</p>
+        </div>
+      </div>
+
+      <div class="chart reveal">
+        <h4>Quanto da carreira artística cada alternativa resolve</h4>
+        <p>Recursos presentes em cada alternativa, entre os 6 pilares abaixo.</p>
+        <div class="chart__cols">
+          <div class="chart__col"><div class="chart__bar grey" style="height:17%">1/6</div><div class="chart__name">Grupos de WhatsApp e redes sociais</div></div>
+          <div class="chart__col"><div class="chart__bar mid" style="height:50%">3/6</div><div class="chart__name">Murais de casting tradicionais</div></div>
+          <div class="chart__col"><div class="chart__bar maia" style="height:100%">6/6</div><div class="chart__name"><b>MAIA</b></div></div>
+        </div>
+        <p class="chart__legend">Pilares considerados: perfil artístico completo · oportunidades de casting · candidatura com um toque · filtros para diretores · estatísticas de visualização · comunidade, cursos e networking. Comparação qualitativa baseada nos recursos típicos de cada alternativa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ POR QUE CONSTRUÍMOS ============================ -->
+  <section class="sec why">
+    <div class="wrap col">
+      <span class="label reveal">Por que construímos</span>
+      <p class="reveal"><b>Artistas são heróis para nós.</b> Eles arriscam tudo para viver do que amam. Dão rosto, voz e corpo às histórias que o Brasil conta sobre si mesmo.</p>
+      <p class="reveal"><b>Mas a maioria ainda constrói a carreira sem estrutura</b> — dependendo de grupos, indicações e sorte, enquanto qualquer outra profissão tem ferramentas, redes e caminhos claros.</p>
+      <p class="reveal"><b>Construímos porque acreditamos que talento deveria ser encontrado</b>, não perdido numa conversa. Construímos para que cada artista brasileiro tenha uma carreira profissional — e para que a arte, finalmente, vire negócio.</p>
+    </div>
+  </section>
+
+  <!-- ============================ PS ============================ -->
+  <section class="sec sec--warm">
+    <div class="wrap">
+      <div class="col">
+        <span class="label reveal">PS da equipe MAIA</span>
+        <h2 class="h-sec reveal">O palco está montado.</h2>
+      </div>
+      <div class="ps reveal">
+        <div>
+          <div class="ps__photo"><img src="./maia_logo.png" alt="MAIA" width="160"></div>
+          <p class="ps__sig">Equipe MAIA<br>MAIA Plataforma e Tecnologia</p>
+        </div>
+        <div>
+          <h4>O mundo está correndo para construir tecnologia que substitui pessoas. A MAIA está construindo tecnologia para que pessoas talentosas sejam vistas.</h4>
+          <p>A MAIA está em fase final de desenvolvimento e chega em breve à App Store e ao Google Play. Estamos lançando com talentos, diretores, produtoras e agências ao mesmo tempo, porque uma rede só funciona quando os dois lados estão presentes.</p>
+          <p>Se você é artista, crie seu perfil. Se você contrata talentos, publique sua próxima oportunidade. Se você acredita que o talento brasileiro merece estrutura, compartilhe este memo.</p>
+          <p>O espetáculo está só começando.</p>
+        </div>
+      </div>
+      <p class="disclaimer">Este memo reflete a visão e o planejamento da MAIA em 2026 e pode ser atualizado conforme a plataforma evolui. Preços e recursos descritos podem mudar até o lançamento. MAIA Plataforma e Tecnologia LTDA · CNPJ 66.318.397/0001-72.</p>
+    </div>
+  </section>
+
+  <!-- ============================ CTA ============================ -->
+  <section class="cta" id="contato">
+    <div class="wrap">
+      <h2 class="reveal">O lugar onde a <em>arte</em> vira <em>negócio</em>.</h2>
+      <div class="cta__btns reveal">
+        <a class="btn btn-pink btn-arrow" href="./waitlist.html?tipo=talento">Sou Talento</a>
+        <a class="btn btn-primary btn-arrow" href="./waitlist.html?tipo=diretor">Sou Diretor/Produtor</a>
+        <a class="btn btn-blue btn-arrow" href="./waitlist.html?tipo=agencia">Sou Agência</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="f">
+  <div class="wrap">
+    <div class="f__top">
+      <div class="f__brand">
+        <a href="./"><img src="./maia_logo.png" width="110" alt="MAIA" style="display:block;"></a>
+        <p>O marketplace do talento brasileiro. Conectando atores, modelos e talentos com diretores de casting de todo o Brasil.</p>
+      </div>
+      <div class="f__col">
+        <h5>Plataforma</h5>
+        <ul>
+          <li><a href="./#como-funciona">Como Funciona</a></li>
+          <li><a href="./#talentos">Para Talentos</a></li>
+          <li><a href="./#diretores">Para Diretores</a></li>
+          <li><a href="./#planos">Planos</a></li>
+        </ul>
+      </div>
+      <div class="f__col">
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="./memo.html">Memo MAIA</a></li>
+          <li><a href="mailto:contato@plataformamaia.com">Contato</a></li>
+          <li><a href="mailto:imprensa@plataformamaia.com">Imprensa</a></li>
+        </ul>
+      </div>
+      <div class="f__col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="politica-de-privacidade.html">Política de Privacidade</a></li>
+          <li><a href="termos-de-uso.html">Termos de Uso</a></li>
+          <li><a href="lgpd.html">LGPD</a></li>
+          <li><a href="mailto:contato@plataformamaia.com">contato@plataformamaia.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f__bottom">
+      <span>© 2026 MAIA Plataforma e Tecnologia LTDA · CNPJ 66.318.397/0001-72 · Todos os direitos reservados.</span>
+      <span>Feito com cuidado no Brasil.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar border on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Hero: linhas concêntricas (padrão do memo)
+  (function () {
+    const svg = document.getElementById('heroLines');
+    const W = 1400, H = 700, cx = 1000, cy = 350;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    let out = '';
+    for (let i = 1; i <= 46; i++) {
+      const rx = 18 * i, ry = 11 * i, pinch = 0.55 + 0.012 * i;
+      // forma "ampulheta" suave: elipse com cintura
+      const d = `M ${cx - rx} ${cy}
+        C ${cx - rx} ${cy - ry * 1.3}, ${cx - rx * pinch} ${cy - ry * 1.9}, ${cx} ${cy - ry * 1.9}
+        C ${cx + rx * pinch} ${cy - ry * 1.9}, ${cx + rx} ${cy - ry * 1.3}, ${cx + rx} ${cy}
+        C ${cx + rx} ${cy + ry * 1.3}, ${cx + rx * pinch} ${cy + ry * 1.9}, ${cx} ${cy + ry * 1.9}
+        C ${cx - rx * pinch} ${cy + ry * 1.9}, ${cx - rx} ${cy + ry * 1.3}, ${cx - rx} ${cy} Z`;
+      out += `<path d="${d}" fill="none" stroke="#7c3aed" stroke-opacity="${0.12 + (i % 3 === 0 ? 0.1 : 0)}" stroke-width="1"/>`;
+    }
+    svg.innerHTML = out;
+  })();
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -5% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
