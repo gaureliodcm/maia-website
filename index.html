@@ -3,1808 +3,714 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>MAIA — O marketplace do talento brasileiro</title>
-<meta name="description" content="A MAIA conecta atores, modelos e talentos com diretores de casting de todo o Brasil — em um só lugar. Plataforma do setor audiovisual brasileiro." />
-<meta property="og:title" content="MAIA — O marketplace do talento brasileiro" />
-<meta property="og:description" content="A MAIA conecta atores, modelos e talentos com diretores de casting de todo o Brasil — em um só lugar." />
+<title>MAIA — A rede profissional dos artistas</title>
+<meta name="description" content="A MAIA conecta atores, atrizes e talentos a diretores, produtoras e agências de todo o Brasil. Castings, perfil artístico e networking em um só app." />
+<meta property="og:title" content="MAIA — A rede profissional dos artistas" />
+<meta property="og:description" content="A MAIA conecta atores, atrizes e talentos a diretores, produtoras e agências de todo o Brasil." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://plataformamaia.com" />
+<meta property="og:url" content="https://www.plataformamaia.com" />
+<meta property="og:image" content="https://www.plataformamaia.com/assets/home/castings.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="theme-color" content="#fffaf0" />
+<meta name="theme-color" content="#ffffff" />
 
+<link rel="preload" as="image" href="assets/home/castings.jpg" />
 <link rel="stylesheet" href="colors_and_type.css" />
 <style>
-  /* ============================================================
-     MAIA Institutional Site
-     ============================================================ */
+
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; overflow-x: hidden; }
-
-  ::selection { background: var(--brand-pink); color: var(--on-primary); }
-
+  body { margin: 0; overflow-x: hidden; background: #fff; }
   img { max-width: 100%; display: block; }
   a { color: inherit; }
   button { font-family: inherit; }
+  :root {
+    --lav-0: #FAF8FF;
+    --lav-1: #F3EFFD;
+    --lav-2: #E9E1FB;
+    --p-1: #c4b5fd;
+    --p-2: #8b5cf6;
+    --p-3: #7c3aed;
+    --p-4: #5b21b6;
+    --p-5: #3b0f84;
+    --grad: linear-gradient(90deg, #a78bfa 0%, #60a5fa 38%, #f97316 68%, #ec4899 100%);
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 720px) { .wrap { padding: 0 16px; } }
+  .btn { white-space: nowrap; }
+  .btn-pill { border-radius: 9999px; }
+  .btn-pink { background: var(--brand-pink); color: #fff; }
+  .btn-pink:hover { filter: brightness(.95); }
+  .btn-blue { background: #2563eb; color: #fff; }
+  .btn-arrow::after { content: "→"; margin-left: 2px; transition: transform 150ms ease; display: inline-block; }
+  .btn-arrow:hover::after { transform: translateX(3px); }
 
-  .wrap {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-  @media (max-width: 720px) {
-    .wrap { padding: 0 20px; }
-  }
-
-  /* ---------- Navbar ---------- */
-  .nav {
-    position: fixed;
-    inset: 0 0 auto 0;
-    height: 68px;
-    z-index: 50;
-    background: color-mix(in oklab, var(--canvas) 88%, transparent);
-    backdrop-filter: saturate(180%) blur(14px);
-    -webkit-backdrop-filter: saturate(180%) blur(14px);
-    border-bottom: 1px solid transparent;
-    transition: border-color 200ms ease, background 200ms ease;
-  }
-  .nav.scrolled {
-    border-bottom-color: var(--hairline);
-  }
-  .nav__inner {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
-  .logo {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 24px;
-    letter-spacing: -1.2px;
-    color: var(--ink);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: baseline;
-  }
-  .logo__dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: var(--brand-pink);
-    border-radius: 50%;
-    margin-left: 4px;
-    transform: translateY(-2px);
-  }
-  .nav__menu {
-    display: flex;
-    gap: 28px;
-  }
-  .nav__menu a {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink);
-    text-decoration: none;
-    position: relative;
-    padding: 6px 0;
-    transition: color 150ms ease;
-  }
-  .nav__menu a::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: -2px;
-    height: 2px;
-    background: var(--ink);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 200ms ease;
-  }
-  .nav__menu a:hover::after,
-  .nav__menu a.active::after {
-    transform: scaleX(1);
-  }
-  .nav__menu a.active { color: var(--ink); }
-
-  .nav__cta { display: flex; align-items: center; gap: 12px; }
-
-  .nav__burger {
-    display: none;
-    width: 44px; height: 44px;
-    border: 1px solid var(--hairline);
-    border-radius: 12px;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-  }
-  .nav__burger span { display: block; width: 18px; height: 2px; background: var(--ink); position: relative; }
-  .nav__burger span::before, .nav__burger span::after {
-    content: ""; position: absolute; left: 0; right: 0; height: 2px; background: var(--ink);
-  }
-  .nav__burger span::before { top: -6px; }
-  .nav__burger span::after { top: 6px; }
-
-  @media (max-width: 900px) {
-    .nav__menu { display: none; }
-    .nav__cta .btn-secondary-nav { display: none; }
+  /* ================= Nav ================= */
+  .nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.86); backdrop-filter: saturate(180%) blur(14px); -webkit-backdrop-filter: saturate(180%) blur(14px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+  .nav.scrolled { border-bottom-color: var(--hairline); }
+  .nav__inner { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .nav__menu { display: flex; gap: 28px; }
+  .nav__menu a { font-size: 14px; font-weight: 500; text-decoration: none; color: var(--ink); }
+  .nav__menu a:hover { color: var(--p-3); }
+  .nav__cta { display: flex; align-items: center; gap: 8px; }
+  .nav__login { font-size: 14px; font-weight: 600; text-decoration: none; padding: 0 12px; }
+  .nav__burger { display: none; width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer; align-items: center; justify-content: center; }
+  .nav__burger span, .nav__burger span::before, .nav__burger span::after { display: block; width: 20px; height: 2px; background: var(--ink); position: relative; }
+  .nav__burger span::before, .nav__burger span::after { content: ""; position: absolute; left: 0; }
+  .nav__burger span::before { top: -6px; } .nav__burger span::after { top: 6px; }
+  .mobile-panel { display: none; flex-direction: column; padding: 8px 16px 20px; border-top: 1px solid var(--hairline); background: #fff; }
+  .mobile-panel.open { display: flex; }
+  .mobile-panel a { padding: 14px 4px; font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--hairline-soft); }
+  @media (max-width: 960px) {
+    .nav__menu, .nav__login { display: none; }
     .nav__burger { display: inline-flex; }
   }
 
-  .mobile-panel {
-    position: fixed;
-    inset: 68px 0 auto 0;
-    background: var(--canvas);
-    border-bottom: 1px solid var(--hairline);
-    padding: 24px;
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    z-index: 49;
-  }
-  .mobile-panel.open { display: flex; }
-  .mobile-panel a {
-    padding: 14px 8px;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--hairline-soft);
-  }
-  .mobile-panel a:last-of-type { border-bottom: none; }
-  .mobile-panel .btn { margin-top: 16px; height: 48px; }
+  /* ================= Tipografia ================= */
+  .kicker { font-size: 14px; font-weight: 600; color: var(--p-3); margin: 0 0 12px; display: block; }
+  .h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 5vw, 60px); line-height: 1.02; letter-spacing: -0.04em; margin: 0; color: var(--ink); text-wrap: balance; }
+  .h2 .soft { color: #9a9aa2; }
+  .sub { font-size: 18px; line-height: 1.5; color: var(--body); margin: 18px 0 0; max-width: 620px; text-wrap: pretty; }
+  section { position: relative; }
+  .pad { padding: 120px 0; }
+  @media (max-width: 720px) { .pad { padding: 72px 0; } }
+  .center { text-align: center; }
+  .center .sub { margin-left: auto; margin-right: auto; }
 
-  /* ---------- Buttons (extending design system) ---------- */
-  .btn { white-space: nowrap; }
-  .btn-primary { background: var(--primary); color: var(--on-primary); }
-  .btn-primary:hover { background: var(--primary-active); }
-
-  .btn-pink {
-    background: var(--brand-pink);
-    color: var(--on-primary);
+  /* ================= HERO ================= */
+  .hero { padding: 64px 0 0; text-align: center; overflow: hidden; }
+  .hero__proof { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: var(--muted); margin-bottom: 20px; }
+  .hero__proof .stores { display: inline-flex; gap: 6px; }
+  .hero__proof .stores span { display: inline-flex; align-items: center; gap: 5px; background: #f1f1f3; color: var(--ink); padding: 5px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
+  .hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(42px, 7.2vw, 92px); line-height: .98; letter-spacing: -0.045em; margin: 0 auto; max-width: 1000px; color: #6f6f76; text-wrap: balance; }
+  .hero h1 .ink { color: var(--ink); }
+  .rotator { display: inline-grid; vertical-align: bottom; color: var(--p-3); text-align: left; }
+  .rotator span { grid-area: 1 / 1; opacity: 0; transform: translateY(40%); transition: opacity .45s ease, transform .45s ease; white-space: nowrap; }
+  .rotator span.on { opacity: 1; transform: none; }
+  .rotator span.out { opacity: 0; transform: translateY(-40%); }
+  .hero__stage { position: relative; margin: 48px auto 0; max-width: 1080px; height: 640px; overflow: hidden; border-radius: 0 0 40px 40px; }
+  .hero__panel { position: absolute; left: 0; right: 0; bottom: 0; height: 470px; border-radius: 40px; background: radial-gradient(90% 120% at 15% 100%, #5b21b6 0%, #7c3aed 45%, #a78bfa 100%); overflow: hidden; }
+  .hero__panel::before { content: ""; position: absolute; inset: 0; background: repeating-radial-gradient(circle at 50% 120%, rgba(255,255,255,.09) 0 1px, transparent 1px 26px); }
+  .hero__stage .phone { position: absolute; left: 50%; bottom: -150px; transform: translateX(-50%); --w: 330; z-index: 2; }
+  .hero__stage .phone.side { --w: 250; bottom: -60px; z-index: 1; opacity: .98; }
+  .hero__stage .phone.left { left: 22%; transform: translateX(-50%) rotate(-7deg); }
+  .hero__stage .phone.right { left: 78%; transform: translateX(-50%) rotate(7deg); }
+  .float-card { position: absolute; z-index: 3; background: #fff; border-radius: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 18px 40px -12px rgba(30,0,80,.35); font-size: 13px; text-align: left; animation: floaty 5s ease-in-out infinite; }
+  .float-card small { display: block; color: var(--muted); font-size: 11px; }
+  .float-card i { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal; color: #fff; background: var(--p-3); flex: none; }
+  .float-card.a { left: 4%; top: 250px; } .float-card.b { right: 4%; top: 300px; animation-delay: -2.5s; }
+  @keyframes floaty { 50% { transform: translateY(-8px); } }
+  .hero__input {
+    position: relative; z-index: 6; max-width: 620px; margin: -44px auto 0; background: #fff; border-radius: 22px; padding: 10px 10px 10px 22px;
+    display: flex; align-items: center; gap: 10px; box-shadow: 0 20px 50px -12px rgba(30, 0, 80, .28), 0 0 0 1px rgba(0,0,0,.04);
   }
-  .btn-pink:hover { filter: brightness(0.95); }
-
-  .btn-arrow::after {
-    content: "→";
-    margin-left: 6px;
-    transition: transform 200ms ease;
-    display: inline-block;
-  }
-  .btn-arrow:hover::after { transform: translateX(3px); }
-
-  /* ---------- Hero ---------- */
-  main { padding-top: 68px; }
-
-  .hero {
-    padding: 80px 0 96px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero__inner {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 64px;
-    align-items: center;
-  }
-  .hero__copy { display: flex; flex-direction: column; gap: 24px; max-width: 620px; }
-  .hero__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    align-self: flex-start;
-    padding: 6px 14px;
-    background: var(--surface-card);
-    border-radius: 9999px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.1px;
-  }
-  .hero__eyebrow .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--brand-pink);
-    box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-pink) 20%, transparent);
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-pink) 24%, transparent); }
-    50%      { box-shadow: 0 0 0 8px color-mix(in oklab, var(--brand-pink) 8%, transparent); }
-  }
-
-  .hero h1 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(44px, 6vw, 76px);
-    line-height: 0.98;
-    letter-spacing: -2.5px;
-    color: var(--ink);
-    margin: 0;
-    text-wrap: balance;
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--brand-pink);
-  }
-  .hero__sub {
-    font-size: 19px;
-    line-height: 1.5;
-    color: var(--body);
-    max-width: 540px;
-    text-wrap: pretty;
-  }
-  .hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
-  .hero__ctas .btn { height: 52px; padding: 0 24px; font-size: 15px; }
-
-  .hero__stores {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 12px;
-    color: var(--muted);
-    font-size: 13px;
-  }
-  .hero__stores .badges { display: flex; gap: 8px; }
-  .store-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    background: var(--surface-card);
-    border-radius: 9999px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .store-badge svg { width: 14px; height: 14px; }
-
-  /* Hero art — phone + claymation scene */
-  .hero__art {
-    position: relative;
-    aspect-ratio: 5/6;
-    border-radius: 28px;
-    overflow: hidden;
-    background: var(--brand-peach);
-  }
-  .hero__art .scene { position: absolute; inset: 0; }
-  .hero__art .phone {
-    position: absolute;
-    right: 6%;
-    top: 8%;
-    width: 62%;
-    aspect-ratio: 9/19;
-    background: #0a0a0a;
-    border-radius: 38px;
-    padding: 10px;
-    box-shadow: 0 30px 60px -20px rgba(10, 10, 10, 0.4),
-                0 8px 16px -4px rgba(10, 10, 10, 0.2);
-    transform: rotate(4deg);
-  }
-  .phone__screen {
-    width: 100%; height: 100%;
-    background: var(--canvas);
-    border-radius: 28px;
-    overflow: hidden;
-    position: relative;
-  }
-  .phone__notch {
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px; height: 22px;
-    background: #0a0a0a;
-    border-radius: 12px;
-    z-index: 5;
-  }
-  .phone__app {
-    padding: 36px 14px 14px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    font-size: 11px;
-  }
-  .phone__app__hdr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4px 4px 8px;
-  }
-  .phone__app__hdr .lg {
-    font-family: var(--font-display);
-    font-size: 16px;
-    letter-spacing: -0.5px;
-    font-weight: 500;
-  }
-  .phone__app__hdr .lg span { color: var(--brand-pink); }
-  .phone__avatar {
-    width: 24px; height: 24px;
-    background: var(--brand-lavender);
-    border-radius: 50%;
-  }
-  .phone__chip {
-    align-self: flex-start;
-    padding: 3px 8px;
-    background: var(--brand-ochre);
-    color: var(--ink);
-    border-radius: 9999px;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-  }
-  .phone__cast-title {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: -0.4px;
-    line-height: 1.1;
-    color: var(--ink);
-    margin: 0;
-  }
-  .phone__cast-meta {
-    font-size: 9px;
-    color: var(--muted);
-    display: flex;
-    gap: 8px;
-  }
-  .phone__cast-meta span { display: inline-flex; align-items: center; gap: 3px; }
-  .phone__cast-card {
-    background: var(--surface-card);
-    border-radius: 14px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .phone__cast-card.featured {
-    background: var(--brand-teal);
-    color: var(--on-dark);
-  }
-  .phone__cast-card.featured .phone__cast-title { color: var(--on-dark); }
-  .phone__cast-card.featured .phone__cast-meta { color: var(--on-dark-soft); }
-  .phone__cast-card.featured .phone__chip { background: var(--brand-pink); color: var(--on-primary); }
-  .phone__cta {
-    margin-top: auto;
-    background: var(--ink);
-    color: var(--on-primary);
-    border-radius: 12px;
-    padding: 10px;
-    font-size: 11px;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  .hero__art .floater {
-    position: absolute;
-    background: var(--canvas);
-    border-radius: 18px;
-    padding: 12px 14px;
-    box-shadow: 0 12px 30px -8px rgba(10, 10, 10, 0.18);
-    font-size: 12px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: floaty 4s ease-in-out infinite;
-  }
-  .hero__art .floater--a {
-    top: 10%; left: 5%;
-    transform: rotate(-3deg);
-  }
-  .hero__art .floater--b {
-    bottom: 12%; left: 8%;
-    transform: rotate(2deg);
-    animation-delay: -2s;
-  }
-  @keyframes floaty {
-    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
-    50% { transform: translateY(-6px) rotate(var(--r, 0deg)); }
-  }
-  .hero__art .floater--a { --r: -3deg; }
-  .hero__art .floater--b { --r: 2deg; }
-  .floater__badge {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    background: var(--brand-mint);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-  }
-  .floater__b__badge { background: var(--brand-lavender); }
-  .floater small {
-    display: block;
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--muted);
-    letter-spacing: 0.2px;
-    text-transform: uppercase;
-    margin-bottom: 1px;
-  }
-
+  .hero__input input { flex: 1; border: 0; outline: 0; font-size: 17px; font-family: inherit; background: transparent; min-width: 0; color: var(--ink); }
+  .hero__input input::placeholder { color: #a3a3ab; }
+  .hero__input select { border: 0; background: #f3effd; color: var(--p-4); font-weight: 600; font-family: inherit; font-size: 14px; border-radius: 12px; padding: 10px 8px; outline: 0; }
+  .hero__input button { width: 52px; height: 52px; border-radius: 16px; border: 0; background: var(--p-4); color: #fff; font-size: 22px; cursor: pointer; flex: none; }
+  .hero__input button:hover { background: var(--p-5); }
+  .hero__under { margin: 16px 0 0; font-size: 13px; color: var(--muted); }
   @media (max-width: 900px) {
-    .hero { padding: 48px 0 64px; }
-    .hero__inner { grid-template-columns: 1fr; gap: 40px; }
-    .hero__art { aspect-ratio: 4/4; max-width: 480px; margin: 0 auto; width: 100%; }
+    .hero__stage { height: 540px; }
+    .hero__panel { height: 400px; border-radius: 28px; }
+    .hero__stage .phone { --w: 270; bottom: -120px; }
+    .hero__stage .phone.side, .float-card { display: none; }
+    .hero__input { margin: -30px 0 0; padding-left: 14px; }
+    .hero__input select { display: none; }
   }
 
-  /* ---------- Sections ---------- */
-  section.band { padding: 96px 0; position: relative; }
-  @media (max-width: 720px) { section.band { padding: 64px 0; } }
+  /* ================= Carrossel de talentos ================= */
+  .people { overflow: hidden; }
+  .people__track { display: flex; gap: 16px; width: max-content; animation: marquee 60s linear infinite; padding: 48px 0 0; }
+  .people:hover .people__track { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  .person { width: 300px; height: 420px; border-radius: 32px; overflow: hidden; position: relative; flex: none; }
+  .person .portrait { position: absolute; inset: 0; }
+  .person img.real { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .person::after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(180deg, transparent, rgba(0,0,0,.72)); }
+  .person__txt { position: absolute; left: 22px; right: 22px; bottom: 22px; color: #fff; z-index: 2; }
+  .person__txt b { font-family: var(--font-display); font-size: 30px; letter-spacing: -1px; line-height: 1; display: block; }
+  .person__txt em { font-style: normal; font-size: 22px; font-weight: 600; letter-spacing: -.5px; color: rgba(255,255,255,.6); display: block; margin: 2px 0 10px; }
+  .person__txt span { font-size: 14px; color: rgba(255,255,255,.88); }
+  @media (max-width: 720px) { .person { width: 240px; height: 340px; border-radius: 24px; } .person__txt b { font-size: 24px; } .person__txt em { font-size: 17px; } }
+  @media (prefers-reduced-motion: reduce) { .people__track { animation: none; } }
 
-  .eyebrow {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: inline-block;
-  }
-  .section__head {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 56px;
-    max-width: 760px;
-  }
-  .section__head h2 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(36px, 4.4vw, 56px);
-    line-height: 1.02;
-    letter-spacing: -1.5px;
-    margin: 0;
-    color: var(--ink);
-    text-wrap: balance;
-  }
-  .section__head h2 em { font-style: normal; color: var(--brand-pink); }
-  .section__head p {
-    font-size: 17px;
-    line-height: 1.55;
-    color: var(--body);
-    max-width: 640px;
-    margin: 8px 0 0;
-  }
-
-  /* ---------- Como funciona ---------- */
-  .how__cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-  .how__col {
-    border-radius: 24px;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-  .how__col.talents { background: var(--brand-pink); color: var(--on-primary); }
-  .how__col.directors { background: var(--brand-teal); color: var(--on-dark); }
-
-  .how__col h3 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 32px;
-    letter-spacing: -1px;
-    line-height: 1.05;
-    margin: 0;
-  }
-  .how__col .pill-tag {
-    align-self: flex-start;
-    padding: 4px 12px;
-    background: rgba(255,255,255,0.16);
-    color: inherit;
-    border-radius: 9999px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-  }
-  .how__steps {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .how__step {
-    background: rgba(255, 250, 240, 0.95);
-    color: var(--ink);
-    border-radius: 16px;
-    padding: 20px;
-    display: grid;
-    grid-template-columns: 44px 1fr;
-    gap: 16px;
-    align-items: start;
-  }
-  .how__col.talents .how__step { background: rgba(255, 250, 240, 0.97); }
-  .how__col.directors .how__step { background: rgba(255, 250, 240, 0.97); }
-  .how__step__n {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 22px;
-    letter-spacing: -0.5px;
-  }
-  .how__col.talents .how__step__n { background: var(--brand-pink); color: var(--on-primary); }
-  .how__col.directors .how__step__n { background: var(--brand-teal); color: var(--on-dark); }
-  .how__step h4 {
-    margin: 0 0 4px;
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.2px;
-  }
-  .how__step p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--body);
-  }
+  /* ================= Tabs "mais" ================= */
+  .tabs { display: flex; gap: 32px; border-bottom: 1px solid var(--hairline); margin: 48px 0 24px; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { background: none; border: 0; padding: 0 0 16px; font-size: 20px; font-weight: 600; letter-spacing: -.3px; color: #a3a3ab; cursor: pointer; position: relative; white-space: nowrap; }
+  .tab-btn.on { color: var(--ink); }
+  .tab-btn .bar { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--ink); }
+  .tab-btn.on .bar { animation: fill 7s linear forwards; }
+  .tabs.paused .tab-btn.on .bar { animation: none; width: 100%; }
+  @keyframes fill { to { width: 100%; } }
+  .panel { display: none; border-radius: 40px; background: var(--lav-1); overflow: hidden; min-height: 620px; grid-template-columns: 1fr 1fr; }
+  .panel.on { display: grid; animation: fadein .5s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(8px); } }
+  .panel__copy { padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; }
+  .panel__copy small { font-size: 15px; font-weight: 600; color: var(--p-3); display: block; margin-bottom: 12px; }
+  .panel__copy h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.04; letter-spacing: -.035em; margin: 0 0 20px; text-wrap: balance; }
+  .panel__copy p { font-size: 17px; line-height: 1.55; color: var(--body); margin: 0 0 12px; }
+  .panel__copy ul { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .panel__copy li { display: flex; gap: 10px; font-size: 16px; color: var(--body-strong); }
+  .panel__copy li::before { content: "✓"; width: 22px; height: 22px; border-radius: 50%; background: var(--p-3); color: #fff; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; flex: none; margin-top: 1px; }
+  .panel__art { position: relative; display: flex; align-items: flex-end; justify-content: center; padding-top: 56px; background: radial-gradient(70% 60% at 50% 100%, var(--lav-2), transparent); }
+  .panel__art .phone { --w: 310; margin-bottom: -110px; }
+  /* celular da frente sempre acima do de trás */
+  .panel__art .phone:first-child, .bcard__art .phone:first-child { z-index: 2; }
+  .panel__art .phone + .phone, .bcard__art .phone + .phone { z-index: 1; }
+  .panel__art .phone + .phone { --w: 250; margin-left: -60px; margin-bottom: -40px; transform: rotate(5deg); }
   @media (max-width: 900px) {
-    .how__cols { grid-template-columns: 1fr; }
-    .how__col { padding: 32px 24px; }
+    .panel { grid-template-columns: 1fr; border-radius: 28px; min-height: 0; }
+    .panel__copy { padding: 36px 24px 8px; }
+    .panel__art { padding-top: 24px; height: 440px; overflow: hidden; }
+    .panel__art .phone { --w: 260; }
+    .panel__art .phone + .phone { display: none; }
+    .tab-btn { font-size: 16px; }
+    .tabs { gap: 22px; }
   }
 
-  /* ---------- Para Talentos / Para Diretores ---------- */
-  .split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: center;
-  }
-  .split.reverse > .split__art { order: 2; }
-  .split.reverse > .split__copy { order: 1; }
-  .split__copy { display: flex; flex-direction: column; gap: 20px; }
-  .split__copy h2 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(34px, 4.2vw, 52px);
-    line-height: 1.02;
-    letter-spacing: -1.5px;
-    margin: 0;
-    text-wrap: balance;
-  }
-  .split__features {
-    list-style: none;
-    padding: 0;
-    margin: 8px 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .split__features li {
-    display: grid;
-    grid-template-columns: 28px 1fr;
-    gap: 14px;
-    font-size: 16px;
-    line-height: 1.45;
-    color: var(--body-strong);
-    padding: 4px 0;
-  }
-  .split__features li b { color: var(--ink); font-weight: 600; }
-  .check {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--brand-pink);
-    color: var(--on-primary);
-    display: inline-flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .split.directors-split .check { background: var(--brand-teal); color: var(--on-dark); }
-  .split.directors-split em.h-accent { color: var(--brand-teal); font-style: normal; }
-  .split__copy h2 em { font-style: normal; color: var(--brand-pink); }
+  /* ================= Marquee de habilidades (substitui reviews) ================= */
+  .skillsband { margin: 0 16px; border-radius: 48px; background: radial-gradient(100% 80% at 50% 0%, #8b5cf6 0%, #6d28d9 45%, #4c1d95 100%); color: #fff; overflow: hidden; padding: 120px 0; }
+  .skillsband .h2 { color: #fff; }
+  .skillsband .sub { color: rgba(255,255,255,.8); }
+  .pills-row { display: flex; gap: 12px; width: max-content; animation: marquee 50s linear infinite; }
+  .pills-row.rev { animation-direction: reverse; animation-duration: 60s; }
+  .pills-wrap { margin-top: 56px; display: flex; flex-direction: column; gap: 12px; }
+  .pills-row span { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); border-radius: 9999px; padding: 16px 26px; font-size: 20px; font-weight: 600; letter-spacing: -.2px; white-space: nowrap; }
+  .pills-row span.hl { background: #fff; color: var(--p-4); }
+  .band-badges { display: flex; justify-content: center; gap: 12px; margin-top: 36px; flex-wrap: wrap; padding: 0 16px; }
+  .band-badges div { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.12); border-radius: 18px; padding: 14px 20px; font-weight: 600; font-size: 16px; }
+  .band-badges i { width: 36px; height: 36px; border-radius: 50%; background: #fff; color: var(--p-3); display: flex; align-items: center; justify-content: center; font-style: normal; font-weight: 800; }
+  @media (max-width: 720px) { .skillsband { margin: 0 8px; border-radius: 28px; padding: 72px 0; } .pills-row span { font-size: 16px; padding: 12px 18px; } }
 
-  .split__art {
-    aspect-ratio: 4/5;
-    border-radius: 28px;
-    background: var(--brand-lavender);
-    position: relative;
-    overflow: hidden;
-  }
-  .split.directors-split .split__art { background: var(--brand-ochre); }
-
-  @media (max-width: 900px) {
-    .split { grid-template-columns: 1fr; gap: 32px; }
-    .split.reverse > .split__art { order: 1; }
-    .split.reverse > .split__copy { order: 2; }
-    .split__art { max-width: 480px; margin: 0 auto; width: 100%; aspect-ratio: 4/4; }
+  /* ================= Bento: tecnologia ================= */
+  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 56px; }
+  .bcard { border-radius: 36px; overflow: hidden; position: relative; min-height: 560px; display: flex; flex-direction: column; }
+  .bcard__txt { padding: 40px 40px 0; position: relative; z-index: 2; }
+  .bcard__txt small { font-size: 14px; font-weight: 600; opacity: .7; display: block; margin-bottom: 10px; }
+  .bcard__txt h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.06; letter-spacing: -.03em; margin: 0 0 12px; text-wrap: balance; }
+  .bcard__txt p { font-size: 16px; line-height: 1.5; margin: 0; opacity: .82; max-width: 440px; color: inherit; }
+  .door p, .final p { color: inherit; }
+  .bcard__art { flex: 1; position: relative; display: flex; justify-content: center; align-items: flex-end; margin-top: 32px; }
+  .bcard__art .phone { --w: 270; margin-bottom: -150px; }
+  .b-wide { grid-column: span 4; background: #16131d; color: #fff; flex-direction: row; }
+  .b-wide .bcard__txt { flex: 1; padding: 56px; display: flex; flex-direction: column; justify-content: center; }
+  .b-wide .bcard__art { flex: 1; margin-top: 0; padding-top: 40px; }
+  .b-wide .bcard__art .phone { --w: 290; }
+  .b-purple { grid-column: span 2; background: var(--p-3); color: #fff; }
+  .b-lav { grid-column: span 3; background: var(--lav-1); }
+  .b-warm { grid-column: span 3; background: #fdf1e6; }
+  .b-lav .bcard__art, .b-warm .bcard__art { gap: 0; }
+  .b-lav .phone + .phone, .b-warm .phone + .phone { --w: 230; margin-left: -40px; margin-bottom: -90px; transform: rotate(6deg); }
+  @media (max-width: 960px) {
+    .bento { grid-template-columns: 1fr; }
+    .b-wide, .b-purple, .b-lav, .b-warm { grid-column: auto; }
+    .b-wide { flex-direction: column; }
+    .b-wide .bcard__txt { padding: 36px 28px 0; }
+    .bcard { min-height: 520px; border-radius: 28px; }
+    .bcard__txt { padding: 32px 28px 0; }
+    .b-lav .phone + .phone, .b-warm .phone + .phone { display: none; }
   }
 
-  /* Talents art — profile cards */
-  .talent-art { padding: 32px; height: 100%; position: relative; }
-  .talent-card {
-    position: absolute;
-    background: var(--canvas);
-    border-radius: 18px;
-    padding: 14px;
-    box-shadow: 0 18px 40px -12px rgba(10,10,10,0.25);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .talent-card__photo {
-    aspect-ratio: 4/5;
-    border-radius: 12px;
-    background: var(--brand-peach);
-    position: relative;
-    overflow: hidden;
-  }
-  .talent-card__name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .talent-card__role {
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .talent-card__pill {
-    align-self: flex-start;
-    padding: 2px 8px;
-    background: var(--brand-mint);
-    border-radius: 9999px;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .talent-card--a {
-    top: 8%; left: 6%;
-    width: 45%;
-    transform: rotate(-4deg);
-  }
-  .talent-card--b {
-    top: 18%; right: 6%;
-    width: 42%;
-    transform: rotate(3deg);
-  }
-  .talent-card--c {
-    bottom: 8%; left: 22%;
-    width: 50%;
-    transform: rotate(-1deg);
-  }
-  .talent-card--a .talent-card__photo { background: var(--brand-pink); }
-  .talent-card--b .talent-card__photo { background: var(--brand-teal); }
-  .talent-card--c .talent-card__photo { background: var(--brand-coral); }
+  /* ================= Portas de entrada ================= */
+  .doors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+  .door { border-radius: 32px; padding: 36px; display: flex; flex-direction: column; min-height: 440px; }
+  .door small { font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; opacity: .7; }
+  .door h3 { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1.08; letter-spacing: -.03em; margin: 12px 0 18px; }
+  .door ul { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 10px; font-size: 15.5px; line-height: 1.45; }
+  .door li::before { content: "✓ "; font-weight: 700; }
+  .door .btn { margin-top: auto; align-self: flex-start; }
+  .door.t { background: var(--p-3); color: #fff; }
+  .door.d { background: #111; color: #fff; }
+  .door.a { background: #e8efff; color: #0b1a3c; }
+  .door.t .btn, .door.d .btn { background: #fff; color: var(--ink); }
+  .door.a .btn { background: #2563eb; color: #fff; }
+  @media (max-width: 900px) { .doors { grid-template-columns: 1fr; } .door { min-height: 0; } }
 
-  /* Faux face avatar */
-  .face {
-    position: absolute; inset: 0;
-    display: flex; align-items: flex-end; justify-content: center;
-  }
-  .face::before {
-    content: "";
-    width: 60%; height: 55%;
-    background: rgba(255, 250, 240, 0.85);
-    border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%;
-    margin-bottom: -10%;
-  }
-  .face::after {
-    content: "";
-    position: absolute;
-    top: 18%;
-    width: 38%;
-    aspect-ratio: 1;
-    background: rgba(255, 250, 240, 0.85);
-    border-radius: 50%;
-  }
+  /* ================= Crenças ================= */
+  .beliefs { display: grid; grid-template-columns: 300px 1fr; gap: 64px; margin-top: 56px; align-items: start; }
+  .beliefs__who { position: sticky; top: 100px; }
+  .beliefs__who .logo-box { background: var(--lav-1); border-radius: 28px; aspect-ratio: 4/5; display: flex; align-items: center; justify-content: center; padding: 40px; }
+  .beliefs__who b { display: block; margin-top: 16px; font-size: 16px; }
+  .beliefs__who span { font-size: 14px; color: var(--muted); }
+  .belief { border-top: 1px solid var(--hairline); padding: 36px 0; }
+  .belief:first-child { border-top: 0; padding-top: 0; }
+  .belief h3 { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.08; letter-spacing: -.03em; margin: 0 0 16px; }
+  .belief p { font-size: 17px; line-height: 1.6; color: var(--body); margin: 0 0 10px; max-width: 640px; }
+  @media (max-width: 900px) { .beliefs { grid-template-columns: 1fr; gap: 32px; } .beliefs__who { position: static; display: flex; gap: 16px; align-items: center; } .beliefs__who .logo-box { width: 96px; padding: 14px; border-radius: 20px; } .beliefs__who b { margin-top: 0; } }
 
-  /* Directors art — casting pipeline */
-  .director-art { padding: 32px; position: relative; height: 100%; }
-  .director-feed {
-    background: var(--canvas);
-    border-radius: 16px;
-    padding: 18px;
-    position: absolute;
-    inset: 32px 32px auto 32px;
-    box-shadow: 0 18px 40px -12px rgba(10,10,10,0.18);
-  }
-  .director-feed h5 {
-    margin: 0 0 12px;
-    font-size: 13px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .director-feed h5 .badge {
-    font-size: 10px;
-    background: var(--brand-pink);
-    color: var(--on-primary);
-    padding: 2px 8px;
-    border-radius: 9999px;
-    font-weight: 700;
-  }
-  .director-row {
-    display: grid;
-    grid-template-columns: 36px 1fr 60px;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    border-top: 1px solid var(--hairline-soft);
-  }
-  .director-row:first-of-type { border-top: none; }
-  .director-row__av {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-  }
-  .director-row__name { font-size: 13px; font-weight: 600; color: var(--ink); }
-  .director-row__role { font-size: 11px; color: var(--muted); }
-  .director-row__score {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 18px;
-    letter-spacing: -0.5px;
-    color: var(--brand-teal);
-    text-align: right;
-  }
-  .director-search {
-    position: absolute;
-    bottom: 32px; left: 32px; right: 32px;
-    background: var(--ink);
-    color: var(--on-primary);
-    border-radius: 14px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0 18px 40px -12px rgba(10,10,10,0.3);
-    font-size: 13px;
-  }
-  .director-search .ic {
-    width: 18px; height: 18px;
-    color: var(--brand-pink);
-  }
-  .director-search .typed {
-    border-right: 2px solid var(--brand-pink);
-    animation: caret 1s steps(2) infinite;
-    padding-right: 2px;
-  }
-  @keyframes caret { 50% { border-color: transparent; } }
+  /* ================= Planos ================= */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; align-items: stretch; }
+  .plan { border-radius: 28px; padding: 32px; background: #f6f6f7; display: flex; flex-direction: column; position: relative; }
+  .plan.hot { background: #111; color: #fff; }
+  .plan .tag { position: absolute; top: 22px; right: 22px; background: var(--p-3); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 5px 10px; border-radius: 9999px; }
+  .plan h4 { margin: 0 0 12px; font-size: 16px; font-weight: 600; }
+  .plan .price { font-family: var(--font-display); font-weight: 700; font-size: 48px; letter-spacing: -2px; line-height: 1; }
+  .plan .price small { font-size: 16px; letter-spacing: 0; font-weight: 500; color: var(--muted); }
+  .plan.hot .price small, .plan.hot .note2 { color: #a0a0a0; }
+  .plan .note2 { font-size: 13px; color: var(--muted); margin: 8px 0 20px; }
+  .plan ul { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 9px; font-size: 14.5px; }
+  .plan li::before { content: "✓  "; color: var(--p-3); font-weight: 700; }
+  .plan.hot li::before { color: #c4b5fd; }
+  .plan .btn { margin-top: auto; width: 100%; }
+  .plan.hot .btn { background: var(--p-3); color: #fff; }
+  @media (max-width: 900px) { .plans { grid-template-columns: 1fr; } }
 
-  /* ---------- Planos ---------- */
-  .planos__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  .plan {
-    border-radius: 24px;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    min-height: 480px;
-    position: relative;
-  }
-  .plan.free {
-    background: var(--canvas);
-    border: 1px solid var(--hairline);
-  }
-  .plan.pro-mensal {
-    background: var(--surface-card);
-  }
-  .plan.pro-anual {
-    background: var(--ink);
-    color: var(--on-primary);
-    transform: scale(1.02);
-  }
-  .plan__tag {
-    position: absolute;
-    top: -12px; left: 32px;
-    padding: 6px 14px;
-    background: var(--brand-pink);
-    color: var(--on-primary);
-    border-radius: 9999px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .plan__name {
-    font-size: 18px;
-    font-weight: 600;
-  }
-  .plan.pro-anual .plan__name { color: var(--on-primary); }
-  .plan__price {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .plan__price .num {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 56px;
-    letter-spacing: -2px;
-    line-height: 1;
-  }
-  .plan__price .cents {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 22px;
-    letter-spacing: -0.5px;
-  }
-  .plan__price .per {
-    font-size: 14px;
-    color: var(--muted);
-  }
-  .plan.pro-anual .plan__price .per { color: var(--on-dark-soft); }
-  .plan__price .currency {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 22px;
-    letter-spacing: -0.5px;
-  }
-  .plan__sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: -8px;
-  }
-  .plan.pro-anual .plan__sub { color: var(--on-dark-soft); }
-  .plan__feats {
-    list-style: none; padding: 0; margin: 0;
-    display: flex; flex-direction: column; gap: 10px;
-  }
-  .plan__feats li {
-    display: grid;
-    grid-template-columns: 18px 1fr;
-    gap: 10px;
-    font-size: 14px;
-    line-height: 1.45;
-    color: var(--body);
-  }
-  .plan.pro-anual .plan__feats li { color: rgba(255,255,255,0.85); }
-  .plan__feats .tick {
-    color: var(--brand-pink);
-    font-weight: 700;
-    margin-top: 1px;
-  }
-  .plan.pro-anual .plan__feats .tick { color: var(--brand-peach); }
-  .plan__cta {
-    margin-top: auto;
-    height: 48px;
-  }
-  .plan.pro-anual .plan__cta {
-    background: var(--brand-pink);
-    color: var(--on-primary);
-    border: none;
-  }
-  .plan.pro-anual .plan__cta:hover { filter: brightness(0.95); }
+  /* ================= Aprender ================= */
+  .learn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .lcard { text-decoration: none; }
+  .lcard .img { aspect-ratio: 16/10; border-radius: 24px; position: relative; overflow: hidden; }
+  .lcard .img em { position: absolute; left: 16px; bottom: 16px; background: rgba(0,0,0,.6); color: #fff; font-style: normal; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 9999px; }
+  .lcard .img .play { position: absolute; inset: 0; margin: auto; width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,.9); display: flex; align-items: center; justify-content: center; color: var(--p-3); font-size: 20px; }
+  .lcard h4 { font-size: 19px; line-height: 1.3; letter-spacing: -.3px; margin: 14px 0 4px; }
+  .lcard p { font-size: 14px; color: var(--muted); margin: 0; }
+  @media (max-width: 900px) { .learn { grid-template-columns: 1fr; } }
 
-  @media (max-width: 900px) {
-    .planos__grid { grid-template-columns: 1fr; }
-    .plan.pro-anual { transform: none; }
-  }
+  /* ================= FAQ ================= */
+  .faq { max-width: 820px; margin: 48px auto 0; }
+  .faq details { border-top: 1px solid var(--hairline); }
+  .faq details:last-child { border-bottom: 1px solid var(--hairline); }
+  .faq summary { list-style: none; cursor: pointer; padding: 24px 0; font-size: 18px; font-weight: 600; display: flex; justify-content: space-between; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; width: 32px; height: 32px; border-radius: 50%; background: #f1f1f3; display: inline-flex; align-items: center; justify-content: center; flex: none; transition: transform .2s; }
+  .faq details[open] summary::after { transform: rotate(45deg); background: var(--p-3); color: #fff; }
+  .faq p { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: var(--body); max-width: 700px; }
 
-  /* ---------- FAQ ---------- */
-  .faq {
-    max-width: 880px;
-    margin: 0 auto;
-  }
-  .faq__item {
-    border-top: 1px solid var(--hairline);
-  }
-  .faq__item:last-of-type { border-bottom: 1px solid var(--hairline); }
-  .faq__q {
-    width: 100%;
-    background: transparent;
-    border: none;
-    padding: 24px 0;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.2px;
-  }
-  .faq__icon {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: var(--surface-card);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: background 200ms ease, transform 250ms ease;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--ink);
-  }
-  .faq__item.open .faq__icon {
-    background: var(--brand-pink);
-    color: var(--on-primary);
-    transform: rotate(45deg);
-  }
-  .faq__a {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 300ms ease;
-  }
-  .faq__a__inner {
-    padding: 0 0 24px;
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--body);
-    max-width: 720px;
-  }
-  .faq__item.open .faq__a {
-    max-height: 360px;
-  }
+  /* ================= CTA final ================= */
+  .final { margin: 0 16px 16px; border-radius: 48px; background: var(--lav-1); padding: 110px 24px; text-align: center; overflow: hidden; position: relative; }
+  .final .h2 { font-size: clamp(38px, 6vw, 76px); }
+  .final__btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+  .final__btns .btn { height: 52px; padding: 0 26px; font-size: 15px; border-radius: 9999px; }
+  @media (max-width: 720px) { .final { margin: 0 8px 8px; border-radius: 28px; padding: 72px 20px; } }
 
-  /* ---------- CTA Band ---------- */
-  .cta-band {
-    padding: 0 32px 96px;
-  }
-  .cta-band__inner {
-    background: var(--brand-pink);
-    color: var(--on-primary);
-    border-radius: 32px;
-    padding: 72px 56px;
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 48px;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .cta-band h2 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(36px, 4.4vw, 56px);
-    line-height: 1.02;
-    letter-spacing: -1.6px;
-    margin: 0;
-    color: var(--on-primary);
-    text-wrap: balance;
-  }
-  .cta-band p {
-    font-size: 17px;
-    line-height: 1.5;
-    color: rgba(255,255,255,0.88);
-    margin: 16px 0 0;
-    max-width: 460px;
-  }
-  .cta-band__ctas { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
-  .cta-band .btn-on-color { background: var(--canvas); color: var(--ink); height: 52px; padding: 0 24px; font-size: 15px; }
-  .cta-band .btn-on-color:hover { background: var(--surface-soft); }
-  .cta-band .btn-ghost {
-    background: transparent;
-    color: var(--on-primary);
-    border: 1px solid rgba(255,255,255,0.4);
-    height: 52px;
-    padding: 0 24px;
-    font-size: 15px;
-  }
-  .cta-band .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+  /* ================= Footer ================= */
+  footer.f { padding: 72px 0 32px; }
+  .f__top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+  .f__brand p { font-size: 14px; line-height: 1.55; color: var(--body); max-width: 320px; margin: 16px 0 0; }
+  .f__col h5 { font-size: 13px; font-weight: 600; margin: 0 0 14px; }
+  .f__col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .f__col a { color: var(--body); font-size: 14px; text-decoration: none; }
+  .f__bottom { border-top: 1px solid var(--hairline); padding-top: 28px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  @media (max-width: 900px) { .f__top { grid-template-columns: 1fr 1fr; gap: 36px; } .f__brand { grid-column: 1 / -1; } }
 
-  .cta-band__art {
-    aspect-ratio: 1;
-    border-radius: 24px;
-    background: var(--brand-teal);
-    overflow: hidden;
-    position: relative;
-  }
-  @media (max-width: 900px) {
-    .cta-band { padding: 0 20px 64px; }
-    .cta-band__inner { grid-template-columns: 1fr; padding: 48px 32px; }
-    .cta-band__art { display: none; }
-  }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } .rotator span { transition: none; } }
 
-  /* ---------- Footer ---------- */
-  footer.f {
-    background: var(--surface-soft);
-    padding: 80px 0 32px;
-  }
-  .f__top {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 48px;
-    margin-bottom: 56px;
-  }
-  .f__brand p {
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--body);
-    max-width: 320px;
-    margin: 16px 0 24px;
-  }
-  .f__col h5 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink);
-    margin: 0 0 14px;
-    letter-spacing: -0.1px;
-  }
-  .f__col ul {
-    list-style: none;
-    padding: 0; margin: 0;
-    display: flex; flex-direction: column; gap: 10px;
-  }
-  .f__col a {
-    color: var(--body);
-    font-size: 14px;
-    text-decoration: none;
-    transition: color 150ms ease;
-  }
-  .f__col a:hover { color: var(--ink); }
-  .f__bottom {
-    border-top: 1px solid var(--hairline);
-    padding-top: 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-    font-size: 13px;
-    color: var(--muted);
-  }
 
-  @media (max-width: 900px) {
-    .f__top { grid-template-columns: 1fr 1fr; gap: 40px; }
-    .f__brand { grid-column: 1 / -1; }
-  }
+  .nav__cta .short { display: none; }
+  @media (max-width: 420px) { .nav__cta .long { display: none; } .nav__cta .short { display: inline; } }
 
-  /* ---------- Reveal animation ---------- */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 600ms ease, transform 600ms ease;
+  /* ================= Telas do app ================= */
+  .phone {
+    --w: 280;
+    width: calc(var(--w) * 1px); flex: none; position: relative;
+    background: #0b0b0d; border-radius: calc(var(--w) * .155px); padding: calc(var(--w) * .03px);
+    box-shadow: 0 40px 80px -30px rgba(40, 10, 90, .45), 0 0 0 1px rgba(255,255,255,.06) inset;
   }
-  .reveal.in {
-    opacity: 1;
-    transform: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1; transform: none; transition: none; }
-    .hero__eyebrow .dot { animation: none; }
-    .hero__art .floater { animation: none; }
-    html { scroll-behavior: auto; }
-  }
+  .screen { width: 100%; aspect-ratio: 920 / 2000; border-radius: calc(var(--w) * .125px); overflow: hidden; background: #f4f4f5; }
+  .screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .person img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 
-  /* ---------- btn-blue ---------- */
-  .btn-blue {
-    background: #2563eb;
-    color: #fff;
-  }
-  .btn-blue:hover { filter: brightness(0.93); }
+  /* ================= Crenças: foto da Julia ================= */
+  .beliefs__who .photo { border-radius: 28px; aspect-ratio: 4 / 5; overflow: hidden; background: var(--lav-1); }
+  .beliefs__who .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .beliefs__who b { font-size: 18px; }
+  .beliefs__who span { display: block; margin-top: 4px; line-height: 1.45; }
+  @media (max-width: 900px) { .beliefs__who .photo { width: 96px; flex: none; border-radius: 20px; } }
 
-  /* ---------- Ecossistema MAIA ---------- */
-  .eco__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 48px;
-  }
-  @media (max-width: 860px) {
-    .eco__grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 540px) {
-    .eco__grid { grid-template-columns: 1fr; }
-  }
-  .eco__card {
-    background: var(--canvas);
-    border: 1px solid var(--hairline);
-    border-radius: 16px;
-    padding: 24px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .eco__card--featured {
-    border-color: var(--brand-pink);
-    box-shadow: 0 0 0 1px var(--brand-pink);
-  }
-  .eco__card__icon {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    background: var(--surface-soft);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--brand-pink);
-  }
-  .eco__card--featured .eco__card__icon {
-    background: #f0eaff;
-  }
-  .eco__card h4 {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.3;
-  }
-  .eco__card p {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin: 0;
-  }
-  .eco__card__tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    color: var(--brand-pink);
-    background: #f0eaff;
-    border-radius: 999px;
-    padding: 3px 10px;
-    align-self: flex-start;
-  }
-  .eco__tagline {
-    margin-top: 24px;
-    background: var(--ink);
-    color: #fff;
-    border-radius: 16px;
-    padding: 28px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
-  .eco__tagline p {
-    font-size: 16px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.9);
-    line-height: 1.5;
-    margin: 0;
-    max-width: 560px;
-  }
-  .eco__tagline p em {
-    font-style: normal;
-    color: #fff;
-    font-weight: 800;
-  }
-  .eco__tagline a {
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  @media (max-width: 640px) {
-    .eco__tagline { flex-direction: column; align-items: flex-start; }
-    .eco__tagline a { width: 100%; justify-content: center; }
-  }
+  /* ================= Aprenda: em breve ================= */
+  .soon-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--lav-1); color: var(--p-4); font-size: 13px; font-weight: 700; letter-spacing: .4px; padding: 7px 14px; border-radius: 9999px; margin-bottom: 16px; }
+  .soon-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--p-3); animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .35; transform: scale(.8); } }
+  .lcard { cursor: default; }
+  .lcard .img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%); background-size: 250% 100%; animation: shine 3.2s ease-in-out infinite; }
+  @keyframes shine { from { background-position: 150% 0; } to { background-position: -100% 0; } }
+  .lcard .img .play { opacity: .55; }
+  .lcard .img em { background: rgba(255,255,255,.92); color: var(--p-4); }
+  .lcard h4, .lcard p { opacity: .75; }
+  .learn__cta { margin-top: 36px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 15px; color: var(--body); }
+  @media (prefers-reduced-motion: reduce) { .lcard .img::after, .soon-pill::before { animation: none; } }
+  .faq a { color: var(--p-3); font-weight: 600; }
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     NAVBAR
-     ============================================================ -->
 <header class="nav" id="nav">
   <div class="wrap nav__inner">
-    <a href="#top"><img src="./maia_logo.png" width="110" alt="MAIA" style="display:block;"></a>
+    <a href="./" aria-label="MAIA — início"><img src="maia_logo.png" width="104" alt="MAIA"></a>
     <nav class="nav__menu" aria-label="Principal">
-      <a href="#como-funciona" data-link>Como Funciona</a>
-      <a href="#talentos" data-link>Para Talentos</a>
-      <a href="#diretores" data-link>Para Diretores</a>
-      <a href="#planos" data-link>Planos</a>
-      <a href="#contato" data-link>Contato</a>
+      <a href="#talentos">Para Talentos</a>
+      <a href="#diretores">Para Diretores</a>
+      <a href="#agencias">Para Agências</a>
+      <a href="#planos">Planos</a>
+      <a href="#aprenda">Aprenda</a>
     </nav>
     <div class="nav__cta">
-      <a class="btn btn-secondary btn-secondary-nav" href="#planos">Entrar</a>
-      <a class="btn btn-primary" href="./waitlist.html">Baixar o App</a>
+      <a class="btn btn-primary btn-pill" href="waitlist.html?tipo=talento"><span class="long">Entrar na lista de espera</span><span class="short">Lista de espera</span></a>
       <button class="nav__burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
     </div>
   </div>
   <div class="mobile-panel" id="mobilePanel">
-    <a href="#como-funciona">Como Funciona</a>
-    <a href="#talentos">Para Talentos</a>
-    <a href="#diretores">Para Diretores</a>
-    <a href="#planos">Planos</a>
-    <a href="#contato">Contato</a>
-    <a class="btn btn-primary" href="./waitlist.html">Baixar o App</a>
+    <a href="#talentos">Para Talentos</a><a href="#diretores">Para Diretores</a><a href="#agencias">Para Agências</a><a href="#planos">Planos</a><a href="#aprenda">Aprenda</a>
   </div>
 </header>
 
 <main id="top">
 
-  <!-- ============================================================
-       HERO
-       ============================================================ -->
-  <section class="hero">
-    <div class="wrap hero__inner">
-      <div class="hero__copy reveal">
-        <h1>O lugar onde a <em>arte</em> vira <em>negócio</em></h1>
-        <p class="hero__sub">Aqui seu talento encontra a oportunidade. A MAIA conecta artistas e talentos à negócios de todo o Brasil.</p>
-        <div class="hero__ctas">
-          <a class="btn btn-pink btn-arrow" href="#talentos">Sou Talento</a>
-          <a class="btn btn-primary btn-arrow" href="#diretores">Sou Diretor/Produtor</a>
-          <a class="btn btn-blue btn-arrow" href="./waitlist.html?tipo=agencia">Sou Agência</a>
-        </div>
-        <div class="hero__stores">
-          <span>Em breve</span>
-          <div class="badges">
-            <span class="store-badge">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.1-2.01-3.77-2.04-1.6-.16-3.13.94-3.94.94-.83 0-2.07-.92-3.41-.9-1.75.03-3.37 1.02-4.27 2.59-1.83 3.17-.47 7.86 1.31 10.43.87 1.26 1.9 2.67 3.24 2.62 1.31-.05 1.81-.85 3.39-.85 1.58 0 2.03.85 3.41.82 1.41-.03 2.3-1.28 3.16-2.55 1-1.46 1.41-2.88 1.43-2.95-.03-.01-2.74-1.05-2.77-4.2zM14.6 4.55c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.27.69-3 1.55-.65.76-1.23 1.99-1.07 3.16 1.14.09 2.3-.58 3.01-1.46z"/></svg>
-              App Store
-            </span>
-            <span class="store-badge">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 1.7c-.4.4-.6.9-.6 1.6v17.4c0 .7.2 1.2.6 1.6l.1.1L13.4 12 3.7 1.6l-.1.1zM17 15.6L14.4 13l-9.8 9.8c.3.1.7.1 1.1-.1L17 15.6zm3.7-5.2L17.4 8.6 14.7 11l2.7 2.7 3.3-1.9c1-.6 1-1.6 0-2.2zM4.6 1.4c-.4-.2-.8-.2-1.1-.1L13.4 11 16 8.4 4.6 1.4z"/></svg>
-              Google Play
-            </span>
-          </div>
-        </div>
+<!-- ======================================================= HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero__proof"><span class="stores"><span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.1-2.01-3.77-2.04-1.6-.16-3.13.94-3.94.94-.83 0-2.07-.92-3.41-.9-1.75.03-3.37 1.02-4.27 2.59-1.83 3.17-.47 7.86 1.31 10.43.87 1.26 1.9 2.67 3.24 2.62 1.31-.05 1.81-.85 3.39-.85 1.58 0 2.03.85 3.41.82 1.41-.03 2.3-1.28 3.16-2.55 1-1.46 1.41-2.88 1.43-2.95-.03-.01-2.74-1.05-2.77-4.2zM14.6 4.55c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.27.69-3 1.55-.65.76-1.23 1.99-1.07 3.16 1.14.09 2.3-.58 3.01-1.46z"/></svg>App Store</span><span>▶ Google Play</span></span> Beta fechado · lista de espera aberta</div>
+    <h1>A rede profissional onde <span class="ink">artistas encontram</span> <span class="rotator" id="rotator"><span class="on">castings.</span><span>diretores.</span><span>agências.</span><span>seu público.</span></span></h1>
+
+    <div class="hero__stage">
+      <div class="hero__panel"></div>
+      <div class="phone side left"><div class="screen"><img src="assets/home/talentos.jpg" alt="Tela de busca de talentos do app MAIA"></div></div>
+      <div class="phone side right"><div class="screen"><img src="assets/home/perfil-gabriela.jpg" alt="Perfil de atriz no app MAIA"></div></div>
+      <div class="phone"><div class="screen"><img src="assets/home/castings.jpg" alt="Tela de castings do app MAIA"></div></div>
+      <div class="float-card a"><i>✓</i><div><small>Candidatura enviada</small><b>Ator principal · curta</b></div></div>
+      <div class="float-card b"><i style="background:#f59e0b">★</i><div><small>Seu perfil</small><b>92% preenchido</b></div></div>
+    </div>
+
+    <form class="hero__input" id="heroForm" action="waitlist.html" method="get">
+      <input type="text" name="nome" placeholder="Seu nome artístico" aria-label="Seu nome artístico" autocomplete="name" />
+      <select name="tipo" aria-label="Tipo de perfil"><option value="talento">Sou talento</option><option value="diretor">Sou diretor/produtor</option><option value="agencia">Sou agência</option></select>
+      <button type="submit" aria-label="Entrar na lista de espera">↑</button>
+    </form>
+    <p class="hero__under">Entre na lista de espera · perfil grátis · sem comissão sobre trabalhos</p>
+  </div>
+</section>
+
+<!-- ======================================================= CARROSSEL DE PERFIS -->
+<section class="pad" style="padding-bottom:0">
+  <div class="wrap">
+    <span class="kicker reveal">Para talentos</span>
+    <h2 class="h2 reveal">Seu talento, do jeito<br>que o mercado quer ver.</h2>
+  </div>
+  <div class="people reveal">
+    <div class="people__track" id="peopleTrack"></div>
+  </div>
+</section>
+
+<!-- ======================================================= TABS -->
+<section class="pad" id="talentos">
+  <div class="wrap">
+    <h2 class="h2 reveal">Com a MAIA, você tem mais <span class="soft">oportunidades, mais visibilidade, mais conexões.</span></h2>
+
+    <div class="tabs reveal" id="tabs" role="tablist">
+      <button class="tab-btn on" role="tab">Mais oportunidades<span class="bar"></span></button>
+      <button class="tab-btn" role="tab">Mais visibilidade<span class="bar"></span></button>
+      <button class="tab-btn" role="tab">Mais conexões<span class="bar"></span></button>
+      <button class="tab-btn" role="tab">Mais cultura<span class="bar"></span></button>
+    </div>
+
+    <div class="panel on">
+      <div class="panel__copy">
+        <small>Castings</small>
+        <h3>Castings que combinam com você, num feed só.</h3>
+        <p>Chega de caçar vaga em grupo de WhatsApp. Filme, série, publicidade, teatro: filtre por tipo, cidade e cachê, e candidate-se com um toque.</p>
+        <ul><li>Cachê, cidade, DRT e perfil buscado já no card</li><li>Prazo visível: "este job expira em 28 dias"</li><li>Acompanhe tudo em "Minhas candidaturas"</li></ul>
       </div>
-
-      <div class="hero__art reveal">
-        <!-- Claymation-style background scene -->
-        <svg class="scene" viewBox="0 0 480 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <defs>
-            <radialGradient id="heroSky" cx="30%" cy="20%" r="90%">
-              <stop offset="0%" stop-color="#ffd9a8" />
-              <stop offset="100%" stop-color="#ffb084" />
-            </radialGradient>
-          </defs>
-          <rect width="480" height="600" fill="url(#heroSky)" />
-          <circle cx="80" cy="100" r="50" fill="#e8b94a" opacity="0.85" />
-          <path d="M0 480 L100 380 L200 460 L320 360 L420 440 L480 400 L480 600 L0 600 Z" fill="#b8a4ed" />
-          <path d="M0 540 L120 460 L240 540 L360 480 L480 540 L480 600 L0 600 Z" fill="#7c3aed" opacity="0.75" />
-          <path d="M0 580 L160 520 L320 580 L480 540 L480 600 L0 600 Z" fill="#111111" />
-        </svg>
-
-        <!-- Phone mockup -->
-        <div class="phone">
-          <div class="phone__screen">
-            <div class="phone__notch"></div>
-            <div class="phone__app">
-              <div class="phone__app__hdr">
-                <span class="lg">maia<span>·</span></span>
-                <div class="phone__avatar"></div>
-              </div>
-              <div class="phone__cast-card featured">
-                <span class="phone__chip">Novo</span>
-                <h6 class="phone__cast-title">Longa metragem — protagonista feminina</h6>
-                <div class="phone__cast-meta">
-                  <span>SP</span><span>·</span><span>20–30 anos</span>
-                </div>
-              </div>
-              <div class="phone__cast-card">
-                <span class="phone__chip" style="background: var(--brand-mint); color: var(--ink);">Casting</span>
-                <h6 class="phone__cast-title">Comercial de banco — voz</h6>
-                <div class="phone__cast-meta">
-                  <span>Remoto</span><span>·</span><span>Voice over</span>
-                </div>
-              </div>
-              <div class="phone__cta">Ver oportunidades</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Floating badges -->
-        <div class="floater floater--a">
-          <div class="floater__badge">★</div>
-          <div>
-            <small>Perfil visto</small>
-            <div>+128 hoje</div>
-          </div>
-        </div>
-        <div class="floater floater--b">
-          <div class="floater__badge floater__b__badge">●</div>
-          <div>
-            <small>Candidatura</small>
-            <div>Aprovada</div>
-          </div>
-        </div>
+      <div class="panel__art">
+        <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/castings.jpg" alt="Feed de castings"></div></div>
+        <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/maia-pro.jpg" alt="Vaga exclusiva MAIA PRO"></div></div>
       </div>
     </div>
-  </section>
 
-  <!-- ============================================================
-       COMO FUNCIONA
-       ============================================================ -->
-  <section class="band" id="como-funciona">
-    <div class="wrap">
-      <div class="section__head reveal">
-        <span class="eyebrow">Como funciona</span>
-        <h2>Dois lados, <em>uma plataforma</em></h2>
-        <p>A MAIA conecta o mercado artístico brasileiro: quem cria oportunidades e quem está pronto para protagonizá-las.</p>
+    <div class="panel">
+      <div class="panel__copy">
+        <small>Perfil artístico</small>
+        <h3>Um perfil que trabalha por você 24 horas por dia.</h3>
+        <p>Fotos, vídeos, voz, DRT e links para Instagram, YouTube, TikTok, IMDb e LinkedIn — seu currículo artístico inteiro em um link.</p>
+        <ul><li>Apareça nas buscas por habilidade e cidade</li><li>Saiba quem visualizou seu perfil</li><li>Compartilhe com um toque</li></ul>
       </div>
-
-      <div class="how__cols">
-        <article class="how__col talents reveal">
-          <span class="pill-tag">Para talentos</span>
-          <h3>Da oportunidade à realidade, onde artistas constroem futuro</h3>
-          <div class="how__steps">
-            <div class="how__step">
-              <div class="how__step__n">1</div>
-              <div>
-                <h4>Crie seu perfil</h4>
-                <p>Monte seu currículo artístico completo com fotos, características, vídeos, portfólio SEM CUSTO.</p>
-              </div>
-            </div>
-            <div class="how__step">
-              <div class="how__step__n">2</div>
-              <div>
-                <h4>Candidate-se a oportunidades</h4>
-                <p>Receba castings que combinam com seu perfil e candidate-se com um toque.</p>
-              </div>
-            </div>
-            <div class="how__step">
-              <div class="how__step__n">3</div>
-              <div>
-                <h4>Seja descoberto</h4>
-                <p>Produtores buscam talentos por características — você fica visível para quem importa.</p>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="how__col directors reveal">
-          <span class="pill-tag">Para diretores</span>
-          <h3>O perfil que você precisa, na hora que precisa</h3>
-          <div class="how__steps">
-            <div class="how__step">
-              <div class="how__step__n">1</div>
-              <div>
-                <h4>Publique sua oportunidade</h4>
-                <p>Descreva o personagem, defina critérios e descubra seu casting em minutos.</p>
-              </div>
-            </div>
-            <div class="how__step">
-              <div class="how__step__n">2</div>
-              <div>
-                <h4>Receba candidaturas</h4>
-                <p>Acesse perfis organizados, com vídeos e materiais já filtrados pelos seus critérios.</p>
-              </div>
-            </div>
-            <div class="how__step">
-              <div class="how__step__n">3</div>
-              <div>
-                <h4>Encontre o talento ideal</h4>
-                <p>Compare candidatos lado a lado e tome a decisão certa para sua produção.</p>
-              </div>
-            </div>
-          </div>
-        </article>
+      <div class="panel__art">
+        <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/perfil-fernanda.jpg" alt="Perfil artístico completo"></div></div>
+        <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/habilidades.jpg" alt="Seleção de habilidades"></div></div>
       </div>
     </div>
-  </section>
 
-  <!-- ============================================================
-       PARA TALENTOS
-       ============================================================ -->
-  <section class="band" id="talentos" style="padding-top: 32px;">
-    <div class="wrap">
-      <div class="split talents-split">
-        <div class="split__copy reveal">
-          <span class="eyebrow">Para talentos</span>
-          <h2>Sua carreira merece uma <em>conexão profissional</em></h2>
-          <p style="font-size: 17px; line-height: 1.55; color: var(--body); margin: 0;">Chega de mandar materiais por WhatsApp e caçar grupos nas redes sociais para encontrar oportunidades. Tenha um perfil completo, atualizado, e candidate-se em tudo que está acontecendo no mercado em segundos.</p>
-          <ul class="split__features">
-            <li><span class="check">✓</span><span><b>Perfil artístico completo</b> com fotos, vídeos e dados técnicos.</span></li>
-            <li><span class="check">✓</span><span><b>Portfolio</b> de trabalhos anteriores organizado.</span></li>
-            <li><span class="check">✓</span><span><b>Candidatura a castings</b> com um toque, direto pelo app.</span></li>
-            <li><span class="check">✓</span><span><b>Estatísticas de visualizações</b> — saiba quem está olhando.</span></li>
-            <li><span class="check">✓</span><span><b>Materiais de estudo</b> ao alcance das suas mãos.</span></li>
-            <li><span class="check">✓</span><span><b>Networking real</b> — conheça as pessoas certas do mercado.</span></li>
-          </ul>
-          <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
-            <a class="btn btn-primary btn-arrow" href="./waitlist.html?tipo=talento">Quero me cadastrar</a>
-            <a class="btn btn-secondary" href="#planos">Ver planos</a>
-          </div>
-        </div>
-
-        <div class="split__art reveal">
-          <div class="talent-art">
-            <div class="talent-card talent-card--a">
-              <div class="talent-card__photo"><div class="face"></div></div>
-              <span class="talent-card__pill">Atriz</span>
-              <div class="talent-card__name">Helena S.</div>
-              <div class="talent-card__role">São Paulo · 28 anos</div>
-            </div>
-            <div class="talent-card talent-card--b">
-              <div class="talent-card__photo"><div class="face"></div></div>
-              <span class="talent-card__pill" style="background: var(--brand-peach);">Modelo</span>
-              <div class="talent-card__name">Caio R.</div>
-              <div class="talent-card__role">Rio de Janeiro · 24 anos</div>
-            </div>
-            <div class="talent-card talent-card--c">
-              <div class="talent-card__photo"><div class="face"></div></div>
-              <span class="talent-card__pill" style="background: var(--brand-lavender);">Voz</span>
-              <div class="talent-card__name">Marina L.</div>
-              <div class="talent-card__role">Belo Horizonte · 35 anos</div>
-            </div>
-          </div>
-        </div>
+    <div class="panel">
+      <div class="panel__copy">
+        <small>Networking</small>
+        <h3>Converse direto com quem decide.</h3>
+        <p>Siga artistas, diretores e produtores. Mande mensagem, combine testes e feche trabalhos sem intermediários — e sem comissão.</p>
+        <ul><li>Mensagens diretas dentro do app</li><li>Seguir perfis e montar sua rede</li><li>Comunidades por área, região e interesse</li></ul>
+      </div>
+      <div class="panel__art">
+        <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/mensagens.jpg" alt="Mensagens diretas"></div></div>
+        <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/perfil-gabriela.jpg" alt="Perfil com botões seguir e mensagem"></div></div>
       </div>
     </div>
-  </section>
 
-  <!-- ============================================================
-       PARA DIRETORES
-       ============================================================ -->
-  <section class="band" id="diretores" style="padding-top: 32px;">
-    <div class="wrap">
-      <div class="split directors-split reverse">
-        <div class="split__copy reveal">
-          <span class="eyebrow">Para diretores</span>
-          <h2>Encontre o <em class="h-accent">talento certo</em>, na hora certa</h2>
-          <p style="font-size: 17px; line-height: 1.55; color: var(--body); margin: 0;">Pare de gerenciar suas pesquisas em diferentes plataformas, centralize todo o processo de casting em uma plataforma feita e pensada para você.</p>
-          <ul class="split__features">
-            <li><span class="check">✓</span><span><b>Publique oportunidades de casting</b> em minutos, com critérios claros.</span></li>
-            <li><span class="check">✓</span><span><b>Receba candidaturas organizadas</b> — vídeos, fotos e dados em um lugar.</span></li>
-            <li><span class="check">✓</span><span><b>Monte seus filtros</b> conforme as suas necessidades.</span></li>
-            <li><span class="check">✓</span><span><b>Mantenha um follow up organizado</b> e ao alcance do seu time.</span></li>
-            <li><span class="check">✓</span><span><b>Contato e contratação direta</b> sem intermediadores.</span></li>
-          </ul>
-          <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
-            <a class="btn btn-primary btn-arrow" href="./waitlist.html?tipo=diretor">Iniciar meu cadastro</a>
-            <a class="btn btn-secondary" href="#como-funciona">Como funciona</a>
-          </div>
-        </div>
-
-        <div class="split__art reveal">
-          <div class="director-art">
-            <div class="director-feed">
-              <h5>Candidatos · Comercial banco <span class="badge">42 novas</span></h5>
-              <div class="director-row">
-                <div class="director-row__av" style="background: var(--brand-pink);"></div>
-                <div>
-                  <div class="director-row__name">Helena S.</div>
-                  <div class="director-row__role">Atriz · SP</div>
-                </div>
-                <div class="director-row__score">94</div>
-              </div>
-              <div class="director-row">
-                <div class="director-row__av" style="background: var(--brand-lavender);"></div>
-                <div>
-                  <div class="director-row__name">Marina L.</div>
-                  <div class="director-row__role">Voz · BH</div>
-                </div>
-                <div class="director-row__score">89</div>
-              </div>
-              <div class="director-row">
-                <div class="director-row__av" style="background: var(--brand-coral);"></div>
-                <div>
-                  <div class="director-row__name">Caio R.</div>
-                  <div class="director-row__role">Modelo · RJ</div>
-                </div>
-                <div class="director-row__score">82</div>
-              </div>
-            </div>
-            <div class="director-search">
-              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
-              <span class="typed">atriz, 25-35, sotaque carioca</span>
-            </div>
-          </div>
-        </div>
+    <div class="panel">
+      <div class="panel__copy">
+        <small>Streaming & ingressos</small>
+        <h3>Cultura na palma da mão, todos os dias.</h3>
+        <p>Assista a espetáculos de música, dança, ópera e teatro, e encontre ingressos para o que está em cartaz perto de você.</p>
+        <ul><li>Streaming com curadoria por categoria</li><li>Ingressos com filtros hoje, amanhã e fim de semana</li><li>Mapa de eventos</li></ul>
+      </div>
+      <div class="panel__art">
+        <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/streaming.jpg" alt="Streaming de espetáculos"></div></div>
+        <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/ingressos.jpg" alt="Ingressos para eventos"></div></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       ECOSSISTEMA MAIA
-       ============================================================ -->
-  <section class="band" id="ecossistema">
-    <div class="wrap">
-      <div class="section__head reveal">
-        <span class="eyebrow">Ecossistema MAIA</span>
-        <h2>Muito além das <em>oportunidades</em></h2>
-        <p>A MAIA não é apenas uma plataforma de casting. Aqui você encontra tudo o que precisa para crescer, se conectar e construir uma carreira duradoura no mercado artístico brasileiro.</p>
+<!-- ======================================================= FAIXA ROXA -->
+<section class="skillsband">
+  <div class="wrap center">
+    <h2 class="h2 reveal">Feito para todo tipo de artista.</h2>
+    <p class="sub reveal">Do teatro ao samba, da dublagem ao ballet. Diretores encontram exatamente a habilidade que precisam.</p>
+  </div>
+  <div class="pills-wrap" aria-hidden="true">
+    <div class="pills-row" id="pillsA"></div>
+    <div class="pills-row rev" id="pillsB"></div>
+  </div>
+  <div class="band-badges">
+    <div><i>0%</i>de comissão sobre trabalhos</div>
+    <div><i>R$0</i>para criar seu perfil</div>
+  </div>
+</section>
+
+<!-- ======================================================= BENTO -->
+<section class="pad" id="diretores">
+  <div class="wrap">
+    <h2 class="h2 reveal">A tecnologia das grandes plataformas, <span class="soft">feita para o mercado artístico.</span></h2>
+
+    <div class="bento">
+      <article class="bcard b-wide reveal">
+        <div class="bcard__txt">
+          <small>Para diretores e produtores</small>
+          <h3>Encontre o talento certo em minutos, não em semanas.</h3>
+          <p>Busque atores e atrizes, diretores de elenco e produtores por nome, cidade, habilidade e perfil. Salve favoritos e fale direto com quem você quer.</p>
+          <p style="margin-top:24px"><a class="btn btn-on-color btn-pill btn-arrow" href="waitlist.html?tipo=diretor">Entrar na lista de espera</a></p>
+        </div>
+        <div class="bcard__art"><div class="phone"><div class="screen"><img loading="lazy" src="assets/home/talentos.jpg" alt="Busca de talentos"></div></div></div>
+      </article>
+
+      <article class="bcard b-purple reveal">
+        <div class="bcard__txt">
+          <small>MAIA PRO</small>
+          <h3>Veja as vagas 24h antes de todo mundo.</h3>
+          <p>Candidaturas ilimitadas, destaque nas buscas e estatísticas de quem viu seu perfil.</p>
+        </div>
+        <div class="bcard__art"><div class="phone" style="--w:250"><div class="screen"><img loading="lazy" src="assets/home/maia-pro.jpg" alt="Vaga bloqueada para MAIA PRO"></div></div></div>
+      </article>
+
+      <article class="bcard b-lav reveal">
+        <div class="bcard__txt">
+          <small>Onboarding guiado</small>
+          <h3>Perfil completo em poucos minutos.</h3>
+          <p>O app guia cada etapa — foto, capa, habilidades — e mostra quanto falta para aparecer nas buscas.</p>
+        </div>
+        <div class="bcard__art">
+          <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/perfil-editar.jpg" alt="Edição de perfil"></div></div>
+          <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/habilidades.jpg" alt="Seleção de habilidades"></div></div>
+        </div>
+      </article>
+
+      <article class="bcard b-warm reveal" id="agencias">
+        <div class="bcard__txt">
+          <small>Ecossistema</small>
+          <h3>Muito além das oportunidades.</h3>
+          <p>Streaming, ingressos, comunidades, eventos ao vivo, cursos e vitrine de agências. Tudo o que um artista precisa para crescer.</p>
+        </div>
+        <div class="bcard__art">
+          <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/ingressos.jpg" alt="Ingressos para eventos"></div></div>
+          <div class="phone"><div class="screen"><img loading="lazy" src="assets/home/streaming.jpg" alt="Streaming de espetáculos"></div></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= PORTAS DE ENTRADA -->
+<section class="pad" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="h2 reveal">Escolha sua porta de entrada.</h2>
+    <div class="doors">
+      <div class="door t reveal">
+        <small>Talentos</small>
+        <h3>Da oportunidade à realidade.</h3>
+        <ul><li>Perfil artístico completo, sem custo</li><li>Castings compatíveis com o seu perfil</li><li>Candidatura com um toque</li><li>Materiais de estudo e comunidades</li></ul>
+        <a class="btn btn-pill btn-arrow" href="waitlist.html?tipo=talento">Sou Talento</a>
       </div>
-
-      <div class="eco__grid">
-
-        <div class="eco__card reveal">
-          <h4>Comunidades</h4>
-          <p>Faça parte de grupos por área, região e interesse — e conecte-se com quem compartilha a sua trajetória.</p>
-        </div>
-
-        <div class="eco__card reveal">
-          <h4>Eventos ao vivo</h4>
-          <p>Assista a transmissões, painéis com profissionais do mercado e sessões de perguntas e respostas em tempo real.</p>
-        </div>
-
-        <div class="eco__card reveal">
-          <h4>Biblioteca de conteúdo</h4>
-          <p>Acesse artigos, guias e materiais sobre técnicas, carreira e mercado — disponíveis a qualquer hora.</p>
-        </div>
-
-        <div class="eco__card reveal">
-          <h4>Cursos e Workshops</h4>
-          <p>Aprenda com profissionais da indústria. Do preparo para audições à construção de portfólio.</p>
-        </div>
-
-        <div class="eco__card reveal">
-          <h4>Vitrine de agências</h4>
-          <p>Conheça as principais agências do Brasil, descubra quais representam o seu perfil e entre em contato direto.</p>
-        </div>
-
-        <div class="eco__card reveal">
-          <h4>Networking real</h4>
-          <p>Conecte-se com atores, modelos, diretores e produtores. Construa sua rede dentro de um ambiente feito para o mercado artístico.</p>
-        </div>
-
+      <div class="door d reveal">
+        <small>Diretores e produtores</small>
+        <h3>O perfil que você precisa, na hora que precisa.</h3>
+        <ul><li>Publique castings em minutos</li><li>Candidaturas organizadas com vídeos e fotos</li><li>Filtros por perfil, idade, biotipo e habilidades</li><li>Contratação direta, sem intermediários</li></ul>
+        <a class="btn btn-pill btn-arrow" href="waitlist.html?tipo=diretor">Sou Diretor/Produtor</a>
       </div>
-
-      <div class="eco__tagline reveal">
-        <p>Oferecemos muito mais do que um portfólio online. Na MAIA você encontra <em>conexões reais</em>, espaço para networking e aprimoramento profissional.</p>
-        <a class="btn btn-on-color btn-arrow" href="./waitlist.html?tipo=talento">Quero fazer parte</a>
+      <div class="door a reveal">
+        <small>Agências</small>
+        <h3>Seu casting na vitrine do mercado.</h3>
+        <ul><li>Vitrine de agências dentro do app</li><li>Talentos descobrem quem representa seu perfil</li><li>Contato direto com novos artistas</li></ul>
+        <a class="btn btn-pill btn-arrow" href="waitlist.html?tipo=agencia">Sou Agência</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============================================================
-       PLANOS
-       ============================================================ -->
-  <section class="band" id="planos" style="background: var(--surface-soft);">
-    <div class="wrap">
-      <div class="section__head reveal">
-        <span class="eyebrow">Planos</span>
-        <h2>Comece grátis. <em>Cresça quando quiser.</em></h2>
-        <p>Sem taxas escondidas, sem pegadinhas. Você só paga quando o plano fizer sentido para a sua carreira.</p>
+<!-- ======================================================= CRENÇAS -->
+<section class="pad" style="background:#fafafa">
+  <div class="wrap">
+    <h2 class="h2 reveal">3 crenças que guiam a MAIA.</h2>
+    <div class="beliefs">
+      <div class="beliefs__who reveal">
+        <div class="photo"><img loading="lazy" src="assets/home/julia-zann.jpg" alt="Julia Zann, co-fundadora da MAIA"></div>
+        <div><b>Julia Zann</b><span>Atriz, produtora, locutora e professora de comunicação e oratória · Co-fundadora da MAIA</span></div>
       </div>
-
-      <div class="planos__grid">
-        <article class="plan free reveal">
-          <div class="plan__name">Free</div>
-          <div class="plan__price">
-            <span class="currency">R$</span><span class="num">0</span>
-            <span class="per">/sempre</span>
-          </div>
-          <div class="plan__sub">Para quem está começando.</div>
-          <ul class="plan__feats">
-            <li><span class="tick">✓</span><span>3 candidaturas por mês</span></li>
-            <li><span class="tick">✓</span><span>Perfil público compartilhável</span></li>
-            <li><span class="tick">✓</span><span>Acesso a oportunidades públicas</span></li>
-            <li><span class="tick">✓</span><span>Comunidades e materiais de estudo</span></li>
-          </ul>
-          <a class="btn btn-secondary plan__cta" href="./waitlist.html?tipo=talento">Começar grátis</a>
-        </article>
-
-        <article class="plan pro-mensal reveal">
-          <div class="plan__name">Pro Mensal</div>
-          <div class="plan__price">
-            <span class="currency">R$</span><span class="num">29</span><span class="cents">,90</span>
-            <span class="per">/mês</span>
-          </div>
-          <div class="plan__sub">Cancele quando quiser.</div>
-          <ul class="plan__feats">
-            <li><span class="tick">✓</span><span>Candidaturas ilimitadas</span></li>
-            <li><span class="tick">✓</span><span>Acesso antecipado às vagas (24h antes)</span></li>
-            <li><span class="tick">✓</span><span>Ver quem visualizou seu perfil</span></li>
-            <li><span class="tick">✓</span><span>Badge Pro no perfil</span></li>
-            <li><span class="tick">✓</span><span>Book completo (20 fotos + 16 vídeos)</span></li>
-            <li><span class="tick">✓</span><span>CACO — carteirinha profissional digital</span></li>
-            <li><span class="tick">✓</span><span>Destaque na busca de selecionadores</span></li>
-          </ul>
-          <a class="btn btn-primary plan__cta" href="./waitlist.html?tipo=talento">Começar agora</a>
-        </article>
-
-        <article class="plan pro-anual reveal">
-          <span class="plan__tag">Mais popular</span>
-          <div class="plan__name">Pro Anual</div>
-          <div class="plan__price">
-            <span class="currency">R$</span><span class="num">20</span><span class="cents">,82</span>
-            <span class="per">/mês</span>
-          </div>
-          <div class="plan__sub">R$ 249,90 cobrados anualmente · economize 30%</div>
-          <ul class="plan__feats">
-            <li><span class="tick">✓</span><span>Tudo do Pro Mensal</span></li>
-            <li><span class="tick">✓</span><span>Masterclasses — acesso ao catálogo completo</span></li>
-            <li><span class="tick">✓</span><span>Relatório de mercado trimestral MAIA</span></li>
-            <li><span class="tick">✓</span><span>Suporte prioritário (resposta em até 2h)</span></li>
-          </ul>
-          <a class="btn plan__cta" href="./waitlist.html?tipo=talento">Começar agora</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       FAQ
-       ============================================================ -->
-  <section class="band" id="contato" style="background: var(--surface-soft);">
-    <div class="wrap">
-      <div class="section__head reveal" style="text-align: center; margin-left: auto; margin-right: auto; align-items: center;">
-        <span class="eyebrow">Perguntas frequentes</span>
-        <h2 style="text-align: center;">Tudo o que você queria saber</h2>
-      </div>
-
-      <div class="faq" id="faq">
-        <div class="faq__item reveal">
-          <button class="faq__q" aria-expanded="false">
-            <span>Como funciona a MAIA na prática?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__a"><div class="faq__a__inner">A MAIA é um hub artístico com o intuito de crescer, profissionalizar e facilitar a conectividade para trabalhos artísticos. Conectando talentos artísticos a oportunidades de mercado.</div></div>
-        </div>
-        <div class="faq__item reveal">
-          <button class="faq__q" aria-expanded="false">
-            <span>Quanto custa para usar?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__a"><div class="faq__a__inner">Para talentos, o plano Free é gratuito para sempre, com o seu perfil público disponível para compartilhamento, acesso aos outros perfis, comunidades e materiais de estudo. O plano Pro custa R$ 29,90/mês ou R$ 20,82/mês no plano anual (R$ 249,90/ano), dando acesso a tudo que o plano free possui mas também a candidaturas ilimitadas nos castings, seu perfil destacado nas buscas, estatísticas completas de visualizações e muito mais. Para diretores e produtoras, oferecemos planos personalizados — fale com a gente.</div></div>
-        </div>
-        <div class="faq__item reveal">
-          <button class="faq__q" aria-expanded="false">
-            <span>Quando o app estará disponível?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__a"><div class="faq__a__inner">A MAIA está em fase final de desenvolvimento e será lançada em breve nas lojas App Store e Google Play. Cadastre seu interesse no app para receber acesso antecipado e ser avisado no lançamento.</div></div>
-        </div>
-        <div class="faq__item reveal">
-          <button class="faq__q" aria-expanded="false">
-            <span>Meus dados estão seguros?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__a"><div class="faq__a__inner">Sim. A MAIA segue rigorosamente a LGPD (Lei Geral de Proteção de Dados). Você controla quais informações são públicas no seu perfil, quem pode te contatar e pode solicitar a exclusão dos seus dados a qualquer momento. Veja a Política de Privacidade para detalhes.</div></div>
-        </div>
-        <div class="faq__item reveal">
-          <button class="faq__q" aria-expanded="false">
-            <span>A MAIA cobra comissão sobre os trabalhos fechados?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__a"><div class="faq__a__inner">Não. A MAIA é uma plataforma de conexão — não somos uma agência. Cobramos apenas a assinatura mensal/anual dos planos Pro e os produtos vendidos à parte dentro da plataforma. As negociações entre talento e produção acontecem fora da plataforma, conforme as práticas do setor.</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       CTA BAND (download)
-       ============================================================ -->
-  <section class="cta-band" id="download">
-    <div class="cta-band__inner reveal">
       <div>
-        <h2>Pronto para encontrar sua próxima oportunidade?</h2>
-        <p>Cadastre seu interesse e seja um dos primeiros a usar a MAIA quando o app for lançado nas lojas.</p>
-        <div class="cta-band__ctas">
-          <a class="btn btn-on-color btn-arrow" href="./waitlist.html?tipo=talento">Sou Talento</a>
-          <a class="btn btn-ghost btn-arrow" href="./waitlist.html?tipo=diretor">Sou Diretor/Produtor</a>
-          <a class="btn btn-ghost btn-arrow" href="./waitlist.html?tipo=agencia">Sou Agência</a>
+        <div class="belief reveal">
+          <h3>Acreditamos que talento deveria ser encontrado, não perdido num grupo.</h3>
+          <p>O Brasil tem talento de sobra, mas as oportunidades circulam em grupos, listas e indicações. Construímos a MAIA para que cada artista tenha um perfil profissional que qualquer diretor consiga encontrar.</p>
+        </div>
+        <div class="belief reveal">
+          <h3>Acreditamos que o artista não deveria pagar para trabalhar.</h3>
+          <p>A MAIA não cobra comissão sobre os trabalhos fechados. Cobramos apenas a assinatura Pro, para quem quer acelerar. Só ganhamos quando o artista enxerga valor.</p>
+        </div>
+        <div class="belief reveal">
+          <h3>Acreditamos que carreira artística é carreira profissional.</h3>
+          <p>Formação, rede, vitrine e dados. Tudo o que outras profissões já têm, os artistas também merecem — em um só lugar.</p>
         </div>
       </div>
-      <div class="cta-band__art" aria-hidden="true">
-        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
-          <rect width="400" height="400" fill="#111111"/>
-          <circle cx="320" cy="80" r="40" fill="#e8b94a"/>
-          <path d="M0 280 L80 220 L160 280 L240 200 L320 270 L400 230 L400 400 L0 400 Z" fill="#b8a4ed"/>
-          <path d="M0 330 L100 280 L200 330 L300 280 L400 320 L400 400 L0 400 Z" fill="#7c3aed"/>
-          <g transform="translate(150 220)">
-            <path d="M40 0 C 12 0 0 25 0 50 C 0 75 18 90 40 90 C 62 90 80 75 80 50 C 80 25 68 0 40 0 Z" fill="#fffaf0"/>
-            <circle cx="28" cy="44" r="4" fill="#0a0a0a"/>
-            <circle cx="52" cy="44" r="4" fill="#0a0a0a"/>
-            <path d="M28 64 Q 40 72 52 64" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round" fill="none"/>
-          </g>
-        </svg>
-      </div>
     </div>
-  </section>
+  </div>
+</section>
 
+<!-- ======================================================= PLANOS -->
+<section class="pad" id="planos">
+  <div class="wrap center">
+    <h2 class="h2 reveal">Comece grátis. Cresça quando quiser.</h2>
+    <p class="sub reveal">Sem taxas escondidas, sem pegadinhas. Diretores e produtoras têm planos personalizados.</p>
+  </div>
+  <div class="wrap">
+    <div class="plans">
+      <div class="plan reveal"><h4>Free</h4><div class="price">R$ 0 <small>/sempre</small></div><p class="note2">Para quem está começando.</p>
+        <ul><li>3 candidaturas por mês</li><li>Perfil público compartilhável</li><li>Oportunidades públicas</li><li>Comunidades e materiais de estudo</li></ul>
+        <a class="btn btn-secondary btn-pill" href="waitlist.html?tipo=talento">Entrar na lista de espera</a></div>
+      <div class="plan reveal"><h4>Pro Mensal</h4><div class="price">R$ 29,90 <small>/mês</small></div><p class="note2">Cancele quando quiser.</p>
+        <ul><li>Candidaturas ilimitadas</li><li>Vagas 24h antes</li><li>Quem visualizou seu perfil</li><li>Book completo (20 fotos + 16 vídeos)</li><li>Destaque na busca de selecionadores</li></ul>
+        <a class="btn btn-primary btn-pill" href="waitlist.html?tipo=talento">Entrar na lista de espera</a></div>
+      <div class="plan hot reveal"><span class="tag">Mais popular</span><h4>Pro Anual</h4><div class="price">R$ 20,82 <small>/mês</small></div><p class="note2">R$ 249,90/ano · economize 30%</p>
+        <ul><li>Tudo do Pro Mensal</li><li>Masterclasses completas</li><li>Relatório de mercado trimestral</li><li>Suporte prioritário</li></ul>
+        <a class="btn btn-pill" href="waitlist.html?tipo=talento">Entrar na lista de espera</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= APRENDA (EM BREVE) -->
+<section class="pad" id="aprenda" style="padding-top:0">
+  <div class="wrap">
+    <span class="soon-pill reveal">Em breve</span>
+    <h2 class="h2 reveal">Aprenda com a MAIA.</h2>
+    <p class="sub reveal">Guias, vídeos e aulas gratuitas para artistas que querem crescer na carreira. Estamos gravando os primeiros episódios.</p>
+    <div class="learn">
+      <div class="lcard reveal"><div class="img" style="background:linear-gradient(135deg,#1e1b4b,#7c3aed)"><span class="play">▶</span><em>Em breve</em></div><h4>Como montar um book que chama atenção dos diretores</h4><p>Carreira</p></div>
+      <div class="lcard reveal"><div class="img" style="background:linear-gradient(135deg,#7c2d12,#f97316)"><span class="play">▶</span><em>Em breve</em></div><h4>Self-tape em casa: luz, som e enquadramento</h4><p>Técnica</p></div>
+      <div class="lcard reveal"><div class="img" style="background:linear-gradient(135deg,#0c4a6e,#38bdf8)"><span class="play">▶</span><em>Em breve</em></div><h4>DRT: o que é, para que serve e como tirar o seu</h4><p>Mercado</p></div>
+    </div>
+    <div class="learn__cta reveal"><a class="btn btn-primary btn-pill btn-arrow" href="waitlist.html?tipo=talento">Quero ser avisado</a><span>Quem está na lista de espera recebe os conteúdos primeiro.</span></div>
+  </div>
+</section>
+
+<!-- ======================================================= FAQ -->
+<section class="pad" style="padding-top:0">
+  <div class="wrap center"><h2 class="h2 reveal">Perguntas frequentes</h2></div>
+  <div class="wrap">
+    <div class="faq">
+      <details><summary>Como funciona a MAIA na prática?</summary><p>A MAIA é um hub artístico com o intuito de crescer, profissionalizar e facilitar a conectividade para trabalhos artísticos, conectando talentos artísticos a oportunidades de mercado.</p></details>
+      <details><summary>Quanto custa para usar?</summary><p>Para talentos, o plano Free é gratuito para sempre. O Pro custa R$ 29,90/mês ou R$ 20,82/mês no plano anual (R$ 249,90/ano). Para diretores e produtoras, oferecemos planos personalizados.</p></details>
+      <details><summary>A MAIA cobra comissão sobre os trabalhos fechados?</summary><p>Não. A MAIA é uma plataforma de conexão, não uma agência. Cobramos apenas a assinatura dos planos Pro e produtos vendidos à parte dentro da plataforma.</p></details>
+      <details><summary>Quando o app estará disponível?</summary><p>A MAIA está em <b>beta fechado</b> (closed beta): uma fase de testes em que o app é usado apenas por um grupo de atores e atrizes convidados, para ajustarmos a experiência antes de abrir ao público. O lançamento na App Store e no Google Play acontece em breve. <a href="waitlist.html?tipo=talento">Entre na lista de espera</a> para ser avisado e garantir acesso antecipado.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= CTA FINAL -->
+<section class="final" id="final">
+  <h2 class="h2 reveal">O lugar onde a arte<br>vira negócio.</h2>
+  <div class="final__btns reveal">
+    <a class="btn btn-pink btn-arrow" href="waitlist.html?tipo=talento">Sou Talento</a>
+    <a class="btn btn-primary btn-arrow" href="waitlist.html?tipo=diretor">Sou Diretor/Produtor</a>
+    <a class="btn btn-blue btn-arrow" href="waitlist.html?tipo=agencia">Sou Agência</a>
+  </div>
+</section>
 </main>
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
 <footer class="f">
   <div class="wrap">
     <div class="f__top">
-      <div class="f__brand">
-        <a href="#top"><img src="./maia_logo.png" width="110" alt="MAIA" style="display:block;"></a>
-        <p>O marketplace do talento brasileiro. Conectando atores, modelos e talentos com diretores de casting de todo o Brasil.</p>
-      </div>
-      <div class="f__col">
-        <h5>Plataforma</h5>
-        <ul>
-          <li><a href="#como-funciona">Como Funciona</a></li>
-          <li><a href="#talentos">Para Talentos</a></li>
-          <li><a href="#diretores">Para Diretores</a></li>
-          <li><a href="#planos">Planos</a></li>
-        </ul>
-      </div>
-      <div class="f__col">
-        <h5>Empresa</h5>
-        <ul>
-          <li><a href="#">Sobre</a></li>
-          <li><a href="#">Parceiros</a></li>
-          <li><a href="mailto:contato@plataformamaia.com">Contato</a></li>
-          <li><a href="mailto:imprensa@plataformamaia.com">Imprensa</a></li>
-        </ul>
-      </div>
-      <div class="f__col">
-        <h5>Legal</h5>
-        <ul>
-          <li><a href="politica-de-privacidade.html">Política de Privacidade</a></li>
-          <li><a href="termos-de-uso.html">Termos de Uso</a></li>
-          <li><a href="lgpd.html">LGPD</a></li>
-          <li><a href="mailto:contato@plataformamaia.com">contato@plataformamaia.com</a></li>
-        </ul>
-      </div>
+      <div class="f__brand"><img src="maia_logo.png" width="104" alt="MAIA"><p>A rede profissional dos artistas brasileiros. Conectando atores, atrizes e talentos a diretores, produtoras e agências de todo o Brasil.</p></div>
+      <div class="f__col"><h5>Plataforma</h5><ul><li><a href="#talentos">Para Talentos</a></li><li><a href="#diretores">Para Diretores</a></li><li><a href="#agencias">Para Agências</a></li><li><a href="#planos">Planos</a></li></ul></div>
+      <div class="f__col"><h5>Empresa</h5><ul><li><a href="waitlist.html?tipo=talento">Lista de espera</a></li><li><a href="mailto:contato@plataformamaia.com">Contato</a></li><li><a href="mailto:imprensa@plataformamaia.com">Imprensa</a></li></ul></div>
+      <div class="f__col"><h5>Legal</h5><ul><li><a href="politica-de-privacidade.html">Política de Privacidade</a></li><li><a href="termos-de-uso.html">Termos de Uso</a></li><li><a href="mailto:contato@plataformamaia.com">contato@plataformamaia.com</a></li></ul></div>
     </div>
-    <div class="f__bottom">
-      <span>© 2026 MAIA Plataforma e Tecnologia LTDA · CNPJ 66.318.397/0001-72 · Todos os direitos reservados.</span>
-      <span>Feito com cuidado no Brasil.</span>
-    </div>
+    <div class="f__bottom"><span>© 2026 MAIA Plataforma e Tecnologia LTDA · CNPJ 66.318.397/0001-72 · Todos os direitos reservados.</span><span>Feito com cuidado no Brasil.</span></div>
   </div>
 </footer>
 
 <script>
-  // Navbar — scroll state + active link
+  // Carrossel de perfis
+  const CARDS = [
+    ['camila', 'Camila Duarte', 'Atriz', 'Florianópolis, SC'],
+    ['nogueira', 'Rafael Nogueira', 'Ator', 'Salvador, BA'],
+    ['gabriela', 'Gabriela Siqueira', 'Atriz', 'Rio de Janeiro, RJ'],
+    ['matheus', 'Matheus Macedo', 'Ator', 'São Paulo, SP'],
+    ['fernanda', 'Fernanda Dias', 'Atriz', 'Curitiba, PR'],
+    ['moreira', 'Thiago Moreira', 'Ator', 'Belo Horizonte, MG'],
+  ];
+  document.getElementById('peopleTrack').innerHTML = [...CARDS, ...CARDS].map(([k, n, r, c], i) =>
+    `<div class="person"${i >= CARDS.length ? ' aria-hidden="true"' : ''}><img src="assets/home/rosto-${k}.jpg" alt="${i >= CARDS.length ? '' : n}" loading="lazy"><div class="person__txt"><b>${n}</b><em>${r}</em><span>${c}</span></div></div>`).join('');
+
+  // Palavra que alterna no título
+  (function () {
+    const spans = [...document.querySelectorAll('#rotator span')];
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let i = 0;
+    setInterval(() => {
+      const cur = spans[i]; cur.classList.remove('on'); cur.classList.add('out');
+      setTimeout(() => cur.classList.remove('out'), 450);
+      i = (i + 1) % spans.length; spans[i].classList.add('on');
+    }, 2400);
+  })();
+
+  // Abas automáticas
+  (function () {
+    const tabs = document.getElementById('tabs');
+    const btns = [...tabs.querySelectorAll('.tab-btn')];
+    const panels = [...document.querySelectorAll('.panel')];
+    let cur = 0, timer;
+    function show(n) {
+      cur = n;
+      btns.forEach((b, k) => { b.classList.toggle('on', k === n); const bar = b.querySelector('.bar'); bar.style.animation = 'none'; bar.offsetWidth; bar.style.animation = ''; });
+      panels.forEach((p, k) => p.classList.toggle('on', k === n));
+    }
+    timer = setInterval(() => show((cur + 1) % btns.length), 7000);
+    btns.forEach((b, k) => b.addEventListener('click', () => { tabs.classList.add('paused'); clearInterval(timer); show(k); }));
+  })();
+
+  // Faixa de habilidades
+  const SK1 = ['Teatro', 'Cinema', 'TV', 'Publicidade', 'Dublagem', 'Stand-up', 'Improvisação', 'Música', 'Ópera'];
+  const SK2 = ['Ballet', 'Jazz', 'Hip-hop', 'Contemporâneo', 'Forró', 'Samba', 'Funk', 'Sapateado', 'Voz'];
+  const pill = (s, k) => `<span class="${k % 4 === 1 ? 'hl' : ''}">${s}</span>`;
+  document.getElementById('pillsA').innerHTML = [...SK1, ...SK1, ...SK1, ...SK1].map(pill).join('');
+  document.getElementById('pillsB').innerHTML = [...SK2, ...SK2, ...SK2, ...SK2].map(pill).join('');
+
+  // Nav
   const nav = document.getElementById('nav');
-  const links = [...document.querySelectorAll('.nav__menu a[data-link]')];
-  const sections = links.map(a => document.querySelector(a.getAttribute('href')));
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
+  const burger = document.getElementById('burger'), panel = document.getElementById('mobilePanel');
+  burger.addEventListener('click', () => { const o = panel.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => panel.classList.remove('open')));
 
-  function onScroll() {
-    nav.classList.toggle('scrolled', window.scrollY > 8);
-    const y = window.scrollY + 120;
-    let activeIdx = -1;
-    sections.forEach((s, i) => {
-      if (s && s.offsetTop <= y) activeIdx = i;
-    });
-    links.forEach((l, i) => l.classList.toggle('active', i === activeIdx));
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  // Mobile burger
-  const burger = document.getElementById('burger');
-  const panel = document.getElementById('mobilePanel');
-  burger.addEventListener('click', () => {
-    const open = panel.classList.toggle('open');
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    panel.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-  }));
-
-  // FAQ accordion
-  document.querySelectorAll('.faq__item').forEach(item => {
-    const btn = item.querySelector('.faq__q');
-    btn.addEventListener('click', () => {
-      const open = item.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (open) {
-        document.querySelectorAll('.faq__item.open').forEach(other => {
-          if (other !== item) {
-            other.classList.remove('open');
-            other.querySelector('.faq__q').setAttribute('aria-expanded', 'false');
-          }
-        });
-      }
-    });
-  });
-
-  // Reveal on scroll
-  const reveals = document.querySelectorAll('.reveal');
-
-  function revealVisible() {
-    const vh = window.innerHeight;
-    reveals.forEach(el => {
-      const r = el.getBoundingClientRect();
-      if (r.top < vh * 0.95 && r.bottom > 0) {
-        el.classList.add('in');
-      }
-    });
-  }
-  revealVisible();
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(el => { if (!el.classList.contains('in')) io.observe(el); });
-  } else {
-    reveals.forEach(el => el.classList.add('in'));
-  }
-
-  // Safety net: force-reveal anything still hidden after 1.5s
-  setTimeout(() => reveals.forEach(el => el.classList.add('in')), 1500);
+  // Reveal
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -5% 0px' }) : null;
+  document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
 </script>
-
 </body>
 </html>

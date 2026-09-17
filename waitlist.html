@@ -422,6 +422,10 @@
     const tipo   = params.get('tipo') || 'talento';
     const cfg    = CONFIGS[tipo] || CONFIGS.talento;
 
+    // Nome vindo do formulário da home
+    const nomeParam = params.get('nome');
+    if (nomeParam) document.getElementById('nome').value = nomeParam;
+
     // Aplica variáveis CSS de cor
     document.documentElement.style.setProperty('--accent-color', cfg.accentColor);
     document.documentElement.style.setProperty('--accent-panel', cfg.accentPanel);
